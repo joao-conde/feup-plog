@@ -1,0 +1,35 @@
+1- DECLARAR Vars
+2- DECLARAR Dominios
+3- DECLARAR Restriçoes
+4- PESQUISAR SOLUÇOES
+
+
+:-use_module(library(clpfd)).
+
+//1
+length(Vars,N) //Vars com N variaveis
+Vars = [A,B,C] //Vars com 3 variaveis A,B,C
+
+//2
+A in 0..5 //A pertence em [0,5]
+domain(Vars,0,5) //Para todas as vars de Var
+
+//3
+A#=B //A e B tem o msm valor
+C#<D //C menor que D
+
+A #\/ B #/\ C // OU logico e E logico (A ou B e C)
+
+.....
+
+//4
+labeling([],Vars)
+
+
+
+%predicados uteis
+all_different(Vars),
+all_distinct(Vars),
+
+
+%evitar simetrias é especifico de cada problema
