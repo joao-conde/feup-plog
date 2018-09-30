@@ -24,7 +24,7 @@ alunos(X, Y):-
 
 % b)
 % X é da universidade Y
-pertenceAUniv(X, Y):- professor(X, _).
+pertenceAUniv(X, _):- professor(X, _).
 pertenceAUniv(X, Y):- frequenta(X, Y).
 
 % c)
@@ -41,5 +41,3 @@ colega(X, Y):-
 colega(X, Y):-
     funcionario(X, F), funcionario(Y, F),
     X \= Y.
-    
-

@@ -13,10 +13,15 @@ tipo('Os Maias','romance').
 tipo('Harry Potter', 'ficcao').
 tipo('The Casual Vacancy', 'romance').
 
+romancistaPortugues(X):-
+    nacionalidade(X, 'portugues'),
+    autor(X, _Y),
+    tipo(_Y, 'romance').
+
 /*
     a) autor(X,'Os Maias').
 
-    b) nacionalidade(X,'portugues'), autor(X,_Y), tipo(_Y,'romance').
+    b) romancistaPortugues(X).
 
     c) tipo(_X, 'ficcao'), autor(Y,_X), autor(Y,_Z), tipo(_Z, _T), _T \= 'ficcao'.
 */

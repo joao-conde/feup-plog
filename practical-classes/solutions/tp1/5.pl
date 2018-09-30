@@ -13,12 +13,25 @@ jogo('damas').
 desporto('tenis').
 desporto('natacao').
 
-mora_em('Joao','casa').
-mora_em('Maria','casa').
-mora_em('Ana','apartamento').
+moraEm('Joao','casa').
+moraEm('Maria','casa').
+moraEm('Ana','apartamento').
 
-gosta_de('Joao','natacao').
-gosta_de('Joao','xadrez').
-gosta_de('Maria','tenis').
-gosta_de('Maria','tigre').
-gosta_de('Ana', 'gato').
+gostaDe('Joao','natacao').
+gostaDe('Joao','xadrez').
+gostaDe('Maria','tenis').
+gostaDe('Maria','tigre').
+gostaDe('Ana', 'gato').
+
+
+/*
+
+    a) moraEm(X, 'apartamento'), gostaDe(X, _Y), animal(_Y).
+    
+    b) moraEm('Joao', 'casa'), moraEm('Maria', 'casa'), gostaDe('Joao', _X), desporto(_X), gostaDe('Maria', _Y), desporto(_Y).
+    
+    c) gostaDe(X, _Y), gostaDe(X, _Z), desporto(_Y), jogo(_Z).
+    
+    d) mulher(X), gostaDe(X, 'tenis'), gostaDe(X, 'tigre').
+
+*/
