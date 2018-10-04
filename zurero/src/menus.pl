@@ -2,21 +2,17 @@
 mainMenu:-
 	printMainMenu,
 	getChar(Input),
+	mainMenuOption(Input).
 
-    (   
-        %menu options
-		Input = '1' -> write('menu to select game type (bot or pvp)');
-		Input = '2' -> write('instructions');
-		Input = '3' -> write('authors, UC, etc etc...');
-		Input = '4';
-
-        %no valid option selected
-		nl,
-		write('Error: invalid input.'), nl,
-		pressEnterToContinue, nl,
-		mainMenu
-	).
-
+mainMenuOption('1'):- write('menu to select game type (bot or pvp)').
+mainMenuOption('2'):- write('instructions').
+mainMenuOption('3'):- write('authors, UC, etc etc...').
+mainMenuOption('4'):- write('EXIT').
+mainMenuOption(_):- 
+	nl,
+	write('Error: invalid input.'), nl,
+	pressEnterToContinue, nl,
+	mainMenu.
 
 %clears screen and displays main menu options
 printMainMenu:-
