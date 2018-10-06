@@ -1,22 +1,22 @@
 %displays main menu options, reads user input and proceeds accordingly
-mainMenu:-
-	printMainMenu,
-	getChar(Input),
-	mainMenuOption(Input).
+main_menu:-
+	print_main_menu,
+	get_char_nl(Input),
+	main_menu_option(Input).
 
-mainMenuOption('1'):- write('menu to select game type (bot or pvp)').
-mainMenuOption('2'):- write('instructions').
-mainMenuOption('3'):- write('authors, UC, etc etc...').
-mainMenuOption('4'):- write('EXIT').
-mainMenuOption(_):- 
+main_menu_option('1'):- write('menu to select game type (bot or pvp)').
+main_menu_option('2'):- write('instructions').
+main_menu_option('3'):- write('authors, UC, etc etc...').
+main_menu_option('4'):- write('EXIT').
+main_menu_option(_):- 
 	nl,
 	write('Error: invalid input.'), nl,
-	pressEnterToContinue, nl,
-	mainMenu.
+	request_enter, nl,
+	main_menu.
 
 %clears screen and displays main menu options
-printMainMenu:-
-	clearConsole,
+print_main_menu:-
+	clear_console,
 	write('================================='), nl,
 	write('=            ZURERO             ='), nl,
 	write('================================='), nl,

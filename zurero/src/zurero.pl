@@ -6,5 +6,4 @@
 :- include('menus.pl').
 
 %game entry point
-zurero:-
-	mainMenu.
+zurero:- main_menu.

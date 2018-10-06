@@ -1,21 +1,21 @@
-pressEnterToContinue:-
+request_enter:-
 	write('Press <Enter> to continue.'), nl,
-	waitForEnter, !.
+	wait_for_enter, !.
 
-waitForEnter:-
+wait_for_enter:-
 	get_char(_).
 
 
 %clears console by printing multiple newlines 
-clearConsole:- clearConsole(20), !.
-clearConsole(0).
-clearConsole(N):-
+clear_console:- clear_console(20), !.
+clear_console(0).
+clear_console(N):-
 	nl,
 	N1 is N-1,
-	clearConsole(N1).
+	clear_console(N1).
 
 
 %reads the input char and the '\n' character left in input stream
-getChar(Input):-
+get_char_nl(Input):-
 	get_char(Input),
 	get_char(_).
