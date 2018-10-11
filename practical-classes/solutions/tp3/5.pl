@@ -12,6 +12,6 @@ lastOne(L,X) :- append(_ ,[X], L).
 % d)
 nth_membro(0, [M|_], M).
 nth_membro(N, [_|T], M) :-
-    N>0,
-    N1 is N-1,
+	N>0,
+	N1 is N-1,
 	nth_membro(N1, T, M).

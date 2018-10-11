@@ -14,47 +14,47 @@ d(X,Y) :- a(N,X), b(N,Y).
 
 /* 
 
-    ?- a(X,2).
+	?- a(X,2).
 
-        yes
+		yes
 
-    ?- b(X,kalamazoo).
+	?- b(X,kalamazoo).
 
-        X = 2 ?
-        yes
+		X = 2 ?
+		yes
 
-    ?- c(X,b3).
+	?- c(X,b3).
 
-        X = a1 ?
-        yes
+		X = a1 ?
+		yes
 
 
-    ?- c(X,Y).
+	?- c(X,Y).
 
-        X = a1,
-        Y = b1 ? ;
-        X = a1,
-        Y = b3 ? ;
-        yes
+		X = a1,
+		Y = b1 ? ;
+		X = a1,
+		Y = b3 ? ;
+		yes
 
-    ?- d(X,Y).
+	?- d(X,Y).
 
-        X = a1,
-        Y = 2 ? ;
-        Y = 2 ? ;
-        X = a3,
-        Y = 1 ? ;
-        X = a3,
-        Y = 2 ? ;
-        X = a3 ? ;
-        X = 1,
-        Y = b3 ? ;
-        X = 2,
-        Y = b1 ? ;
-        X = 2 ? ;
-        X = 2,
-        Y = b3 ? ;
-        Y = b3 ? ;
-        no
+		X = a1,
+		Y = 2 ? ;
+		Y = 2 ? ;
+		X = a3,
+		Y = 1 ? ;
+		X = a3,
+		Y = 2 ? ;
+		X = a3 ? ;
+		X = 1,
+		Y = b3 ? ;
+		X = 2,
+		Y = b1 ? ;
+		X = 2 ? ;
+		X = 2,
+		Y = b3 ? ;
+		Y = b3 ? ;
+		no
 
 */
