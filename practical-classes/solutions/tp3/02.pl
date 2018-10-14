@@ -1,12 +1,40 @@
-/* a) */ [a|[b,c,d]] = [a,b,c,d].
-/* b) */ [a|b,c,d] = [a,b,c,d].
-/* c) */ [H|T] = [apple, broccoli, refrigerator].
-/* d) */ [H|T] = [a, b, c, d, e].
-/* e) */ [H|T] = [apples, bananas].
-/* f) */ [H|T] = [a, [b,c,d]].
-/* g) */ [H|T] = [apples].
-/* h) */ [H|T] = [].
-/* i) */ [One, Two | T] = [apple, sprouts, fridge, milk].
-/* j) */ [X,Y|T] = [a|Z].
-/* k) */ [H|T] = [apple, Z].
-/* l) */ [a|[b|[c|[d|[]]]]] = [a,b,c,d].
+/* a) */ lista([a,[b],c,[d]]) = lista([_|[X|X]]).
+/* b) */ lista([[a],[b],C])=lista([C,B,[a]]).
+/* c) */ lista([c,c,c])=lista([X|[X|_]]).
+/* d) */ lista([a,[b,c]])=lista([A,B,C]).
+/* e) */ [joao,gosta,peixe]=[X,Y,Z].
+/* f) */ [gato]= lista([X|Y]).
+/* g) */ [vale,dos,sinos])=[sinos,X,Y].
+/* h) */ [branco,Q]=[P,cavalo].
+/* i) */ [1,2,3,4,5,6,7]=[X,Y,Z|D].
+
+
+/*
+
+    a)  no
+    
+    b)  C = [a]
+        B = [b] 
+
+    c)  X = c
+
+    d)  no
+
+    e)  X = joao
+        Y = gosta
+        Z = peixe
+
+    f)  no
+
+    g)  no
+
+    h)  Q = cavalo
+        P = branco
+
+    i)  X = 1
+        Y = 2
+        Z = 3
+        D = [4,5,6,7]
+
+
+*/

@@ -1,3 +1,16 @@
+/* a) */ [a|[b,c,d]] = [a,b,c,d].
+/* b) */ [a|b,c,d] = [a,b,c,d].
+/* c) */ [H|T] = [apple, broccoli, refrigerator].
+/* d) */ [H|T] = [a, b, c, d, e].
+/* e) */ [H|T] = [apples, bananas].
+/* f) */ [H|T] = [a, [b,c,d]].
+/* g) */ [H|T] = [apples].
+/* h) */ [H|T] = [].
+/* i) */ [One, Two | T] = [apple, sprouts, fridge, milk].
+/* j) */ [X,Y|T] = [a|Z].
+/* k) */ [H|T] = [apple, Z].
+/* l) */ [a|[b|[c|[d|[]]]]] = [a,b,c,d].
+
 /*	
 
 	Solutions in the .pdf:

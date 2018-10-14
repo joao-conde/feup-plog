@@ -7,7 +7,7 @@ membro(X, [_|Tail]) :-
 membro2(X,L) :- append(_, [X|_], L).
 
 % c) 
-lastOne(L,X) :- append(_ ,[X], L).
+last_one(L,X) :- append(_ ,[X], L).
 
 % d)
 nth_membro(0, [M|_], M).
