@@ -24,8 +24,8 @@ alunos(X, Y):-
 
 % b)
 % X é da universidade Y
-pertenceAUniv(X, _):- professor(X, _).
-pertenceAUniv(X, Y):- frequenta(X, Y).
+pertence_univ(X, _):- professor(X, _).
+pertence_univ(X, Y):- frequenta(X, Y).
 
 % c)
 /* X é colega de Y

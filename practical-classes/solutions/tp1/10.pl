@@ -11,7 +11,7 @@ valor(uno, 7000).
     Pessoa só pode vender Carro se for comprado por ela nos
     últimos 10 anos e se o valor for menor do que 10.000 euros
 */
-podeVender(Pessoa, Carro, AnoAtual):-
+pode_vender(Pessoa, Carro, AnoAtual):-
     comprou(Pessoa, Carro),
     valor(Carro, V),
     V < 10000,

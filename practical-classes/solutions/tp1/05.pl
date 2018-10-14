@@ -17,21 +17,22 @@ moraEm('Joao','casa').
 moraEm('Maria','casa').
 moraEm('Ana','apartamento').
 
-gostaDe('Joao','natacao').
-gostaDe('Joao','xadrez').
-gostaDe('Maria','tenis').
-gostaDe('Maria','tigre').
-gostaDe('Ana', 'gato').
+%X gosta de Y
+gosta('Joao','natacao').
+gosta('Joao','xadrez').
+gosta('Maria','tenis').
+gosta('Maria','tigre').
+gosta('Ana', 'gato').
 
 
 /*
 
-    a) moraEm(X, 'apartamento'), gostaDe(X, _Y), animal(_Y).
+    a) moraEm(X, 'apartamento'), gosta(X, _Y), animal(_Y).
     
-    b) moraEm('Joao', 'casa'), moraEm('Maria', 'casa'), gostaDe('Joao', _X), desporto(_X), gostaDe('Maria', _Y), desporto(_Y).
+    b) moraEm('Joao', 'casa'), moraEm('Maria', 'casa'), gosta('Joao', _X), desporto(_X), gosta('Maria', _Y), desporto(_Y).
     
-    c) gostaDe(X, _Y), gostaDe(X, _Z), desporto(_Y), jogo(_Z).
+    c) gosta(X, _Y), gosta(X, _Z), desporto(_Y), jogo(_Z).
     
-    d) mulher(X), gostaDe(X, 'tenis'), gostaDe(X, 'tigre').
+    d) mulher(X), gosta(X, 'tenis'), gosta(X, 'tigre').
 
 */

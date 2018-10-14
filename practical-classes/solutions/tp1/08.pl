@@ -12,12 +12,12 @@ cargo(secretaria_exec, laura).
 cargo(diretor, santiago).
 
 %Cargo X chefiado por cargo Y
-chefiadoPor(tecnico, engenheiro).
-chefiadoPor(engenheiro, supervisor).
-chefiadoPor(analista, supervisor).
-chefiadoPor(supervisor, supervisor_chefe).
-chefiadoPor(supervisor_chefe, director).
-chefiadoPor(secretaria_exec, director).
+chefiado(tecnico, engenheiro).
+chefiado(engenheiro, supervisor).
+chefiado(analista, supervisor).
+chefiado(supervisor, supervisor_chefe).
+chefiado(supervisor_chefe, director).
+chefiado(secretaria_exec, director).
 
 
 /*
