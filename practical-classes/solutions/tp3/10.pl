@@ -1,5 +1,5 @@
 % a)
-is_sorted([_|[]]). %last element [X_| [] ]
+is_sorted([_]). %last element [X_| [] ]
 is_sorted([H1, H2|T]):-
     H1 =< H2,
     is_sorted([H2|T]).
