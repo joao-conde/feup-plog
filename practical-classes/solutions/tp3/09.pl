@@ -1,6 +1,3 @@
-% b) Defina o predicado rmv_dups(Lista1,Lista2) que elimina os duplicados em Lista1,
-% resultando Lista2.
-
 % a)
 replace(_, _, [], []).
 
@@ -12,7 +9,8 @@ replace(X, Y, [H|T], [H|L2]):-
     replace(X, Y, T, L2).  
 
 
-% b)
+% b) Defina o predicado rmv_dups(Lista1,Lista2) que elimina os duplicados em Lista1,
+% resultando Lista2.
 %TODO: solve, bugged but close
 rmv_dups([], []).
 
