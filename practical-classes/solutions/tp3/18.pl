@@ -1,7 +1,3 @@
-% Exemplo b):
-% ?- duplicarN([a,b,c],3,X).
-% X = [a,a,a,b,b,b,c,c,c]
-
 % a)
 duplicate(L1, L2):-
     duplicate_aux(L1, L2, []).
