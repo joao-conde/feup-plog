@@ -16,20 +16,21 @@ Java-style but start with capital letter.
 
 ## Comments
 
-Use javadoc comments for things to include in Prologdoc (between /** ...... */)
+Commenting style from official SWI-Prolog code, public at their repository.
+* '+' can be used to describe an argument that should be instantiated
+* '-' can be used to describe an argument that the predicate will instantiate
+* '?' can be used to describe an argument which can be either instantiated or not
 
 **Example** 
 
 ```c
-/**
-  @descript A short description of the predicate
-  
-  @param VarOne This variable meaning
-  @param VarTwo This variable meaning
-*/
-my_predicate(VarOne, VarTwo).
-
+%!  max_member(-Max, +List)
+%
+%   True when Max is the largest  member in the standard order of
+%   terms.  Fails if List is empty.
+ max_member(Max, List).
 ```
+
 **Reason** Better documentation and later easily slightly changed for Prolog documentation tools.
 
 
@@ -53,4 +54,4 @@ example_with_long_parameter_list(X, Y, Z):-
 
 ```
 
-**Reason** Better code legibility.
+**Reason** Better code readability.
