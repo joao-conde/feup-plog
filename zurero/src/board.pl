@@ -1,25 +1,22 @@
-printInitialBoard :-
-    initialBoard(X),
-    lineNumbers(Y),
-    print_board(X,Y).
+print_initial_board :-
+    initialBoard(X),  
+    print_board(X).
 
-printMidBoard :-
+print_mid_board :-
     midgameBoard(X),
-    lineNumbers(Y),
-    print_board(X,Y).
+    print_board(X).
 
-printEndBoard :-
+print_end_board :-
     endgameBoard(X),
-    lineNumbers(Y),
-    print_board(X,Y).
+    print_board(X).
 
 player1(white).
 player2(black).
 
-playerTurn(white, 'White').
-playerTurn(black, 'Black').
+player_turn(white, 'White').
+player_turn(black, 'Black').
 
-lineNumbers(['19','18','17','16','15','14','13','12','11','10',' 9',' 8',' 7',' 6',' 5',' 4',' 3',' 2',' 1']).
+line_numbers(['19','18','17','16','15','14','13','12','11','10',' 9',' 8',' 7',' 6',' 5',' 4',' 3',' 2',' 1']).
 
 print_separator :-
     write('  |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |'), nl.
@@ -27,7 +24,8 @@ print_separator :-
 print_hline :-
     write('  *-------------------------------------------------------------------------------*'), nl.
 
-print_board(Board,LineNumbers) :-
+print_board(Board) :-
+    line_numbers(LineNumbers),
     print_hline,
     print_board_aux(Board,LineNumbers),
     print_separator,
@@ -53,7 +51,7 @@ print_line([Head|Tail]) :-
     print_line(Tail).
 
 /* Get element at (row,col) */
-getPiecePos(Column, Row, Message):-
+get_piece_pos(Column, Row, Message):-
 	repeat,
     write(Message), nl,
 	write('Column:'),
