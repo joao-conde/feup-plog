@@ -1,17 +1,17 @@
 printInitialBoard :-
-      initialBoard(X),
-      lineNumbers(Y),
-      printBoard(X,Y).
+    initialBoard(X),
+    lineNumbers(Y),
+    printBoard(X,Y).
 
 printMidBoard :-
-      midgameBoard(X),
-      lineNumbers(Y),
-      printBoard(X,Y).
+    midgameBoard(X),
+    lineNumbers(Y),
+    printBoard(X,Y).
 
 printEndBoard :-
-      endgameBoard(X),
-      lineNumbers(Y),
-      printBoard(X,Y).
+    endgameBoard(X),
+    lineNumbers(Y),
+    printBoard(X,Y).
 
 player1(white).
 player2(black).
@@ -21,34 +21,34 @@ playerTurn(black, 'Black').
 
 /* Recursive function to print current board state */
 printBoard([],[]) :-
-      write('  |----|----|----|----|----|----|----|----|'), nl,
-      write('    A    B    C    D    E    F    G    H   ').
+    write('  |----|----|----|----|----|----|----|----|'), nl,
+    write('    A    B    C    D    E    F    G    H   ').
 
 /*printBoard([],[]) :-
-      write('  '), putCode(25,205), nl,
-      write('   A  B  C  D  E  F  G  H ').*/
+    write('  '), putCode(25,205), nl,
+    write('   A  B  C  D  E  F  G  H ').*/
 
 printBoard([Line|Board],[LineNumb|Remainder]) :-
-      write('  |----|----|----|----|----|----|----|----|'), nl,
-      %write('  '), putCode(25,205),  nl,
-      write(LineNumb), write(' '),
-      printLine(Line),
-      write('|'), nl,
-      printBoard(Board,Remainder).
+    write('  |----|----|----|----|----|----|----|----|'), nl,
+    %write('  '), putCode(25,205),  nl,
+    write(LineNumb), write(' '),
+    printLine(Line),
+    write('|'), nl,
+    printBoard(Board,Remainder).
 
 /* Recursive function to print each board's line */
 printLine([]).
 printLine([Head|Tail]) :-
-      translate(Head,T),
-      write('|'),
-      %put_code(186),
-      write(T),
-      printLine(Tail).
+    translate(Head,T),
+    write('|'),
+    %put_code(186),
+    write(T),
+    printLine(Tail).
 
 /* Get element at (row,col) */
 getPiecePos(Column, Row):-
 	repeat,
-      write('Choose which piece to move.'), nl,
+    write('Choose which piece to move.'), nl,
 	write('Column:'),
 	getChar(Char),
 	columnToInt(Char, Column),
