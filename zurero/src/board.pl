@@ -1,17 +1,17 @@
 printInitialBoard :-
     initialBoard(X),
     lineNumbers(Y),
-    printBoard(X,Y).
+    print_board(X,Y).
 
 printMidBoard :-
     midgameBoard(X),
     lineNumbers(Y),
-    printBoard(X,Y).
+    print_board(X,Y).
 
 printEndBoard :-
     endgameBoard(X),
     lineNumbers(Y),
-    printBoard(X,Y).
+    print_board(X,Y).
 
 player1(white).
 player2(black).
@@ -21,31 +21,36 @@ playerTurn(black, 'Black').
 
 lineNumbers(['19','18','17','16','15','14','13','12','11','10',' 9',' 8',' 7',' 6',' 5',' 4',' 3',' 2',' 1']).
 
+print_separator :-
+    write('  |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |'), nl.
+
+print_hline :-
+    write('  *-------------------------------------------------------------------------------*'), nl.
+
+print_board(Board,LineNumbers) :-
+    print_hline,
+    print_board_aux(Board,LineNumbers),
+    print_separator,
+    print_hline,
+    write('      A   B   C   D   E   F   G   H   I   J   K   L   M   N   O   P   Q   R   S').
+
 /* Recursive function to print current board state */
-printBoard([],[]) :-
-    write('   |---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|'), nl,
-    write('   A   B   C   D   E   F   G   H   I   J   K   L   M   N   O   P   Q   R   S').
+print_board_aux([],[]).    
 
-/*printBoard([],[]) :-
-    write('  '), putCode(25,205), nl,
-    write('   A  B  C  D  E  F  G  H ').*/
-
-printBoard([Line|Board],[LineNumb|Remainder]) :-
-    write('   |---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|'), nl,
-    %write('  '), putCode(25,205),  nl,
-    write(LineNumb), write(' '),
-    printLine(Line),
-    write('|'), nl,
-    printBoard(Board,Remainder).
+print_board_aux([Line|Board],[LineNumb|Remainder]) :-
+    print_separator,
+    write(LineNumb), write('|-'),
+    print_line(Line),
+    write('--|'), nl,
+    print_board_aux(Board,Remainder).
 
 /* Recursive function to print each board's line */
-printLine([]).
-printLine([Head|Tail]) :-
+print_line([]).
+print_line([Head|Tail]) :-
     translate(Head,T),
-    write('|'),
-    %put_code(186),
+    write('-'),
     write(T),
-    printLine(Tail).
+    print_line(Tail).
 
 /* Get element at (row,col) */
 getPiecePos(Column, Row, Message):-
