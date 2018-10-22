@@ -1,13 +1,13 @@
 print_initial_board :-
-    initialBoard(X),  
+    initial_board(X),  
     print_board(X).
 
 print_mid_board :-
-    midgameBoard(X),
+    midgame_board(X),
     print_board(X).
 
 print_end_board :-
-    endgameBoard(X),
+    endgame_board(X),
     print_board(X).
 
 player1(white).
