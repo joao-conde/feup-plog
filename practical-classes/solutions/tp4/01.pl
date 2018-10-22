@@ -1,4 +1,4 @@
-% b) Utilizando pesquisa em largura.
+% b) Utilizando pesquisa em aux_bfs.
 
 % ligado(a,b). ligado(f,i).
 % ligado(a,c). ligado(f,j).
@@ -16,6 +16,7 @@ ligado(a, c).
 ligado(b, d).
 ligado(b, e).
 ligado(b, f).
+ligado(e, f).
 
 % a) recursive and iterative depth-first search
 dfs_rec(Src, Src, [Src]).
@@ -39,3 +40,34 @@ best_path(Src, Dst, Sol):-
     Sol = SLen-SPath.
 
 % b)
+
+/*
+ Extends the path queue up to a child N1 of parent N, checking if N1 does not belong to the path queue
+ thus preventing cycles
+*/
+find_unchecked_nodes([N|Path], [N1,N|Path]):-
+    ligado(N, N1),
+    \+ member(N1, Path).
+
+/* Finds the Path between Start and Finish */
+bfs(Start, Finish, Path):-
+    aux_bfs([[Start]], Finish, Sol1),
+    reverse(Sol1, Path).
+
+/* Breadth-first search */
+aux_bfs([[Finish|T]|_], Finish, [Finish|T]).
+aux_bfs([T|Queue], Finish, Sol):-
+    findall(ChildNodes,
+                find_unchecked_nodes(T, ChildNodes),
+                Nodes),
+    append(Queue, Nodes, ExtendedQueue),
+    aux_bfs(ExtendedQueue, Finish, Sol).
+
+reverse(L, L2):-
+    aux_rev(L, L2, []).
+
+aux_rev([], Acc, Acc).
+aux_rev([H|T], L2, Acc):-
+    aux_rev(T, L2, [H|Acc]).
+
+    
