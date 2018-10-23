@@ -79,7 +79,11 @@ game_mode_menu:-
 	get_char_nl(Input),
 	game_mode_menu_option(Input).
 
-game_mode_menu_option('1'):- write('LAUNCH PVP GAME'), game_mode_menu.
+game_mode_menu_option('1'):- 
+	write('LAUNCH PVP GAME'), 
+	create_pvp_game(Game),
+	play_game(Game).
+
 game_mode_menu_option('2'):- player_computer_menu, game_mode_menu.
 game_mode_menu_option('3'):- write('LAUNCH BOT V BOT (ez vs hard by default)'), game_mode_menu.
 game_mode_menu_option('4'):- main_menu.

@@ -33,6 +33,11 @@ get_char_nl(Input):-
 	get_char(Input),
 	get_char(_).
 
+get_int(Input):-
+	get_code(TempInput),
+    get_code(_),
+	Input is TempInput - 48.
+
 /* Starting game board */
 initial_board([[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
               [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],

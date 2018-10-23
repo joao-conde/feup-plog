@@ -2,19 +2,6 @@ print_initial_board :-
     initial_board(X),  
     print_board(X).
 
-print_mid_board :-
-    midgame_board(X),
-    print_board(X).
-
-print_end_board :-
-    endgame_board(X),
-    print_board(X).
-
-player1(white).
-player2(black).
-
-player_turn(white, 'White').
-player_turn(black, 'Black').
 
 line_numbers(['19','18','17','16','15','14','13','12','11','10',' 9',' 8',' 7',' 6',' 5',' 4',' 3',' 2',' 1']).
 
@@ -55,10 +42,10 @@ get_piece_pos(Column, Row, Message):-
 	repeat,
     write(Message), nl,
 	write('Column:'),
-	getChar(Char),
+	get_char_nl(Char),
 	letter_to_int(Char, Column),
 	write('Row:'),
-	getInt(R),
+	get_int(R),
 	R =< 8,
 	R >= 1,
 	Row is R - 1.
