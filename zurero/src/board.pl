@@ -62,3 +62,18 @@ get_piece_pos(Column, Row, Message):-
 	R =< 8,
 	R >= 1,
 	Row is R - 1.
+
+translate(0, '-+-').
+translate(1, '-B-').
+translate(2, '-W-').
+% translate(1, Char):- %Black Pieces
+%     char_code(Char, 8413),
+%     write('-'), 
+%     write(Char), 
+%     write('-').
+
+% translate(2, Char):- %White Pieces
+%     char_code(Char, 8413),
+%     write('-'), 
+%     write(Char), 
+%     write('-').

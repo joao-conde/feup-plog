@@ -5,15 +5,6 @@ request_enter:-
 wait_for_enter:-
 	get_char(_).
 
-translate(0,'-+-').
-translate(1, Char):- %Black Pieces
-    char_code(Char, 9675), 
-    write(Char).
-
-translate(2, Char):- %White Pieces
-    char_code(Char, 9679), 
-    write(Char).
-
 %predicate to convert letters from rows or columns to an integer
 letter_to_int(Letter, Num) :-
     Letter @>= 'A',
