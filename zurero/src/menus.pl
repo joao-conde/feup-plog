@@ -79,7 +79,6 @@ game_mode_menu:-
 	game_mode_menu_option(Input).
 
 game_mode_menu_option(1):- 
-	write('LAUNCH PVP GAME'), 
 	create_pvp_game(Game),
 	play_game(Game).
 

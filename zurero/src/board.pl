@@ -37,6 +37,9 @@ print_line([Head|Tail]) :-
     print_line(Tail).
 
 
+player_stone(black, 1).
+player_stone(white, 2).
+
 direction(1, top).
 direction(2, right).
 direction(3, bot).
@@ -66,3 +69,26 @@ initial_board([[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
               [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
               [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
               [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]]).
+
+
+%%%%%%%%%%%%%%%%%%%%%%%
+%   BOARD MODIFIERS   %
+%%%%%%%%%%%%%%%%%%%%%%%
+set_cell(ElemCol, 0, NewElem, [RowAtTheHead|RemainingRows], [NewRowAtTheHead|RemainingRows]):-
+	set_cell_list(ElemCol, NewElem, RowAtTheHead, NewRowAtTheHead).
+
+set_cell(ElemCol, ElemRow, NewElem, [RowAtTheHead|RemainingRows], [RowAtTheHead|ResultRemainingRows]):-
+	ElemRow > 0,
+	ElemRow1 is ElemRow-1,
+	set_cell(ElemCol, ElemRow1, NewElem, RemainingRows, ResultRemainingRows).
+
+set_cell_list(0, Elem, [_|L], [Elem|L]).
+set_cell_list(I, Elem, [H|L], [H|ResL]):-
+	I > 0,
+	I1 is I-1,
+	set_cell_list(I1, Elem, L, ResL).
+
+
+
+
+

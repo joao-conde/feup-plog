@@ -13,11 +13,15 @@ create_pvp_game(Game):-
     Game = [Board, white, pvp].
 
 % %first move, place anywhere
-% play_game([Board, Player, _]):-
-%     initial_board(Board),
-%     get_first_coords(Row, Col). %set piece on board
+play_game([Board, Player, _]):-
+    initial_board(Board),
+    print_board(Board),
+    get_first_coords(Row, Col), %set piece on board
+    player_stone(Player, Cell),
+    set_cell(Row, Col, Cell, Board, NewBoard),
 
-
+    switch_turn(Player, NextPlayer),
+    play_game([NewBoard, NextPlayer, _]).
 
 play_game([Board, Player, pvp]):-
     print_board(Board),
