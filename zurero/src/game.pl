@@ -18,8 +18,8 @@ play_game([Board, Player, _]):-
     print_board(Board),
     get_first_coords(Row, Col), %set piece on board
     player_stone(Player, Cell),
-    set_cell(Row, Col, Cell, Board, NewBoard),
-
+    InvRow is abs(18 - Row), %inverse Row since rows are numbered backwards
+    set_cell(Col, InvRow, Cell, Board, NewBoard),
     switch_turn(Player, NextPlayer),
     play_game([NewBoard, NextPlayer, _]).
 
@@ -28,8 +28,8 @@ play_game([Board, Player, pvp]):-
     get_direction(Direction), %1-top, 2-right, 3-bot, 4-left
 
     get_coord(Coord, Direction), %turns input to 0-based indexes
-    
     validate_move(Coord, Direction),
+    %TODO make "throw_stone"
     %make move -> updateBoard
     request_enter,
     switch_turn(Player, NextPlayer),
