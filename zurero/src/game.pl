@@ -2,7 +2,7 @@
 switch_turn(white, black).
 switch_turn(black, white).
 
-% Sufficient to check if row or column has other stones
+% Sufficient to check if row or column has other stones TODO
 validate_move(Col, top).
 validate_move(Col, bot).
 validate_move(Row, left).
