@@ -1,4 +1,4 @@
-%predicate to convert letters from rows or columns to an integer
+% Predicate to convert letters from rows or columns to an integer
 letter_to_int(Letter, Num) :-
     Letter @>= 'A',
     Letter @=< 'Z',
@@ -13,7 +13,7 @@ letter_to_int(Letter, Num) :-
     char_code(Letter, AsciiL),
     Num is AsciiL - AsciiA.
 
-%clears console by printing multiple newlines 
+% Clears console by printing multiple newlines 
 clear_console:- clear_console(50), !.
 clear_console(0).
 clear_console(N):-
@@ -29,10 +29,12 @@ get_char_nl(Input):-
 	get_char(Input),
 	get_char(_).
 
+% Waits for user <Enter> keypress
 request_enter:-
 	write('Press <Enter> to continue.\n'),
 	get_char(_), !.
 
+% Show available sides to choose from 
 print_direction_msg:-
 	nl, write('Possible sides:\n'),
 	write('1 - top\n'),
@@ -46,17 +48,24 @@ print_coord_msg:-
 print_first_move_msg:-
 	write('First move of the game, place stone anywhere\n').
 
+% Receive integer from user input
 get_int(Input):-
 	get_code(TempInput),
   	get_code(_),
 	Input is TempInput - 48.
 
+% Get user chosen direction
 get_direction(Direction):-
 	repeat,
 	print_direction_msg,
 	get_int(Input),
 	direction(Input, Direction).
 
+/**
+    get_cood(-Col, -Direction)
+
+    Gets objetive column/row depending on Direction
+*/
 get_coord(Col, top):-
 	repeat,
 	print_coord_msg,
@@ -89,6 +98,11 @@ get_coord(Row, right):-
 	Row1 =< 19,
 	Row is Row1 - 1.
 
+/**
+    get_first_coords(-Row, -Col)
+
+    Sets first piece
+*/
 get_first_coords(Row, Col):-
 	repeat,
 	print_first_move_msg,

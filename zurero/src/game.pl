@@ -1,8 +1,8 @@
-%Game structure and predicates to operate with it
+% Game structure and predicates to operate with it
 switch_turn(white, black).
 switch_turn(black, white).
 
-%Sufficient to check if row or column has other stones
+% Sufficient to check if row or column has other stones TODO
 validate_move(Col, top).
 validate_move(Col, bot).
 validate_move(Row, left).
@@ -12,7 +12,7 @@ create_pvp_game(Game):-
 	initial_board(Board),
     Game = [Board, white, pvp].
 
-% %first move, place anywhere
+% First move, place anywhere
 play_game([Board, Player, _]):-
     initial_board(Board),
     print_board(Board),
