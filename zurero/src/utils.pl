@@ -66,7 +66,7 @@ get_direction(Direction):-
 
     Gets objetive column/row depending on Direction
 */
-get_coord(Col, top):-
+get_vertical_coord(Col):-
 	repeat,
 	print_coord_msg,
 	get_char_nl(ColChar),
@@ -74,24 +74,7 @@ get_coord(Col, top):-
 	Col >= 0,
 	Col =< 18.
 
-get_coord(Col, bot):-
-	repeat,
-	print_coord_msg,
-	get_char_nl(ColChar),
-	letter_to_int(ColChar, Col),
-	Col >= 0,
-	Col =< 18.
-
-get_coord(InvRow, left):-
-	repeat,
-	print_coord_msg,
-	get_int(Row1),
-	Row1 >= 1, 
-	Row1 =< 19,
-	Row is Row1 -1,
-	InvRow is abs(18 - Row).
-
-get_coord(InvRow, right):-
+get_horizontal_coord(InvRow):-
 	repeat,
 	print_coord_msg,
 	get_int(Row1),
@@ -99,6 +82,18 @@ get_coord(InvRow, right):-
 	Row1 =< 19,
 	Row is Row1 - 1,
 	InvRow is abs(18 - Row).
+
+get_coord(Col, top):-
+	get_vertical_coord(Col).
+
+get_coord(Col, bot):-
+	get_vertical_coord(Col).
+
+get_coord(InvRow, left):-
+	get_horizontal_coord(InvRow).
+
+get_coord(InvRow, right):-
+	get_horizontal_coord(InvRow).
 
 /**
     get_first_coords(-Row, -Col)

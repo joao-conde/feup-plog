@@ -12,7 +12,7 @@ Lower case letters with words delimited by underscore.
 Java-style but start with capital letter.
 
 **Example** AVeryLongVariableName (not a_very_long_var_name)   
-**Reason** Shorter and easier to write than the underscore variant. The leading capital letter is required by Prolog to identify variables.
+**Reason** Shorter and easier to write than the underscore variant. The leading capital letter is required by PROLOG to identify variables.
 
 ## Comments
 
@@ -24,19 +24,22 @@ Commenting style from official SWI-Prolog code, public at their repository.
 **Example** 
 
 ```c
-%!  max_member(-Max, +List)
-%
-%   True when Max is the largest  member in the standard order of
-%   terms.  Fails if List is empty.
- max_member(Max, List).
+/*  max_member(-Max, +List)
+    
+    True when Max is the largest  member in the standard order of
+    terms.  Fails if List is empty.
+*/
+  max_member(Max, List).
 ```
 
-**Reason** Better documentation and later easily slightly changed for Prolog documentation tools.
+**Reason** Better documentation and quick understanding of the predicates
 
 
 ## Line breaking
 
-If the predicate makes only one subsequent predicate call, place both on same line. If not, one predicate per line.   
+If the predicate makes only one subsequent predicate call, both can be placed on the same line. In some cases a line break is still better.
+
+If not, one predicate per line.   
 
 If argument list is too long, put one argument in every line with matching brackets in same column.  
 

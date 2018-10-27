@@ -18,6 +18,7 @@ play_game([Board, Player, _]):-
     initial_board(Board),
     print_board(Board),
     get_first_coords(Row, Col), 
+    
     player_stone(Player, Cell),
     set_cell(Col, Row, Cell, Board, NewBoard),
     switch_turn(Player, NextPlayer),
