@@ -136,10 +136,17 @@ set_cell_list(I, Elem, [H|L], [H|ResL]):-
 
 /** TESTING **/
 
-throw_stone(Board, Coord, top).
+%% THROW STONE VERTICALLY %%
+throw_stone(Board, NewBoard, Coord, top, Cell):-    
+    get_leading_pos_col(Board, Coord, LinePos),
+    set_cell(Coord, LinePos, Cell, Board, NewBoard).
+
+throw_stone(Board, NewBoard, Coord, bot, Cell):-    
+    get_trailing_pos_col(Board, Coord, LinePos),
+    set_cell(Coord, LinePos, Cell, Board, NewBoard).
 
 
-
+%% THROW STONE HORIZONTALLY %%
 throw_stone(Board, NewBoard, Coord, left, Cell):-
     nth0(Coord, Board, Line),
     get_leading_pos_line(Line, Position),
@@ -151,6 +158,41 @@ throw_stone(Board, NewBoard, Coord, right, Cell):-
     get_trailing_pos_line(Line, Position),
     set_cell(Position, Coord, Cell, Board, NewBoard).
     
+
+/* 
+    Leading available position in a column 
+    -1 if there is a piece at the start of the column
+    or position for leading empty space of column
+*/
+get_leading_pos_col(Board, ElColPos, LinePos):-
+    aux_get_leading_pos_col(Board, ElColPos, LinePos, -1).
+
+aux_get_leading_pos_col([], _, Cnt, Cnt).
+aux_get_leading_pos_col([Line|_], ElColPos, Cnt, Cnt):-
+    \+ nth0(ElColPos, Line, 0).
+
+aux_get_leading_pos_col([Line|T], ElColPos, LinePos, Cnt):-
+    nth0(ElColPos, Line, 0), %empty
+    Cnt1 is Cnt+1,
+    aux_get_leading_pos_col(T, ElColPos, LinePos, Cnt1).
+
+/* 
+    Trailing available position in a column
+    19 if there is a piece at the end of the column
+    or position for trailing empty space of column
+*/
+get_trailing_pos_col(Board, ElColPos, LinePos):-
+    reverse(Board, RevBoard),
+    aux_get_trailing_pos_col(RevBoard, ElColPos, LinePos, 19).
+
+aux_get_trailing_pos_col([], _, Cnt, Cnt).
+aux_get_trailing_pos_col([Line|_], ElColPos, Cnt, Cnt):-
+    \+ nth0(ElColPos, Line, 0).
+
+aux_get_trailing_pos_col([Line|T], ElColPos, LinePos, Cnt):-
+    nth0(ElColPos, Line, 0), %empty
+    Cnt1 is Cnt-1,
+    aux_get_trailing_pos_col(T, ElColPos, LinePos, Cnt1).
 
 
 /* 

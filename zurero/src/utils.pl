@@ -69,18 +69,18 @@ get_direction(Direction):-
 get_coord(Col, top):-
 	repeat,
 	print_coord_msg,
-	get_char_nl(Col),
-	letter_to_int(Col, Num),
-	Num >= 0,
-	Num =< 18.
+	get_char_nl(ColChar),
+	letter_to_int(ColChar, Col),
+	Col >= 0,
+	Col =< 18.
 
 get_coord(Col, bot):-
 	repeat,
 	print_coord_msg,
-	get_char_nl(Col),
-	letter_to_int(Col, Num),
-	Num >= 0,
-	Num =< 18.
+	get_char_nl(ColChar),
+	letter_to_int(ColChar, Col),
+	Col >= 0,
+	Col =< 18.
 
 get_coord(InvRow, left):-
 	repeat,
