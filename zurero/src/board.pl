@@ -81,9 +81,9 @@ board_element(2, '-W-').
 /**
     initial_board(-Board)
 
-    Unifies Board with the initial empy game board
+    Unifies Board with the initial empy game board (19x19)
 */
-initial_board([[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+initial_board([[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0], 
               [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
               [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
               [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
@@ -132,6 +132,62 @@ set_cell_list(I, Elem, [H|L], [H|ResL]):-
 	I > 0,
 	I1 is I-1,
 	set_cell_list(I1, Elem, L, ResL).
+
+
+/** TESTING **/
+
+throw_stone(Board, Coord, top).
+
+
+
+throw_stone(Board, NewBoard, Coord, left, Cell):-
+    nth0(Coord, Board, Line),
+    get_leading_pos_line(Line, Position),
+    set_cell(Position, Coord, Cell, Board, NewBoard).
+
+
+throw_stone(Board, NewBoard, Coord, right, Cell):-
+    nth0(Coord, Board, Line),
+    get_trailing_pos_line(Line, Position),
+    set_cell(Position, Coord, Cell, Board, NewBoard).
+    
+
+
+/* 
+    Leading available position in a line 
+    -1 if there is a piece at the start of the line
+    or position for leading empty space of line
+*/
+get_leading_pos_line(Line, Position):-
+    aux_get_leading_pos_line(Line, Position, -1).
+
+aux_get_leading_pos_line([], Cnt, Cnt).
+aux_get_leading_pos_line([1|_], Cnt, Cnt).
+aux_get_leading_pos_line([2|_], Cnt, Cnt).
+    
+aux_get_leading_pos_line([_|T], Position, Cnt):-
+    Cnt1 is Cnt+1,
+    aux_get_leading_pos_line(T, Position, Cnt1).
+
+
+/* 
+    Trailing available position in a line 
+    19 if there is a piece at the end of the line
+    or position for trailing empty space of line
+*/
+get_trailing_pos_line(Line, Position):-
+    reverse(Line, RevLine),
+    aux_get_trailing_pos_line(RevLine, Position, 19).
+
+aux_get_trailing_pos_line([], Cnt, Cnt).
+aux_get_trailing_pos_line([1|_], Cnt, Cnt).
+aux_get_trailing_pos_line([2|_], Cnt, Cnt).
+    
+aux_get_trailing_pos_line([_|T], Position, Cnt):-
+    Cnt1 is Cnt-1,
+    aux_get_trailing_pos_line(T, Position, Cnt1).
+
+    
 
 
 

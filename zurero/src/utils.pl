@@ -82,33 +82,38 @@ get_coord(Col, bot):-
 	Num >= 0,
 	Num =< 18.
 
-get_coord(Row, left):-
+get_coord(InvRow, left):-
 	repeat,
 	print_coord_msg,
 	get_int(Row1),
 	Row1 >= 1, 
 	Row1 =< 19,
-	Row is Row1 - 1.
+	Row is Row1 -1,
+	InvRow is abs(18 - Row).
 
-get_coord(Row, right):-
+get_coord(InvRow, right):-
 	repeat,
 	print_coord_msg,
 	get_int(Row1),
 	Row1 >= 1, 
 	Row1 =< 19,
-	Row is Row1 - 1.
+	Row is Row1 - 1,
+	InvRow is abs(18 - Row).
 
 /**
     get_first_coords(-Row, -Col)
 
-    Sets first piece
+    Gets coords for the first piece
 */
-get_first_coords(Row, Col):-
+get_first_coords(InvRow, Col):-
 	repeat,
 	print_first_move_msg,
 	write('Row?\t'),
 	get_int(Row1),
 	Row is Row1-1,
+	InvRow is abs(18 - Row), %inverse Row since rows are numbered backwards
 	write('Column?\t'),
 	get_char_nl(ColLetter),
 	letter_to_int(ColLetter, Col).
+
+
