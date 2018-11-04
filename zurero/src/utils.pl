@@ -48,13 +48,21 @@ print_coord_msg:-
 print_first_move_msg:-
 	write('First move of the game, place stone anywhere\n').
 
-% Receive integer from user input
+/**
+    get_int(-Input)
+
+    Receive integer from user input.
+*/
 get_int(Input):-
 	get_code(TempInput),
   	get_code(_),
 	Input is TempInput - 48.
 
-% Get user chosen direction
+/**
+    get_direction(-Direction)
+
+    Get user chosen direction.
+*/
 get_direction(Direction):-
 	repeat,
 	print_direction_msg,
@@ -62,9 +70,9 @@ get_direction(Direction):-
 	direction(Input, Direction).
 
 /**
-    get_cood(-Col, -Direction)
+    get_vertical_coord(-Col)
 
-    Gets objetive column/row depending on Direction
+    Gets vertical coord from user input. 
 */
 get_vertical_coord(Col):-
 	repeat,
@@ -74,6 +82,11 @@ get_vertical_coord(Col):-
 	Col >= 0,
 	Col =< 18.
 
+/**
+    get_vertical_coord(-Col)
+
+    Gets horizontal coord from user input. 
+*/
 get_horizontal_coord(InvRow):-
 	repeat,
 	print_coord_msg,
@@ -83,6 +96,11 @@ get_horizontal_coord(InvRow):-
 	Row is Row1 - 1,
 	InvRow is abs(18 - Row).
 
+/**
+    get_coord(-Col, -Direction)
+
+    Calls correct predicate based on direction. 
+*/
 get_coord(Col, top):-
 	get_vertical_coord(Col).
 
@@ -98,7 +116,7 @@ get_coord(InvRow, right):-
 /**
     get_first_coords(-Row, -Col)
 
-    Gets coords for the first piece
+    Gets coords for the first piece.
 */
 get_first_coords(InvRow, Col):-
 	repeat,
