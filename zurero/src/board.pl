@@ -168,8 +168,24 @@ throw_stone(Board, NewBoard, Coord, bot, Cell):-
 */
 throw_stone(Board, NewBoard, Coord, left, Cell):-
     nth0(Coord, Board, Line),
-    get_leading_pos_line(Line, Position),
-    set_cell(Position, Coord, Cell, Board, NewBoard).
+    get_leading_pos_line(Line, Pos),
+    slide_left(Board, NewBoard, Coord, Line, Pos, Cell).
+
+
+slide_left(Board, NewBoard, Coord, Line, Pos, Cell):-
+    Pos1 is Pos + 1,
+    Pos2 is Pos + 2,
+    nth0(Pos2, Line, 0),
+    nth0(Pos1, Line, PushedCell),
+    set_cell(Pos, Coord, 0, Board, Board2),
+    set_cell(Pos1, Coord, Cell, Board2, Board3),
+    set_cell(Pos2, Coord, PushedCell, Board3, NewBoard).
+
+
+slide_left(Board, NewBoard, Coord, Line, Pos, Cell):-
+    Pos2 is Pos + 2,
+    \+ nth0(Pos2, Line, 0),
+    set_cell(Pos, Coord, Cell, Board, NewBoard).
 
 
 /**
