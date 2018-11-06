@@ -87,14 +87,14 @@ get_vertical_coord(Col):-
 
     Gets horizontal coord from user input. 
 */
-get_horizontal_coord(InvRow):-
+get_horizontal_coord(InvLine):-
 	repeat,
 	print_coord_msg,
-	get_int(Row1),
-	Row1 >= 1, 
-	Row1 =< 19,
-	Row is Row1 - 1,
-	InvRow is abs(18 - Row).
+	get_int(Line1),
+	Line1 >= 1, 
+	Line1 =< 19,
+	Line is Line1 - 1,
+	InvLine is abs(18 - Line).
 
 /**
     get_coord(-Col, -Direction)
@@ -107,24 +107,24 @@ get_coord(Col, top):-
 get_coord(Col, bot):-
 	get_vertical_coord(Col).
 
-get_coord(InvRow, left):-
-	get_horizontal_coord(InvRow).
+get_coord(InvLine, left):-
+	get_horizontal_coord(InvLine).
 
-get_coord(InvRow, right):-
-	get_horizontal_coord(InvRow).
+get_coord(InvLine, right):-
+	get_horizontal_coord(InvLine).
 
 /**
     get_first_coords(-Row, -Col)
 
     Gets coords for the first piece.
 */
-get_first_coords(InvRow, Col):-
+get_first_coords(InvLine, Col):-
 	repeat,
 	print_first_move_msg,
 	write('Row?\t'),
-	get_int(Row1),
-	Row is Row1-1,
-	InvRow is abs(18 - Row), %inverse Row since rows are numbered backwards
+	get_int(Line1),
+	Line is Line1-1,
+	InvLine is abs(18 - Line), %inverse Line since lines are numbered backwards (visually)
 	write('Column?\t'),
 	get_char_nl(ColLetter),
 	letter_to_int(ColLetter, Col).
@@ -206,13 +206,13 @@ aux_get_trailing_pos_col([Line|T], ElColPos, LinePos, Cnt):-
     Unifies NewBoard with a Board where at position (Row, Col) there is piece Elem.
     Makes calls to predicate set_cell_list for each of the rows.
 */
-set_cell(ElemCol, 0, NewElem, [RowAtTheHead|RemainingRows], [NewRowAtTheHead|RemainingRows]):-
-	set_cell_list(ElemCol, NewElem, RowAtTheHead, NewRowAtTheHead).
+set_cell(ElemCol, 0, NewElem, [LineAtTheHead|RemainingLines], [NewLineAtTheHead|RemainingLines]):-
+	set_cell_list(ElemCol, NewElem, LineAtTheHead, NewLineAtTheHead).
 
-set_cell(ElemCol, ElemRow, NewElem, [RowAtTheHead|RemainingRows], [RowAtTheHead|ResultRemainingRows]):-
-	ElemRow > 0,
-	ElemRow1 is ElemRow-1,
-	set_cell(ElemCol, ElemRow1, NewElem, RemainingRows, ResultRemainingRows).
+set_cell(ElemCol, ElemLine, NewElem, [LineAtTheHead|RemainingLines], [LineAtTheHead|ResultRemainingLines]):-
+	ElemLine > 0,
+	ElemLine1 is ElemLine-1,
+	set_cell(ElemCol, ElemLine1, NewElem, RemainingLines, ResultRemainingLines).
 
 /**
     set_cell_list(-Idx, -Elem, -Row, +UpdatedRow)
@@ -224,3 +224,9 @@ set_cell_list(I, Elem, [H|L], [H|ResL]):-
 	I > 0,
 	I1 is I-1,
 	set_cell_list(I1, Elem, L, ResL).
+
+
+%no pieces (all 0's)
+empty([]).
+empty([0|T]):-
+    empty(T).

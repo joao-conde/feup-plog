@@ -1,3 +1,7 @@
+% Game structure and predicates to operate with it
+switch_turn(white, black).
+switch_turn(black, white).
+
 /**
     player_stone(-Player, +PieceNumber)
 
@@ -113,11 +117,11 @@ print_line([Head|Tail]) :-
     Places the player's stone Cell at the place of impact with another stone, in column Coord unifying
     the result with NewBoard
 */
-throw_stone(Board, NewBoard, Coord, top, Cell):-    
+throw_stone(Board, NewBoard, Coord, top, Piece):-    
     get_leading_pos_col(Board, Coord, LinePos),
     LinePos1 is LinePos + 1,
     LinePos2 is LinePos + 2,
-    slide_vertically(Board, NewBoard, Coord, LinePos, LinePos1, LinePos2, Cell).
+    slide_vertically(Board, NewBoard, Coord, LinePos, LinePos1, LinePos2, Piece).
 
 
 /**
@@ -128,11 +132,11 @@ throw_stone(Board, NewBoard, Coord, top, Cell):-
     Places the player's stone Cell at the place of impact with another stone, in column Coord unifying
     the result with NewBoard
 */
-throw_stone(Board, NewBoard, Coord, bot, Cell):-    
+throw_stone(Board, NewBoard, Coord, bot, Piece):-    
     get_trailing_pos_col(Board, Coord, LinePos),
     LinePos1 is LinePos - 1,
     LinePos2 is LinePos - 2,
-    slide_vertically(Board, NewBoard, Coord, LinePos, LinePos1, LinePos2, Cell).
+    slide_vertically(Board, NewBoard, Coord, LinePos, LinePos1, LinePos2, Piece).
 
 
 /**
@@ -143,12 +147,12 @@ throw_stone(Board, NewBoard, Coord, bot, Cell):-
     Places the player's stone Cell at the place of impact with another stone, in row Coord unifying
     the result with NewBoard
 */
-throw_stone(Board, NewBoard, Coord, right, Cell):-
+throw_stone(Board, NewBoard, Coord, right, Piece):-
     nth0(Coord, Board, Line),
     get_trailing_pos_line(Line, Pos),
     Pos1 is Pos - 1,
     Pos2 is Pos - 2, 
-    slide_horizontally(Board, NewBoard, Coord, Line, Pos, Pos1, Pos2, Cell).
+    slide_horizontally(Board, NewBoard, Coord, Line, Pos, Pos1, Pos2, Piece).
 
 /**
     throw_stone(-Board, +NewBoard, -Coord, left, -Cell)
@@ -158,41 +162,69 @@ throw_stone(Board, NewBoard, Coord, right, Cell):-
     Places the player's stone Cell at the place of impact with another stone, in row Coord unifying
     the result with NewBoard
 */
-throw_stone(Board, NewBoard, Coord, left, Cell):-
+throw_stone(Board, NewBoard, Coord, left, Piece):-
     nth0(Coord, Board, Line),
     get_leading_pos_line(Line, Pos),
     Pos1 is Pos + 1,
     Pos2 is Pos + 2, 
-    slide_horizontally(Board, NewBoard, Coord, Line, Pos, Pos1, Pos2, Cell).
+    slide_horizontally(Board, NewBoard, Coord, Line, Pos, Pos1, Pos2, Piece).
 
 %-------------
-slide_horizontally(Board, NewBoard, Coord, Line, Pos, Pos1, Pos2, Cell):-
+slide_horizontally(Board, NewBoard, Coord, Line, Pos, Pos1, Pos2, Piece):-
     nth0(Pos2, Line, 0),
-    nth0(Pos1, Line, PushedCell),
-    push_stones_horizontally(Board, NewBoard, Coord, Pos, Pos1, Pos2, PushedCell, Cell).
+    nth0(Pos1, Line, PushedPiece),
+    push_stones_horizontally(Board, NewBoard, Coord, Pos, Pos1, Pos2, PushedPiece, Piece).
 
-slide_horizontally(Board, NewBoard, Coord, Line, Pos, _, Pos2, Cell):-
+slide_horizontally(Board, NewBoard, Coord, Line, Pos, _, Pos2, Piece):-
     \+ nth0(Pos2, Line, 0),
-    set_cell(Pos, Coord, Cell, Board, NewBoard).
+    set_cell(Pos, Coord, Piece, Board, NewBoard).
 
 
-push_stones_horizontally(Board, NewBoard, Coord, _, Pos1, Pos2, PushedCell, Cell):-
-    set_cell(Pos1, Coord, Cell, Board, Board2),
-    set_cell(Pos2, Coord, PushedCell, Board2, NewBoard).
+push_stones_horizontally(Board, NewBoard, Coord, _, Pos1, Pos2, PushedPiece, Piece):-
+    set_cell(Pos1, Coord, Piece, Board, Board2),
+    set_cell(Pos2, Coord, PushedPiece, Board2, NewBoard).
 
 %-------------
-slide_vertically(Board, NewBoard, Coord, LinePos, LinePos1, LinePos2, Cell):-
+slide_vertically(Board, NewBoard, Coord, LinePos, LinePos1, LinePos2, Piece):-
     nth0(LinePos2, Board, Line2),
     nth0(LinePos1, Board, Line1),
     nth0(Coord, Line2, 0),
-    nth0(Coord, Line1, PushedCell),    
-    push_stones_vertically(Board, NewBoard, Coord, LinePos, LinePos1, LinePos2, PushedCell, Cell).
+    nth0(Coord, Line1, PushedPiece),    
+    push_stones_vertically(Board, NewBoard, Coord, LinePos, LinePos1, LinePos2, PushedPiece, Piece).
 
-slide_vertically(Board, NewBoard, Coord, LinePos, _, LinePos2, Cell):-
+slide_vertically(Board, NewBoard, Coord, LinePos, _, LinePos2, Piece):-
     nth0(LinePos2, Board, Line2),
     \+ nth0(Coord, Line2, 0),
-    set_cell(Coord, LinePos, Cell, Board, NewBoard).
+    set_cell(Coord, LinePos, Piece, Board, NewBoard).
 
-push_stones_vertically(Board, NewBoard, Coord, _, LinePos1, LinePos2, PushedCell, Cell):-
-    set_cell(Coord, LinePos1, Cell, Board, Board2),
-    set_cell(Coord, LinePos2, PushedCell, Board2, NewBoard).
+push_stones_vertically(Board, NewBoard, Coord, _, LinePos1, LinePos2, PushedPiece, Piece):-
+    set_cell(Coord, LinePos1, Piece, Board, Board2),
+    set_cell(Coord, LinePos2, PushedPiece, Board2, NewBoard).
+
+
+%VALID MOVE
+valid_move(Board, Coord, top):-
+    valid_move_col(Board, Coord).
+
+valid_move(Board, Coord, bot):-
+    valid_move_col(Board, Coord).
+
+valid_move(Board, Coord, left):-
+    valid_move_line(Board, Coord).
+
+valid_move(Board, Coord, right):-
+    valid_move_line(Board, Coord).
+
+%----
+valid_move_line(Board, Coord):-
+    nth0(Coord, Board, Line),
+    \+ empty(Line).
+
+
+%----
+valid_move_col([Line|_], Coord):-
+    \+ nth0(Coord, Line, 0).
+
+valid_move_col([Line|Board], Coord):-
+    nth0(Coord, Line, 0),
+    valid_move_col(Board, Coord).
