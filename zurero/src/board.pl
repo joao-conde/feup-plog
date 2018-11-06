@@ -131,7 +131,7 @@ set_cell_list(I, Elem, [H|L], [H|ResL]):-
 	I1 is I-1,
 	set_cell_list(I1, Elem, L, ResL).
 
-% TODO MAKE COLLIDED STONE GO BACK AND OCCUPY ITS SPOT
+% TODO MAKE COLLIDED STONE GO BACK AND OCCUPY ITS SPOT (done for left/right)
 /**
     throw_stone(-Board, +NewBoard, -Coord, top, -Cell)
 
@@ -159,6 +159,19 @@ throw_stone(Board, NewBoard, Coord, bot, Cell):-
 
 
 /**
+    throw_stone(-Board, +NewBoard, -Coord, right, -Cell)
+
+    Equivalent to a play where a player throws a stone and slides it from the right edge of the board
+    towards the left
+    Places the player's stone Cell at the place of impact with another stone, in row Coord unifying
+    the result with NewBoard
+*/
+throw_stone(Board, NewBoard, Coord, right, Cell):-
+    nth0(Coord, Board, Line),
+    get_trailing_pos_line(Line, Pos),
+    slide_right(Board, NewBoard, Coord, Line, Pos, Cell).
+
+/**
     throw_stone(-Board, +NewBoard, -Coord, left, -Cell)
 
     Equivalent to a play where a player throws a stone and slides it from the left edge of the board
@@ -170,6 +183,21 @@ throw_stone(Board, NewBoard, Coord, left, Cell):-
     nth0(Coord, Board, Line),
     get_leading_pos_line(Line, Pos),
     slide_left(Board, NewBoard, Coord, Line, Pos, Cell).
+
+
+slide_right(Board, NewBoard, Coord, Line, Pos, Cell):-
+    Pos1 is Pos - 1,
+    Pos2 is Pos - 2,
+    nth0(Pos2, Line, 0),
+    nth0(Pos1, Line, PushedCell),
+    set_cell(Pos, Coord, 0, Board, Board2),
+    set_cell(Pos1, Coord, Cell, Board2, Board3),
+    set_cell(Pos2, Coord, PushedCell, Board3, NewBoard).
+
+slide_right(Board, NewBoard, Coord, Line, Pos, Cell):-
+    Pos2 is Pos - 2,
+    \+ nth0(Pos2, Line, 0),
+    set_cell(Pos, Coord, Cell, Board, NewBoard).
 
 
 slide_left(Board, NewBoard, Coord, Line, Pos, Cell):-
@@ -187,20 +215,6 @@ slide_left(Board, NewBoard, Coord, Line, Pos, Cell):-
     \+ nth0(Pos2, Line, 0),
     set_cell(Pos, Coord, Cell, Board, NewBoard).
 
-
-/**
-    throw_stone(-Board, +NewBoard, -Coord, right, -Cell)
-
-    Equivalent to a play where a player throws a stone and slides it from the right edge of the board
-    towards the left
-    Places the player's stone Cell at the place of impact with another stone, in row Coord unifying
-    the result with NewBoard
-*/
-throw_stone(Board, NewBoard, Coord, right, Cell):-
-    nth0(Coord, Board, Line),
-    get_trailing_pos_line(Line, Position),
-    set_cell(Position, Coord, Cell, Board, NewBoard).
-    
 
 /* 
     Leading available position in a column 
