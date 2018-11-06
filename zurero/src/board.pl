@@ -50,49 +50,6 @@ initial_board([[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
               [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
               [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]]).
 
-/* Mid game board */
-midgame_board([[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-              [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-              [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-              [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-              [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-              [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-              [0,0,0,0,0,0,0,0,2,0,0,0,0,0,0,0,0,0,0],
-              [0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0],
-              [0,0,0,0,0,0,0,2,1,1,1,2,0,0,0,0,0,0,0],
-              [0,0,0,0,0,0,0,0,0,2,1,0,0,0,0,0,0,0,0],
-              [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-              [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-              [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-              [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-              [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-              [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-              [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-              [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-              [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]]).
-
-/* End game board */
-endgame_board([[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-              [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-              [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-              [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-              [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-              [0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0,0],
-              [0,0,0,0,0,0,0,1,2,0,0,0,0,0,0,0,0,0,0],
-              [0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0],
-              [0,0,0,0,0,0,0,2,1,1,1,2,0,0,0,0,0,0,0],
-              [0,0,0,0,0,0,0,0,0,2,1,2,0,0,0,0,0,0,0],
-              [0,0,0,0,0,0,0,0,0,2,0,0,0,0,0,0,0,0,0],
-              [0,0,0,0,0,0,0,0,0,2,0,0,0,0,0,0,0,0,0],
-              [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-              [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-              [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-              [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-              [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-              [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-              [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]]).
-
-
 %%%%%%%%%%%%%%%%%%%%%%
 %   BOARD DISPLAY    %
 %%%%%%%%%%%%%%%%%%%%%%
@@ -149,61 +106,39 @@ print_line([Head|Tail]) :-
 %%%%%%%%%%%%%%%%%%%%%%%
 
 /**
-    set_cell(-Col, -Row, -Elem, -Board, +NewBoard)
-
-    Unifies NewBoard with a Board where at position (Row, Col) there is piece Elem.
-    Makes calls to predicate set_cell_list for each of the rows.
-*/
-set_cell(ElemCol, 0, NewElem, [RowAtTheHead|RemainingRows], [NewRowAtTheHead|RemainingRows]):-
-	set_cell_list(ElemCol, NewElem, RowAtTheHead, NewRowAtTheHead).
-
-set_cell(ElemCol, ElemRow, NewElem, [RowAtTheHead|RemainingRows], [RowAtTheHead|ResultRemainingRows]):-
-	ElemRow > 0,
-	ElemRow1 is ElemRow-1,
-	set_cell(ElemCol, ElemRow1, NewElem, RemainingRows, ResultRemainingRows).
-
-/**
-    set_cell_list(-Idx, -Elem, -Row, +UpdatedRow)
-
-    Unifies UpdatedRow with a Row where at position Idx there is piece Elem
-*/
-set_cell_list(0, Elem, [_|L], [Elem|L]).
-set_cell_list(I, Elem, [H|L], [H|ResL]):-
-	I > 0,
-	I1 is I-1,
-	set_cell_list(I1, Elem, L, ResL).
-
-% TODO MAKE COLLIDED STONE GO BACK AND OCCUPY ITS SPOT (done for left/right)
-/**
     throw_stone(-Board, +NewBoard, -Coord, top, -Cell)
 
-    Equivalent to a play where a player throws a stone and slides it from the top edge of the board
+    Equivalent to a play where a player throws a stone and slide_horizontallys it from the top edge of the board
     towards the bottom
     Places the player's stone Cell at the place of impact with another stone, in column Coord unifying
     the result with NewBoard
 */
 throw_stone(Board, NewBoard, Coord, top, Cell):-    
     get_leading_pos_col(Board, Coord, LinePos),
-    set_cell(Coord, LinePos, Cell, Board, NewBoard).
+    LinePos1 is LinePos + 1,
+    LinePos2 is LinePos + 2,
+    slide_vertically(Board, NewBoard, Coord, LinePos, LinePos1, LinePos2, Cell).
 
 
 /**
     throw_stone(-Board, +NewBoard, -Coord, bot, -Cell)
 
-    Equivalent to a play where a player throws a stone and slides it from the bottom edge of the board
+    Equivalent to a play where a player throws a stone and slide_horizontallys it from the bottom edge of the board
     towards the top
     Places the player's stone Cell at the place of impact with another stone, in column Coord unifying
     the result with NewBoard
 */
 throw_stone(Board, NewBoard, Coord, bot, Cell):-    
     get_trailing_pos_col(Board, Coord, LinePos),
-    set_cell(Coord, LinePos, Cell, Board, NewBoard).
+    LinePos1 is LinePos - 1,
+    LinePos2 is LinePos - 2,
+    slide_vertically(Board, NewBoard, Coord, LinePos, LinePos1, LinePos2, Cell).
 
 
 /**
     throw_stone(-Board, +NewBoard, -Coord, right, -Cell)
 
-    Equivalent to a play where a player throws a stone and slides it from the right edge of the board
+    Equivalent to a play where a player throws a stone and slide_horizontallys it from the right edge of the board
     towards the left
     Places the player's stone Cell at the place of impact with another stone, in row Coord unifying
     the result with NewBoard
@@ -211,12 +146,14 @@ throw_stone(Board, NewBoard, Coord, bot, Cell):-
 throw_stone(Board, NewBoard, Coord, right, Cell):-
     nth0(Coord, Board, Line),
     get_trailing_pos_line(Line, Pos),
-    slide_right(Board, NewBoard, Coord, Line, Pos, Cell).
+    Pos1 is Pos - 1,
+    Pos2 is Pos - 2, 
+    slide_horizontally(Board, NewBoard, Coord, Line, Pos, Pos1, Pos2, Cell).
 
 /**
     throw_stone(-Board, +NewBoard, -Coord, left, -Cell)
 
-    Equivalent to a play where a player throws a stone and slides it from the left edge of the board
+    Equivalent to a play where a player throws a stone and slide_horizontallys it from the left edge of the board
     towards the right
     Places the player's stone Cell at the place of impact with another stone, in row Coord unifying
     the result with NewBoard
@@ -224,113 +161,38 @@ throw_stone(Board, NewBoard, Coord, right, Cell):-
 throw_stone(Board, NewBoard, Coord, left, Cell):-
     nth0(Coord, Board, Line),
     get_leading_pos_line(Line, Pos),
-    slide_left(Board, NewBoard, Coord, Line, Pos, Cell).
-
-
-slide_right(Board, NewBoard, Coord, Line, Pos, Cell):-
-    Pos1 is Pos - 1,
-    Pos2 is Pos - 2,
-    nth0(Pos2, Line, 0),
-    nth0(Pos1, Line, PushedCell),
-    set_cell(Pos, Coord, 0, Board, Board2),
-    set_cell(Pos1, Coord, Cell, Board2, Board3),
-    set_cell(Pos2, Coord, PushedCell, Board3, NewBoard).
-
-slide_right(Board, NewBoard, Coord, Line, Pos, Cell):-
-    Pos2 is Pos - 2,
-    \+ nth0(Pos2, Line, 0),
-    set_cell(Pos, Coord, Cell, Board, NewBoard).
-
-
-slide_left(Board, NewBoard, Coord, Line, Pos, Cell):-
     Pos1 is Pos + 1,
-    Pos2 is Pos + 2,
+    Pos2 is Pos + 2, 
+    slide_horizontally(Board, NewBoard, Coord, Line, Pos, Pos1, Pos2, Cell).
+
+%-------------
+slide_horizontally(Board, NewBoard, Coord, Line, Pos, Pos1, Pos2, Cell):-
     nth0(Pos2, Line, 0),
     nth0(Pos1, Line, PushedCell),
-    set_cell(Pos, Coord, 0, Board, Board2),
-    set_cell(Pos1, Coord, Cell, Board2, Board3),
-    set_cell(Pos2, Coord, PushedCell, Board3, NewBoard).
+    push_stones_horizontally(Board, NewBoard, Coord, Pos, Pos1, Pos2, PushedCell, Cell).
 
-
-slide_left(Board, NewBoard, Coord, Line, Pos, Cell):-
-    Pos2 is Pos + 2,
+slide_horizontally(Board, NewBoard, Coord, Line, Pos, _, Pos2, Cell):-
     \+ nth0(Pos2, Line, 0),
     set_cell(Pos, Coord, Cell, Board, NewBoard).
 
 
-/* 
-    Leading available position in a column 
-    -1 if there is a piece at the start of the column
-    or position for leading empty space of column
-*/
-get_leading_pos_col(Board, ElColPos, LinePos):-
-    aux_get_leading_pos_col(Board, ElColPos, LinePos, -1).
+push_stones_horizontally(Board, NewBoard, Coord, _, Pos1, Pos2, PushedCell, Cell):-
+    set_cell(Pos1, Coord, Cell, Board, Board2),
+    set_cell(Pos2, Coord, PushedCell, Board2, NewBoard).
 
-aux_get_leading_pos_col([], _, Cnt, Cnt).
-aux_get_leading_pos_col([Line|_], ElColPos, Cnt, Cnt):-
-    \+ nth0(ElColPos, Line, 0).
+%-------------
+slide_vertically(Board, NewBoard, Coord, LinePos, LinePos1, LinePos2, Cell):-
+    nth0(LinePos2, Board, Line2),
+    nth0(LinePos1, Board, Line1),
+    nth0(Coord, Line2, 0),
+    nth0(Coord, Line1, PushedCell),    
+    push_stones_vertically(Board, NewBoard, Coord, LinePos, LinePos1, LinePos2, PushedCell, Cell).
 
-aux_get_leading_pos_col([Line|T], ElColPos, LinePos, Cnt):-
-    nth0(ElColPos, Line, 0), %empty
-    Cnt1 is Cnt+1,
-    aux_get_leading_pos_col(T, ElColPos, LinePos, Cnt1).
+slide_vertically(Board, NewBoard, Coord, LinePos, _, LinePos2, Cell):-
+    nth0(LinePos2, Board, Line2),
+    \+ nth0(Coord, Line2, 0),
+    set_cell(Coord, LinePos, Cell, Board, NewBoard).
 
-/* 
-    Trailing available position in a column
-    19 if there is a piece at the end of the column
-    or position for trailing empty space of column
-*/
-get_trailing_pos_col(Board, ElColPos, LinePos):-
-    reverse(Board, RevBoard),
-    aux_get_trailing_pos_col(RevBoard, ElColPos, LinePos, 19).
-
-aux_get_trailing_pos_col([], _, Cnt, Cnt).
-aux_get_trailing_pos_col([Line|_], ElColPos, Cnt, Cnt):-
-    \+ nth0(ElColPos, Line, 0).
-
-aux_get_trailing_pos_col([Line|T], ElColPos, LinePos, Cnt):-
-    nth0(ElColPos, Line, 0), %empty
-    Cnt1 is Cnt-1,
-    aux_get_trailing_pos_col(T, ElColPos, LinePos, Cnt1).
-
-
-/* 
-    Leading available position in a line 
-    -1 if there is a piece at the start of the line
-    or position for leading empty space of line
-*/
-get_leading_pos_line(Line, Position):-
-    aux_get_leading_pos_line(Line, Position, -1).
-
-aux_get_leading_pos_line([], Cnt, Cnt).
-aux_get_leading_pos_line([1|_], Cnt, Cnt).
-aux_get_leading_pos_line([2|_], Cnt, Cnt).
-    
-aux_get_leading_pos_line([_|T], Position, Cnt):-
-    Cnt1 is Cnt+1,
-    aux_get_leading_pos_line(T, Position, Cnt1).
-
-
-/* 
-    Trailing available position in a line 
-    19 if there is a piece at the end of the line
-    or position for trailing empty space of line
-*/
-get_trailing_pos_line(Line, Position):-
-    reverse(Line, RevLine),
-    aux_get_trailing_pos_line(RevLine, Position, 19).
-
-aux_get_trailing_pos_line([], Cnt, Cnt).
-aux_get_trailing_pos_line([1|_], Cnt, Cnt).
-aux_get_trailing_pos_line([2|_], Cnt, Cnt).
-    
-aux_get_trailing_pos_line([_|T], Position, Cnt):-
-    Cnt1 is Cnt-1,
-    aux_get_trailing_pos_line(T, Position, Cnt1).
-
-    
-
-
-
-
-
+push_stones_vertically(Board, NewBoard, Coord, _, LinePos1, LinePos2, PushedCell, Cell):-
+    set_cell(Coord, LinePos1, Cell, Board, Board2),
+    set_cell(Coord, LinePos2, PushedCell, Board2, NewBoard).

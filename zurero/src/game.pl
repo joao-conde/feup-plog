@@ -18,7 +18,6 @@ play_game([Board, Player, _]):-
     initial_board(Board),
     print_board(Board),
     get_first_coords(Row, Col), 
-    
     player_stone(Player, Cell),
     set_cell(Col, Row, Cell, Board, NewBoard),
     switch_turn(Player, NextPlayer),
@@ -32,8 +31,6 @@ play_game([Board, Player, pvp]):-
     get_coord(Coord, Direction), %turns input to 0-based indexes
     
     %validate_move(Coord, Direction),
-    %TODO make "throw_stone"
-    %make move -> updateBoard
     player_stone(Player, Cell),
     throw_stone(Board, NewBoard, Coord, Direction, Cell),
     switch_turn(Player, NextPlayer),

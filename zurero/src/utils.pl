@@ -130,3 +130,97 @@ get_first_coords(InvRow, Col):-
 	letter_to_int(ColLetter, Col).
 
 
+/* 
+    Leading available position in a line 
+    -1 if there is a piece at the start of the line
+    or position for leading empty space of line
+*/
+get_leading_pos_line(Line, Position):-
+    aux_get_leading_pos_line(Line, Position, -1).
+
+aux_get_leading_pos_line([], Cnt, Cnt).
+aux_get_leading_pos_line([1|_], Cnt, Cnt).
+aux_get_leading_pos_line([2|_], Cnt, Cnt).
+    
+aux_get_leading_pos_line([_|T], Position, Cnt):-
+    Cnt1 is Cnt+1,
+    aux_get_leading_pos_line(T, Position, Cnt1).
+
+
+/* 
+    Trailing available position in a line 
+    19 if there is a piece at the end of the line
+    or position for trailing empty space of line
+*/
+get_trailing_pos_line(Line, Position):-
+    reverse(Line, RevLine),
+    aux_get_trailing_pos_line(RevLine, Position, 19).
+
+aux_get_trailing_pos_line([], Cnt, Cnt).
+aux_get_trailing_pos_line([1|_], Cnt, Cnt).
+aux_get_trailing_pos_line([2|_], Cnt, Cnt).
+    
+aux_get_trailing_pos_line([_|T], Position, Cnt):-
+    Cnt1 is Cnt-1,
+    aux_get_trailing_pos_line(T, Position, Cnt1).
+
+/* 
+    Leading available position in a column 
+    -1 if there is a piece at the start of the column
+    or position for leading empty space of column
+*/
+get_leading_pos_col(Board, ElColPos, LinePos):-
+    aux_get_leading_pos_col(Board, ElColPos, LinePos, -1).
+
+aux_get_leading_pos_col([], _, Cnt, Cnt).
+aux_get_leading_pos_col([Line|_], ElColPos, Cnt, Cnt):-
+    \+ nth0(ElColPos, Line, 0).
+
+aux_get_leading_pos_col([Line|T], ElColPos, LinePos, Cnt):-
+    nth0(ElColPos, Line, 0), %empty
+    Cnt1 is Cnt+1,
+    aux_get_leading_pos_col(T, ElColPos, LinePos, Cnt1).
+
+/* 
+    Trailing available position in a column
+    19 if there is a piece at the end of the column
+    or position for trailing empty space of column
+*/
+get_trailing_pos_col(Board, ElColPos, LinePos):-
+    reverse(Board, RevBoard),
+    aux_get_trailing_pos_col(RevBoard, ElColPos, LinePos, 19).
+
+aux_get_trailing_pos_col([], _, Cnt, Cnt).
+aux_get_trailing_pos_col([Line|_], ElColPos, Cnt, Cnt):-
+    \+ nth0(ElColPos, Line, 0).
+
+aux_get_trailing_pos_col([Line|T], ElColPos, LinePos, Cnt):-
+    nth0(ElColPos, Line, 0), %empty
+    Cnt1 is Cnt-1,
+    aux_get_trailing_pos_col(T, ElColPos, LinePos, Cnt1).
+
+
+/**
+    set_cell(-Col, -Row, -Elem, -Board, +NewBoard)
+
+    Unifies NewBoard with a Board where at position (Row, Col) there is piece Elem.
+    Makes calls to predicate set_cell_list for each of the rows.
+*/
+set_cell(ElemCol, 0, NewElem, [RowAtTheHead|RemainingRows], [NewRowAtTheHead|RemainingRows]):-
+	set_cell_list(ElemCol, NewElem, RowAtTheHead, NewRowAtTheHead).
+
+set_cell(ElemCol, ElemRow, NewElem, [RowAtTheHead|RemainingRows], [RowAtTheHead|ResultRemainingRows]):-
+	ElemRow > 0,
+	ElemRow1 is ElemRow-1,
+	set_cell(ElemCol, ElemRow1, NewElem, RemainingRows, ResultRemainingRows).
+
+/**
+    set_cell_list(-Idx, -Elem, -Row, +UpdatedRow)
+
+    Unifies UpdatedRow with a Row where at position Idx there is piece Elem
+*/
+set_cell_list(0, Elem, [_|L], [Elem|L]).
+set_cell_list(I, Elem, [H|L], [H|ResL]):-
+	I > 0,
+	I1 is I-1,
+	set_cell_list(I1, Elem, L, ResL).
