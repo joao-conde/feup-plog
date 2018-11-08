@@ -227,6 +227,6 @@ set_cell_list(I, Elem, [H|L], [H|ResL]):-
 
 
 %no pieces (all 0's)
-empty([]).
-empty([0|T]):-
-    empty(T).
+empty(Line):- 
+    \+ member(1, Line),
+    \+ member(2, Line).

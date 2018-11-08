@@ -220,7 +220,6 @@ valid_move_line(Board, Coord):-
     nth0(Coord, Board, Line),
     \+ empty(Line).
 
-
 %----
 valid_move_col([Line|_], Coord):-
     \+ nth0(Coord, Line, 0).
@@ -228,3 +227,8 @@ valid_move_col([Line|_], Coord):-
 valid_move_col([Line|Board], Coord):-
     nth0(Coord, Line, 0),
     valid_move_col(Board, Coord).
+
+
+%%%%%%%%%%%%%% TESTING GAME OVER AND BOARD EVALUATION %%%%%%%%%%%%%%
+
+
