@@ -54,6 +54,29 @@ initial_board([[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
               [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
               [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]]).
 
+/*
+    TEST BOARD
+*/
+  test_board([[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0], 
+              [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+              [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+              [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+              [0,0,0,0,0,0,0,0,2,2,2,0,2,0,0,0,0,0,0],
+              [0,0,0,0,0,0,0,1,2,0,0,0,0,0,0,0,0,0,0],
+              [0,0,0,0,0,0,0,1,2,0,0,0,0,0,0,0,0,0,0],
+              [0,0,0,0,0,0,0,1,2,0,0,0,0,0,0,0,0,0,0],
+              [0,0,0,0,0,0,0,1,2,0,0,0,0,0,0,0,0,0,0],
+              [0,0,0,0,0,0,0,1,2,0,0,0,0,0,0,0,0,0,0],
+              [0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0],
+              [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+              [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+              [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+              [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+              [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+              [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+              [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+              [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]]).
+
 %%%%%%%%%%%%%%%%%%%%%%
 %   BOARD DISPLAY    %
 %%%%%%%%%%%%%%%%%%%%%%
@@ -225,7 +248,13 @@ valid_move_col([Line|Board], Coord):-
 
 
 %%%%%%%%%%%%%% TESTING GAME OVER AND BOARD EVALUATION %%%%%%%%%%%%%%
-cnt_in_a_row_line(Line, Piece, InARow):- aux_cnt_in_a_row_line(Line, Piece, InARow, 0, 0).
+
+
+
+%--------Counts in a row occurrences of a piece in a line
+cnt_in_a_row_line(Board, LineNumb, Piece, InARow):- 
+    nth0(LineNumb, Board, Line),
+    aux_cnt_in_a_row_line(Line, Piece, InARow, 0, 0).
 
 aux_cnt_in_a_row_line([], _, Max, Cnt, Max):- Cnt =< Max.
 aux_cnt_in_a_row_line([], _, Cnt, Cnt, Max):- Cnt > Max.
@@ -243,3 +272,34 @@ aux_cnt_in_a_row_line([H|T], Piece, InARow, Cnt, Max):-
     H \= Piece,
     Cnt =< Max,
     aux_cnt_in_a_row_line(T, Piece, InARow, 0, Max).
+%--------
+
+%--------Counts in a row occurrences of a piece in a column
+cnt_in_a_row_col(Board, Col, Piece, InARow):- aux_cnt_in_a_row_col(Board, Col, Piece, InARow, 0, 0).
+
+aux_cnt_in_a_row_col([], _, _, Max, Cnt, Max):- Cnt =< Max.
+aux_cnt_in_a_row_col([], _, _, Cnt, Cnt, Max):- Cnt > Max.
+
+aux_cnt_in_a_row_col([Line|T], Col, Piece, InARow, Cnt, Max):-
+    nth0(Col, Line, Piece),
+    Cnt1 is Cnt+1,
+    aux_cnt_in_a_row_col(T, Col, Piece, InARow, Cnt1, Max).
+
+aux_cnt_in_a_row_col([Line|T], Col, Piece, InARow, Cnt, Max):-
+    nth0(Col, Line, H),
+    H \= Piece,
+    Cnt > Max,
+    aux_cnt_in_a_row_col(T, Col, Piece, InARow, 0, Cnt).
+
+aux_cnt_in_a_row_col([Line|T], Col, Piece, InARow, Cnt, Max):-
+    nth0(Col, Line, H),
+    H \= Piece,
+    Cnt =< Max,
+    aux_cnt_in_a_row_col(T, Col, Piece, InARow, 0, Max).
+%--------
+
+%--------Counts in a row occurrences of a piece in a forwardslash diagonal (/)
+%--------
+
+%--------Counts in a row occurrences of a piece in a backslash diagonal (\)
+%--------
