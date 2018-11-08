@@ -203,17 +203,13 @@ push_stones_vertically(Board, NewBoard, Coord, _, LinePos1, LinePos2, PushedPiec
 
 
 %VALID MOVE
-valid_move(Board, Coord, top):-
-    valid_move_col(Board, Coord).
+valid_move(Board, Coord, top):- valid_move_col(Board, Coord).
 
-valid_move(Board, Coord, bot):-
-    valid_move_col(Board, Coord).
+valid_move(Board, Coord, bot):- valid_move_col(Board, Coord).
 
-valid_move(Board, Coord, left):-
-    valid_move_line(Board, Coord).
+valid_move(Board, Coord, left):- valid_move_line(Board, Coord).
 
-valid_move(Board, Coord, right):-
-    valid_move_line(Board, Coord).
+valid_move(Board, Coord, right):- valid_move_line(Board, Coord).
 
 %----
 valid_move_line(Board, Coord):-
@@ -221,8 +217,7 @@ valid_move_line(Board, Coord):-
     \+ empty(Line).
 
 %----
-valid_move_col([Line|_], Coord):-
-    \+ nth0(Coord, Line, 0).
+valid_move_col([Line|_], Coord):- \+ nth0(Coord, Line, 0).
 
 valid_move_col([Line|Board], Coord):-
     nth0(Coord, Line, 0),
@@ -230,5 +225,21 @@ valid_move_col([Line|Board], Coord):-
 
 
 %%%%%%%%%%%%%% TESTING GAME OVER AND BOARD EVALUATION %%%%%%%%%%%%%%
+cnt_in_a_row_line(Line, Piece, InARow):- aux_cnt_in_a_row_line(Line, Piece, InARow, 0, 0).
 
+aux_cnt_in_a_row_line([], _, Max, Cnt, Max):- Cnt =< Max.
+aux_cnt_in_a_row_line([], _, Cnt, Cnt, Max):- Cnt > Max.
 
+aux_cnt_in_a_row_line([Piece|T], Piece, InARow, Cnt, Max):-
+    Cnt1 is Cnt+1,
+    aux_cnt_in_a_row_line(T, Piece, InARow, Cnt1, Max).
+
+aux_cnt_in_a_row_line([H|T], Piece, InARow, Cnt, Max):-
+    H \= Piece,
+    Cnt > Max,
+    aux_cnt_in_a_row_line(T, Piece, InARow, 0, Cnt).
+
+aux_cnt_in_a_row_line([H|T], Piece, InARow, Cnt, Max):-
+    H \= Piece,
+    Cnt =< Max,
+    aux_cnt_in_a_row_line(T, Piece, InARow, 0, Max).
