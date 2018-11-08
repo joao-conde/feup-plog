@@ -230,3 +230,7 @@ set_cell_list(I, Elem, [H|L], [H|ResL]):-
 empty(Line):- 
     \+ member(1, Line),
     \+ member(2, Line).
+
+%generates numbers in range [N, M]
+between(N, M, K) :- N =< M, K = N.
+between(N, M, K) :- N < M, N1 is N+1, between(N1, M, K).
