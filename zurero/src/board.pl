@@ -54,15 +54,6 @@ initial_board([[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
               [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
               [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]]).
 
-/*
-    TEST BOARD
-*/
-  test_board([[1,0,0,0,0,2], 
-              [0,1,0,0,2,0],
-              [0,0,1,2,0,0],
-              [0,0,2,1,0,0],
-              [0,2,0,0,1,0],
-              [2,0,0,0,0,1]]).
 
 %%%%%%%%%%%%%%%%%%%%%%
 %   BOARD DISPLAY    %
@@ -238,19 +229,9 @@ valid_move_col([Line|Board], Coord):-
 
 %------ALL LINES max in a row count
 max_in_a_row_lines(Board, Piece, Max):-
-    aux_max_in_a_row_lines(Board, Piece, Max, -1).
-
-aux_max_in_a_row_lines([], _, Aux, Aux).
-
-aux_max_in_a_row_lines([Line|Board], Piece, Max, Aux):-
-    cnt_in_a_row_line(Line, Piece, LineMax),
-    LineMax > Aux,
-    aux_max_in_a_row_lines(Board, Piece, Max, LineMax).
-
-aux_max_in_a_row_lines([Line|Board], Piece, Max, Aux):-
-    cnt_in_a_row_line(Line, Piece, LineMax),
-    LineMax =< Aux,
-    aux_max_in_a_row_lines(Board, Piece, Max, Aux).
+    length(Board, Lines),
+    findall(X, ( (between(1, Lines, I), nth1(I, Board, Line), cnt_in_a_row_line(Line, Piece, X)) ), L),
+    max_member(Max, L).
 %------
 
 %------ALL COLUMNS max in a row count
@@ -273,7 +254,8 @@ aux_max_in_a_row_cols(Board, Piece, Max, Aux, NumbCols, Cnt):-
     aux_max_in_a_row_cols(Board, Piece, Max, Aux, NumbCols, Cnt1).
 
 %--------Counts in a row occurrences of a piece in a line
-cnt_in_a_row_line(Line, Piece, InARow):- aux_cnt_in_a_row_line(Line, Piece, InARow, 0, 0).
+cnt_in_a_row_line(Line, Piece, InARow):- 
+    aux_cnt_in_a_row_line(Line, Piece, InARow, 0, 0).
 
 aux_cnt_in_a_row_line([], _, Max, Cnt, Max):- Cnt =< Max.
 aux_cnt_in_a_row_line([], _, Cnt, Cnt, Max):- Cnt > Max.
@@ -294,40 +276,34 @@ aux_cnt_in_a_row_line([H|T], Piece, InARow, Cnt, Max):-
 %--------
 
 %--------Counts in a row occurrences of a piece in a column
-cnt_in_a_row_col(Board, Col, Piece, InARow):- aux_cnt_in_a_row_col(Board, Col, Piece, InARow, 0, 0).
-
-aux_cnt_in_a_row_col([], _, _, Max, Cnt, Max):- Cnt =< Max.
-aux_cnt_in_a_row_col([], _, _, Cnt, Cnt, Max):- Cnt > Max.
-
-aux_cnt_in_a_row_col([Line|T], Col, Piece, InARow, Cnt, Max):-
-    nth0(Col, Line, Piece),
-    Cnt1 is Cnt+1,
-    aux_cnt_in_a_row_col(T, Col, Piece, InARow, Cnt1, Max).
-
-aux_cnt_in_a_row_col([Line|T], Col, Piece, InARow, Cnt, Max):-
-    nth0(Col, Line, H),
-    H \= Piece,
-    Cnt > Max,
-    aux_cnt_in_a_row_col(T, Col, Piece, InARow, 0, Cnt).
-
-aux_cnt_in_a_row_col([Line|T], Col, Piece, InARow, Cnt, Max):-
-    nth0(Col, Line, H),
-    H \= Piece,
-    Cnt =< Max,
-    aux_cnt_in_a_row_col(T, Col, Piece, InARow, 0, Max).
+cnt_in_a_row_col(Board, Col, Piece, InARow):- 
+    length(Board, NumbLines),
+    Col1 is Col+1,
+    findall(Cell, (between(1, NumbLines, I), nth1(I, Board, Line), nth1(Col1, Line, Cell)), L),
+    cnt_in_a_row_line(L, Piece, InARow).
 %--------
 
 %--------Counts in a row occurrences of a piece in a forwardslash (fs) diagonal (/)
-getDiagonal(Grid, Diagonal) :-
-    length(Grid, Columns),
-    bagof(Cell,
-          I^Row^(between(1, Columns, I),
-             (nth1(I, Grid, Row),
-              nth1(I, Row, Cell))),
-          Diagonal).
-
 
 %--------
 
+
+
+/*
+    TEST BOARD
+*/
+  test_board([[1,2,3,4,5,6], 
+              [1,1,2,3,4,5],
+              [1,7,1,2,3,4],
+              [1,8,7,1,2,3],
+              [10,9,8,7,1,2],
+              [11,10,10,10,7,1]]).
+
 %--------Counts in a row occurrences of a piece in a backslash (bs) diagonal (\)
+% get_bs_diagonal(Board, BsDiag, Offset).
+
+
+
+
+
 %--------
