@@ -230,28 +230,21 @@ valid_move_col([Line|Board], Coord):-
 %------ALL LINES max in a row count
 max_in_a_row_lines(Board, Piece, Max):-
     length(Board, Lines),
-    findall(X, ( (between(1, Lines, I), nth1(I, Board, Line), cnt_in_a_row_line(Line, Piece, X)) ), L),
+    findall(Occur, ( (between(1, Lines, I), 
+                        nth1(I, Board, Line), 
+                        cnt_in_a_row_line(Line, Piece, Occur)) ),
+                        L),
     max_member(Max, L).
-%------
-
+    
 %------ALL COLUMNS max in a row count
 max_in_a_row_cols([Line|Board], Piece, Max):-
     length(Line, NumbCols),
-    aux_max_in_a_row_cols([Line|Board], Piece, Max, -1, NumbCols, 0).
+    NumbCols0 is NumbCols-1,
+    findall(Occur, ( (between(0, NumbCols0, Col),
+                        cnt_in_a_row_col([Line|Board], Col, Piece, Occur))),   
+                        L),
+    max_member(Max, L).
 
-aux_max_in_a_row_cols(_, _, Aux, Aux, Cnt, Cnt).
-
-aux_max_in_a_row_cols(Board, Piece, Max, Aux, NumbCols, Cnt):-
-    cnt_in_a_row_col(Board, Cnt, Piece, ColMax),
-    Cnt1 is Cnt+1,
-    ColMax > Aux,
-    aux_max_in_a_row_cols(Board, Piece, Max, ColMax, NumbCols, Cnt1).
-
-aux_max_in_a_row_cols(Board, Piece, Max, Aux, NumbCols, Cnt):-
-    cnt_in_a_row_col(Board, Cnt, Piece, ColMax),
-    Cnt1 is Cnt+1,
-    ColMax =< Aux,
-    aux_max_in_a_row_cols(Board, Piece, Max, Aux, NumbCols, Cnt1).
 
 %--------Counts in a row occurrences of a piece in a line
 cnt_in_a_row_line(Line, Piece, InARow):- 
@@ -292,10 +285,10 @@ cnt_in_a_row_col(Board, Col, Piece, InARow):-
 /*
     TEST BOARD
 */
-  test_board([[1,2,3,4,5,6], 
-              [1,1,2,3,4,5],
-              [1,7,1,2,3,4],
-              [1,8,7,1,2,3],
+  test_board([[1,2,3,4,2,6], 
+              [2,1,2,3,2,5],
+              [1,7,2,2,2,4],
+              [1,8,2,1,2,3],
               [10,9,8,7,1,2],
               [11,10,10,10,7,1]]).
 
