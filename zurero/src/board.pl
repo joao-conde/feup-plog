@@ -29,6 +29,11 @@ board_element(0, '-+-').
 board_element(1, '-B-').
 board_element(2, '-W-').
 
+
+/* max value */
+max_int(500).
+min_int(-500).
+
 /**
     initial_board(-Board)
 
@@ -279,24 +284,20 @@ cnt_in_a_row_col(Board, Col, Piece, InARow):-
 %--------Counts in a row occurrences of a piece in a forwardslash (fs) diagonal (/)
 
 %--------
+   
 
+%--------EVAL TEST------
+evaluate(Board, Player, Eval):-
+    player_stone(Player, Piece),
+    max_in_a_row_lines(Board, Piece, LinesCnt),
+    max_in_a_row_cols(Board, Piece, ColsCnt),
+    aux_eval([LinesCnt, ColsCnt], Eval),
+    write(Eval), nl.
 
+aux_eval(Cnts, Eval):-
+    max_list(Cnts, Max),
+    Max >= 5,
+    max_int(Eval).
 
-/*
-    TEST BOARD
-*/
-  test_board([[1,2,3,4,2,6], 
-              [2,1,2,3,2,5],
-              [1,7,2,2,2,4],
-              [1,8,2,1,2,3],
-              [10,9,8,7,1,2],
-              [11,10,10,10,7,1]]).
-
-%--------Counts in a row occurrences of a piece in a backslash (bs) diagonal (\)
-% get_bs_diagonal(Board, BsDiag, Offset).
-
-
-
-
-
-%--------
+aux_eval(Cnts, Eval):-
+    sum_list(Cnts, Eval).

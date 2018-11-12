@@ -234,3 +234,32 @@ empty(Line):-
 %generates numbers in range [N, M]
 between(N, M, K) :- N =< M, K = N.
 between(N, M, K) :- N < M, N1 is N+1, between(N1, M, K).
+
+
+%max element of a list, apparently Sicstus lacks this basic predicate (even though it appears to be in documentation)
+%and yes i did include the library :)
+%list of integers >= 0 
+max_list(L, Max):-
+    min_int(MinInt),
+    aux_max_list(L, Max, MinInt).
+
+aux_max_list([], Max, Max).
+aux_max_list([H|T], Max, Curr):-
+    H > Curr,
+    aux_max_list(T, Max, H).
+
+aux_max_list([H|T], Max, Curr):-
+    H =< Curr,
+    aux_max_list(T, Max, Curr).
+
+
+%SICSTUS DOES NOT HAVE A SUMLIST EITHER!=!=?!?
+sum_list(L, Sum):-
+    aux_sum_list(L, Sum, 0).
+
+aux_sum_list([], Sum, Sum).
+aux_sum_list([H|T], Sum, Acc):-
+    Acc1 is Acc + H,
+    aux_sum_list(T, Sum, Acc1).
+
+    

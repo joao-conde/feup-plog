@@ -16,6 +16,8 @@ play_game([Board, Player, _]):-
 play_game([Board, Player, pvp]):-
     clear_console,
     print_board(Board),
+    write('PLAYER: '), write(Player), nl,
+    write('BOARD EVAL: '), evaluate(Board, Player, _), nl,
     get_direction(Direction), %1-top, 2-right, 3-bot, 4-left
 
     get_coord(Coord, Direction), %turns input to 0-based indexes
