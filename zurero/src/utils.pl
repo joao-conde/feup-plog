@@ -14,13 +14,12 @@ letter_to_int(Letter, Num) :-
     Num is AsciiL - AsciiA.
 
 % Clears console by printing multiple newlines 
-clear_console:- clear_console(50), !.
+clear_console:- clear_console(25), !.
 clear_console(0).
 clear_console(N):-
 	nl,
 	N1 is N-1,
 	clear_console(N1).
-
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %	INPUT REQUEST AND HANDLING	%
@@ -47,6 +46,9 @@ print_coord_msg:-
 
 print_first_move_msg:-
 	write('First move of the game, place stone anywhere\n').
+
+print_player_turn(Player):-
+    write(Player), write(' \'s turn\n').
 
 /**
     get_int(-Input)

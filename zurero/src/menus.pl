@@ -81,7 +81,7 @@ game_mode_menu:-
 game_mode_menu_option(1):- 
 	create_pvp_game(Game),
 	play_game(Game).
-
+	
 game_mode_menu_option(2):- player_computer_menu, game_mode_menu.
 game_mode_menu_option(3):- write('LAUNCH BOT V BOT (ez vs hard by default)'), game_mode_menu.
 game_mode_menu_option(4):- main_menu.
@@ -113,7 +113,10 @@ player_computer_menu:-
 	get_int(Input),
 	player_computer_menu_option(Input).
 
-player_computer_menu_option(1):- write('LAUNCH PLAYER VS EASY BOT'), player_computer_menu.
+player_computer_menu_option(1):- 
+	create_pvb_game(Game, easy), 
+	play_game(Game).
+
 player_computer_menu_option(2):- write('LAUNCH PLAYER VS HARD BOT'), player_computer_menu.
 player_computer_menu_option(3). %back to previous menu
 player_computer_menu_option(_):- 
