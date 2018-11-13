@@ -2,9 +2,9 @@ create_pvp_game(Game):-
 	initial_board2(Board),
     Game = [Board, black, pvp].
 
-create_pvb_game(Game, easy):-
+create_pvb_game(Game, Diff):-
 	initial_board(Board),
-    Game = [Board, black, pvb, easy].
+    Game = [Board, black, pvb, Diff].
 
 % First move, place anywhere
 play_game([Board, Player|Other]):-
@@ -21,7 +21,7 @@ play_game([Board, Player, pvp]):-
     clear_console,
     print_board(Board),
     print_player_turn(Player),
-    player_move(Board, Player, NewBoard), !,
+    player_move(Board, Player, NewBoard),
     check_game_over(NewBoard, Player),
     switch_turn(Player, NextPlayer),
     play_game([NewBoard, NextPlayer, pvp]).
@@ -31,18 +31,18 @@ play_game([Board, Player, pvb, Diff]):-
     clear_console,
     print_board(Board),
     print_player_turn(Player),
-    player_move(Board, Player, NewBoard),
+    request_enter,
+    bot_move(Diff, Board, Player, NewBoard),
+    print_board(NewBoard),
+    request_enter,
     check_game_over(NewBoard, Player),
     switch_turn(Player, NextPlayer),
     print_board(NewBoard),
-    bot_move(Diff, NewBoard, NextPlayer, NewBoard2),
+    player_move(NewBoard, NextPlayer, NewBoard2),
     check_game_over(NewBoard2, NextPlayer),
-    request_enter,
     play_game([NewBoard2, Player, pvb, Diff]).
 
 %---------------
-
-
 bot_move(easy, Board, Player, NewBoard):-
     findall(Coord-Dir, valid_move(Board, Coord, Dir), ValidMoves),
     length(ValidMoves, NumbMoves),
@@ -52,11 +52,18 @@ bot_move(easy, Board, Player, NewBoard):-
     throw_stone(Board, NewBoard, MvCoord, MvDir, Piece).
 
 
+bot_move(hard, Board, Player, NewBoard):-
+    setof(Coord-Dir, valid_move(Board, Coord, Dir), AscValidMoves),
+    reverse(AscValidMoves, [BestMoveCoord-BestMoveDir|_]),
+    player_stone(Player, Piece),
+    throw_stone(Board, NewBoard, BestMoveCoord, BestMoveDir, Piece).
+
 
 player_first_move(Board, Player, NewBoard):-
     get_first_coords(Line, Col), 
     player_stone(Player, Piece),
     set_cell(Col, Line, Piece, Board, NewBoard).
+
 
 player_move(Board, Player, NewBoard):-
     get_direction(Direction), %1-top, 2-right, 3-bot, 4-left

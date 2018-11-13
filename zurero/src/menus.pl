@@ -117,7 +117,10 @@ player_computer_menu_option(1):-
 	create_pvb_game(Game, easy), 
 	play_game(Game).
 
-player_computer_menu_option(2):- write('LAUNCH PLAYER VS HARD BOT'), player_computer_menu.
+player_computer_menu_option(2):- 
+	create_pvb_game(Game, hard), 
+	play_game(Game).
+
 player_computer_menu_option(3). %back to previous menu
 player_computer_menu_option(_):- 
 	write('\nError: invalid input.\n'),
