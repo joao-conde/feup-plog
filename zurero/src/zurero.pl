@@ -4,7 +4,6 @@
 :- use_module(library(lists)).
 :- use_module(library(random)).
 
-
 :- include('utils.pl').
 :- include('menus.pl').
 :- include('game.pl').

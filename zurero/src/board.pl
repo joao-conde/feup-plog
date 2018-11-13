@@ -324,9 +324,54 @@ aux_eval(Cnts, Eval):-
     sum_list(Cnts, Eval).
 
 %----------Win check TEST-----
+%NEED TO CHECK MAXIMUM BUT KEEP SUM OF ALL
+%SO BOT MAXIMIZES PLACING MORE IN A ROW
+%TODO in the end of the project
 check_win(Board, Player):-
     player_stone(Player, Piece),
     max_in_a_row_lines(Board, Piece, LinesCnt),
     max_in_a_row_cols(Board, Piece, ColsCnt),
     max_list([LinesCnt, ColsCnt], Max),
     Max >= 5.
+
+test_board_diag([[ 0, 1, 2, 3, 4, 5],
+                 [-1, 0, 1, 2, 3, 4],
+                 [-2,-1, 0, 1, 2, 3],
+                 [-3,-2,-1, 0, 1, 2],
+                 [-4,-3,-2,-1, 0, 1],
+                 [-5,-4,-3,-2,-1, 0]]).
+
+print_matrix([]).
+print_matrix([H|T]) :- write(H), nl, print_matrix(T).
+
+get_bs_diagonals(Board, Diags):-
+    nth0(0, Board, FLine),
+    length(Board, Lines),
+    length(FLine, Cols),
+    Lines1 is Lines-1,
+    findall(DiagEl,
+                (between(1, Cols, C), 
+                 once(get_bs_diagonal(Board, 0, C, DiagEl))
+                ), 
+            TopDiags),
+    findall(DiagEl,
+                (between(1, Lines1, L),
+                once(get_bs_diagonal(Board, L, 1, DiagEl))                    
+                ),
+            BotDiags),
+    append(TopDiags, BotDiags, Diags).
+    
+
+get_bs_diagonal([_|Board], L, C, BsDiag):-
+    L1 is L - 1,
+    get_bs_diagonal(Board, L1, C, BsDiag).
+
+get_bs_diagonal(Board, 0, C, BsDiag):-
+    aux_get_bs_diagonal(Board, C, BsDiag, []).
+
+aux_get_bs_diagonal([FLine|Board], C, BsDiag, Acc):-
+    nth1(C, FLine, DiagEl),
+    C1 is C + 1,
+    aux_get_bs_diagonal(Board, C1, BsDiag, [DiagEl|Acc]).
+
+aux_get_bs_diagonal(_, _, BsDiag, BsDiag).
