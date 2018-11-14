@@ -334,44 +334,53 @@ check_win(Board, Player):-
     max_list([LinesCnt, ColsCnt], Max),
     Max >= 5.
 
-test_board_diag([[ 0, 1, 2, 3, 4, 5],
-                 [-1, 0, 1, 2, 3, 4],
-                 [-2,-1, 0, 1, 2, 3],
-                 [-3,-2,-1, 0, 1, 2],
-                 [-4,-3,-2,-1, 0, 1],
-                 [-5,-4,-3,-2,-1, 0]]).
 
-print_matrix([]).
-print_matrix([H|T]) :- write(H), nl, print_matrix(T).
 
-get_bs_diagonals(Board, Diags):-
+get_all_diags(Board, Diags):-
     nth0(0, Board, FLine),
     length(Board, Lines),
     length(FLine, Cols),
     Lines1 is Lines-1,
+    get_diags(1, 1, Board, Cols, Lines1, BsDiags),     %get bs \ diagonals
+    get_diags(-1, Cols, Board, Cols, Lines1, FsDiags),     %get fs / diagonals
+    append(BsDiags, FsDiags, Diags).
+
+get_diags(Inc, ScanStart, Board, NCols, NLines, BsDiags):-
     findall(DiagEl,
-                (between(1, Cols, C), 
-                 once(get_bs_diagonal(Board, 0, C, DiagEl))
+                (between(1, NCols, C), 
+                 once(get_diagonal(Inc, Board, 0, C, DiagEl))
                 ), 
-            TopDiags),
+            TopBsDiags),
     findall(DiagEl,
-                (between(1, Lines1, L),
-                once(get_bs_diagonal(Board, L, 1, DiagEl))                    
+                (between(1, NLines, L),
+                once(get_diagonal(Inc, Board, L, ScanStart, DiagEl))                    
                 ),
-            BotDiags),
-    append(TopDiags, BotDiags, Diags).
-    
+            BotBsDiags),
+    append(TopBsDiags, BotBsDiags, BsDiags).
 
-get_bs_diagonal([_|Board], L, C, BsDiag):-
+
+%Inc: 1 for fs and -1 for bs
+get_diagonal(Inc, [_|Board], L, C, BsDiag):-
     L1 is L - 1,
-    get_bs_diagonal(Board, L1, C, BsDiag).
+    get_diagonal(Inc, Board, L1, C, BsDiag).
 
-get_bs_diagonal(Board, 0, C, BsDiag):-
-    aux_get_bs_diagonal(Board, C, BsDiag, []).
+get_diagonal(Inc, Board, 0, C, BsDiag):-
+    aux_get_diagonal(Inc, Board, C, BsDiag, []).
 
-aux_get_bs_diagonal([FLine|Board], C, BsDiag, Acc):-
+aux_get_diagonal(Inc, [FLine|Board], C, BsDiag, Acc):-
     nth1(C, FLine, DiagEl),
-    C1 is C + 1,
-    aux_get_bs_diagonal(Board, C1, BsDiag, [DiagEl|Acc]).
+    C1 is C + Inc,
+    aux_get_diagonal(Inc, Board, C1, BsDiag, [DiagEl|Acc]).
 
-aux_get_bs_diagonal(_, _, BsDiag, BsDiag).
+aux_get_diagonal(_, _, _, BsDiag, BsDiag).
+
+
+% test_board_diag([[ 0, 1, 2, 3, 4, 5],
+%                  [-1, 0, 1, 2, 3, 4],
+%                  [-2,-1, 0, 1, 2, 3],
+%                  [-3,-2,-1, 0, 1, 2],
+%                  [-4,-3,-2,-1, 0, 1],
+%                  [-5,-4,-3,-2,-1, 0]]).
+
+% print_matrix([]).
+% print_matrix([H|T]) :- write(H), nl, print_matrix(T).
