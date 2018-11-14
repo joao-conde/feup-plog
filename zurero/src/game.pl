@@ -3,12 +3,12 @@ create_pvp_game(Game):-
     Game = [Board, black, pvp].
 
 create_pvb_game(Game, Diff):-
-	initial_board(Board),
+	initial_board2(Board),
     Game = [Board, black, pvb, Diff].
 
 % First move, place anywhere
 play_game([Board, Player|Other]):-
-    initial_board(Board),
+    initial_board2(Board),
     clear_console,
     print_board(Board),
     print_player_turn(Player),
@@ -40,6 +40,7 @@ play_game([Board, Player, pvb, Diff]):-
     print_board(NewBoard),
     player_move(NewBoard, NextPlayer, NewBoard2),
     check_game_over(NewBoard2, NextPlayer),
+    request_enter,
     play_game([NewBoard2, Player, pvb, Diff]).
 
 %---------------
@@ -52,13 +53,11 @@ bot_move(easy, Board, Player, NewBoard):-
     throw_stone(Board, NewBoard, MvCoord, MvDir, Piece).
 
 
-%TODO: hard bot
 bot_move(hard, Board, Player, NewBoard):-
     player_stone(Player, Piece),
     setof(Eval-Coord-Dir, 
                 (valid_move(Board, Coord, Dir),
-                 once(throw_stone(Board, TestBoard, Coord, Dir, Piece)),
-                 once(evaluate(TestBoard, Piece, Eval))
+                 evaluate_move(Board, Coord, Dir, Piece, Eval)
                 ), 
             AscValidMoves),
     write(AscValidMoves), nl,

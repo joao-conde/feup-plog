@@ -70,13 +70,13 @@ initial_board2([[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
               [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
               [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
               [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+              [0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0],
+              [0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0],
               [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-              [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-              [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-              [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-              [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-              [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-              [0,0,0,0,0,0,0,0,2,2,2,2,0,0,0,0,0,0,0],
+              [0,0,0,0,0,0,0,0,0,0,0,2,0,0,0,0,0,0,0],
+              [0,0,0,0,1,0,0,0,0,0,2,0,0,0,0,0,0,0,0],
+              [0,0,0,0,0,1,0,0,0,2,0,0,0,0,0,0,0,0,0],
+              [0,0,0,0,0,0,1,0,2,0,0,0,0,0,0,0,0,0,0],
               [0,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0],
               [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]]).
 
@@ -271,6 +271,16 @@ max_in_a_row_cols([Line|Board], Piece, Max):-
                         L),
     max_member(Max, L).
 
+%------ALL DIAGONALS max in a row count
+max_in_a_row_diags(Board, Piece, Max):-
+    get_all_diags(Board, Diags),
+    length(Diags, NDiags),
+    findall(Occur, (between(1, NDiags, I),
+                    nth1(I, Diags, Diag),
+                    cnt_in_a_row_line(Diag, Piece, Occur)), 
+                    L),
+    max_member(Max, L).
+
 
 %--------Counts in a row occurrences of a piece in a line
 cnt_in_a_row_line(Line, Piece, InARow):- 
@@ -302,18 +312,18 @@ cnt_in_a_row_col(Board, Col, Piece, InARow):-
     cnt_in_a_row_line(L, Piece, InARow).
 %--------
 
-
-%--------Counts in a row occurrences of a piece in a forwardslash (fs) diagonal (/)
-
-%--------
-   
-
 %--------EVAL TEST------
+evaluate_move(Board, Coord, Dir, Piece, Eval):-
+    throw_stone(Board, NewBoard, Coord, Dir, Piece),
+    evaluate(NewBoard, Piece, Eval).
+
 evaluate(Board, Piece, Eval):-
     max_in_a_row_lines(Board, Piece, LinesCnt),
     max_in_a_row_cols(Board, Piece, ColsCnt),
-    aux_eval([LinesCnt, ColsCnt], Eval).
     
+    max_in_a_row_diags(Board, Piece, DiagsCnt),
+    aux_eval([LinesCnt, ColsCnt, DiagsCnt], Eval).
+
 aux_eval(Cnts, Eval):-
     max_list(Cnts, Max),
     Max >= 5,
@@ -332,11 +342,12 @@ check_win(Board, Player):-
     player_stone(Player, Piece),
     max_in_a_row_lines(Board, Piece, LinesCnt),
     max_in_a_row_cols(Board, Piece, ColsCnt),
-    max_list([LinesCnt, ColsCnt], Max),
+    max_in_a_row_diags(Board, Piece, DiagsCnt),
+    max_list([LinesCnt, ColsCnt, DiagsCnt], Max),
     Max >= 5.
 
 
-
+%---- get diagonals
 get_all_diags(Board, Diags):-
     nth0(0, Board, FLine),
     length(Board, Lines),
@@ -347,17 +358,19 @@ get_all_diags(Board, Diags):-
     append(BsDiags, FsDiags, Diags).
 
 get_diags(Inc, ScanStart, Board, NCols, NLines, BsDiags):-
+    %top diagonals
     findall(DiagEl,
                 (between(1, NCols, C), 
                  once(get_diagonal(Inc, Board, 0, C, DiagEl))
                 ), 
-            TopBsDiags),
+            TopDiags),
+    %bot diagonals
     findall(DiagEl,
                 (between(1, NLines, L),
                 once(get_diagonal(Inc, Board, L, ScanStart, DiagEl))                    
                 ),
-            BotBsDiags),
-    append(TopBsDiags, BotBsDiags, BsDiags).
+            BotDiags),
+    append(TopDiags, BotDiags, BsDiags).
 
 
 %Inc: 1 for fs and -1 for bs
@@ -382,6 +395,13 @@ aux_get_diagonal(_, _, _, BsDiag, BsDiag).
 %                  [-3,-2,-1, 0, 1, 2],
 %                  [-4,-3,-2,-1, 0, 1],
 %                  [-5,-4,-3,-2,-1, 0]]).
+
+test_board_diag([[1, 0, 0, 0, 0, 0],
+                 [0, 1, 0, 0, 0, 1],
+                 [0, 0, 1, 0, 1, 0],
+                 [0, 0, 0, 1, 0, 0],
+                 [0, 0, 0, 0, 1, 0],
+                 [0, 0, 0, 0, 0, 1]]).
 
 % print_matrix([]).
 % print_matrix([H|T]) :- write(H), nl, print_matrix(T).
