@@ -52,10 +52,17 @@ bot_move(easy, Board, Player, NewBoard):-
     throw_stone(Board, NewBoard, MvCoord, MvDir, Piece).
 
 
+%TODO: hard bot
 bot_move(hard, Board, Player, NewBoard):-
-    setof(Coord-Dir, valid_move(Board, Coord, Dir), AscValidMoves),
-    reverse(AscValidMoves, [BestMoveCoord-BestMoveDir|_]),
     player_stone(Player, Piece),
+    setof(Eval-Coord-Dir, 
+                (valid_move(Board, Coord, Dir),
+                 once(throw_stone(Board, TestBoard, Coord, Dir, Piece)),
+                 once(evaluate(TestBoard, Piece, Eval))
+                ), 
+            AscValidMoves),
+    write(AscValidMoves), nl,
+    reverse(AscValidMoves, [_-BestMoveCoord-BestMoveDir|_]),
     throw_stone(Board, NewBoard, BestMoveCoord, BestMoveDir, Piece).
 
 

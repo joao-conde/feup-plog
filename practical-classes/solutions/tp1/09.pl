@@ -19,12 +19,14 @@ funcionario(carlos, feup).
 % X é professor de Y
 alunos(X, Y):-
     professor(X, Domain),
-    aluno(Y, Domain).
+    aluno(Y, Domain),
+    pertence_univ(Y, F),
+    pertence_univ(X, F).
 
 
 % b)
 % X é da universidade Y
-pertence_univ(X, _):- professor(X, _).
+pertence_univ(X, Y):- funcionario(X, Y).
 pertence_univ(X, Y):- frequenta(X, Y).
 
 % c)

@@ -302,23 +302,24 @@ cnt_in_a_row_col(Board, Col, Piece, InARow):-
     cnt_in_a_row_line(L, Piece, InARow).
 %--------
 
+
 %--------Counts in a row occurrences of a piece in a forwardslash (fs) diagonal (/)
 
 %--------
    
 
 %--------EVAL TEST------
-evaluate(Board, Player, Eval):-
-    player_stone(Player, Piece),
+evaluate(Board, Piece, Eval):-
     max_in_a_row_lines(Board, Piece, LinesCnt),
     max_in_a_row_cols(Board, Piece, ColsCnt),
-    aux_eval([LinesCnt, ColsCnt], Eval),
-    write(Eval), nl.
-
+    aux_eval([LinesCnt, ColsCnt], Eval).
+    
 aux_eval(Cnts, Eval):-
     max_list(Cnts, Max),
     Max >= 5,
-    max_int(Eval).
+    max_int(MaxInt),
+    sum_list(Cnts, AuxEval),
+    Eval is MaxInt + AuxEval.
 
 aux_eval(Cnts, Eval):-
     sum_list(Cnts, Eval).
