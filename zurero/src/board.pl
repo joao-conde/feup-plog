@@ -201,7 +201,7 @@ throw_stone(Board, NewBoard, Coord, left, Piece):-
 
     Throws a piece horizontally checking if the piece it hits can move or not.
 */
-slide_horizontally(Board, NewBoard, Coord, Line, Pos, Pos1, Pos2, Piece):-
+slide_horizontally(Board, NewBoard, Coord, Line, _, Pos1, Pos2, Piece):-
     nth0(Pos2, Line, 0),
     nth0(Pos1, Line, PushedPiece),
     push_stones_horizontally(Board, NewBoard, Coord, Pos1, Pos2, PushedPiece, Piece).
@@ -224,7 +224,7 @@ push_stones_horizontally(Board, NewBoard, Coord, Pos1, Pos2, PushedPiece, Piece)
 
     Throws a piece vertically checking if the piece it hits can move or not.
 */
-slide_vertically(Board, NewBoard, Coord, LinePos, LinePos1, LinePos2, Piece):-
+slide_vertically(Board, NewBoard, Coord, _, LinePos1, LinePos2, Piece):-
     nth0(LinePos2, Board, Line2),
     nth0(LinePos1, Board, Line1),
     nth0(Coord, Line2, 0),
