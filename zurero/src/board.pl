@@ -244,7 +244,8 @@ valid_move_line(Board, Coord):-
     \+ empty(Line).
 
 %----
-valid_move_col([Line|_], Coord):- \+ nth0(Coord, Line, 0).
+valid_move_col([Line|_], Coord):- 
+    \+ nth0(Coord, Line, 0).
 
 valid_move_col([Line|Board], Coord):-
     nth0(Coord, Line, 0),
@@ -332,14 +333,14 @@ evaluate(Board, Piece, Eval):-
     aux_eval([LinesCnt, ColsCnt, DiagsCnt], Eval).
 
 aux_eval(Cnts, Eval):-
-    max_member(Max, Cnts),
+    max_lists(Max, Cnts),
     Max >= 5,
     max_int(MaxInt),
-    aux_eval(Cnts, AuxEval),
+    sum_lists(AuxEval, Cnts),
     Eval is MaxInt + AuxEval.
 
 aux_eval(Cnts, Eval):-
-    sum_lists(Cnts, Eval).
+    sum_lists(Eval, Cnts).
 
 %----------Win check TEST-----
 %NEED TO CHECK MAXIMUM BUT KEEP SUM OF ALL
