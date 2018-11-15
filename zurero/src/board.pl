@@ -196,40 +196,61 @@ throw_stone(Board, NewBoard, Coord, left, Piece):-
     Pos2 is Pos + 2, 
     slide_horizontally(Board, NewBoard, Coord, Line, Pos, Pos1, Pos2, Piece).
 
-%-------------
+/**
+    slide_horizontally(-Board, +NewBoard, -Coord, -Line, -Pos, -Pos1, -Pos2, -Piece)
+
+    Throws a piece horizontally checking if the piece it hits can move or not.
+*/
 slide_horizontally(Board, NewBoard, Coord, Line, Pos, Pos1, Pos2, Piece):-
     nth0(Pos2, Line, 0),
     nth0(Pos1, Line, PushedPiece),
-    push_stones_horizontally(Board, NewBoard, Coord, Pos, Pos1, Pos2, PushedPiece, Piece).
+    push_stones_horizontally(Board, NewBoard, Coord, Pos1, Pos2, PushedPiece, Piece).
 
 slide_horizontally(Board, NewBoard, Coord, Line, Pos, _, Pos2, Piece):-
     \+ nth0(Pos2, Line, 0),
     set_cell(Pos, Coord, Piece, Board, NewBoard).
 
+/**
+    push_stones_horizontally(-Board, +NewBoard, -Coord, -Pos1, -Pos2, -PushedPiece, -Piece)
 
-push_stones_horizontally(Board, NewBoard, Coord, _, Pos1, Pos2, PushedPiece, Piece):-
+    Sets the positions of the two pieces moved.
+*/
+push_stones_horizontally(Board, NewBoard, Coord, Pos1, Pos2, PushedPiece, Piece):-
     set_cell(Pos1, Coord, Piece, Board, Board2),
     set_cell(Pos2, Coord, PushedPiece, Board2, NewBoard).
 
-%-------------
+/**
+    slide_vertically(-Board, +NewBoard, -Coord, -LinePos, -LinePos1, -LinePos2, -Piece)
+
+    Throws a piece vertically checking if the piece it hits can move or not.
+*/
 slide_vertically(Board, NewBoard, Coord, LinePos, LinePos1, LinePos2, Piece):-
     nth0(LinePos2, Board, Line2),
     nth0(LinePos1, Board, Line1),
     nth0(Coord, Line2, 0),
     nth0(Coord, Line1, PushedPiece),    
-    push_stones_vertically(Board, NewBoard, Coord, LinePos, LinePos1, LinePos2, PushedPiece, Piece).
+    push_stones_vertically(Board, NewBoard, Coord, LinePos1, LinePos2, PushedPiece, Piece).
 
 slide_vertically(Board, NewBoard, Coord, LinePos, _, LinePos2, Piece):-
     nth0(LinePos2, Board, Line2),
     \+ nth0(Coord, Line2, 0),
     set_cell(Coord, LinePos, Piece, Board, NewBoard).
 
-push_stones_vertically(Board, NewBoard, Coord, _, LinePos1, LinePos2, PushedPiece, Piece):-
+/**
+    push_stones_vertically(-Board, +NewBoard, -Coord, -LinePos1, -LinePos2, -PushedPiece, -Piece)
+
+    Sets the positions of the two pieces moved.
+*/
+push_stones_vertically(Board, NewBoard, Coord, LinePos1, LinePos2, PushedPiece, Piece):-
     set_cell(Coord, LinePos1, Piece, Board, Board2),
     set_cell(Coord, LinePos2, PushedPiece, Board2, NewBoard).
 
 
-%VALID MOVE
+/**
+    valid_move(-Board, -Coord, -Direction)
+
+    Calls the correct valid move.
+*/
 valid_move(Board, Coord, top):- valid_move_col(Board, Coord).
 
 valid_move(Board, Coord, bot):- valid_move_col(Board, Coord).
