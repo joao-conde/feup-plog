@@ -1,0 +1,8 @@
+TODO
+
+-harder bot (takes into account enemy board)
+-switch starting order (player or bot)
+-do bot vs bot (any diff vs any diff)
+-refactor code
+-document code
+-report

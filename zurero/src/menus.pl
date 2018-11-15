@@ -82,13 +82,13 @@ game_mode_menu_option(1):-
 	create_pvp_game(Game),
 	play_game(Game).
 	
-game_mode_menu_option(2):- player_computer_menu, game_mode_menu.
+game_mode_menu_option(2):- player_computer_menu.
 game_mode_menu_option(3):- write('LAUNCH BOT V BOT (ez vs hard by default)'), game_mode_menu.
 game_mode_menu_option(4):- main_menu.
 game_mode_menu_option(_):- 
 	write('\nError: invalid input.\n'),
 	request_enter, nl,
-	game_mode_menu_option.
+	game_mode_menu.
 
 print_game_mode_menu:-
 	clear_console,
@@ -121,11 +121,11 @@ player_computer_menu_option(2):-
 	create_pvb_game(Game, hard), 
 	play_game(Game).
 
-player_computer_menu_option(3). %back to previous menu
+player_computer_menu_option(3):- game_mode_menu. %back to previous menu
 player_computer_menu_option(_):- 
 	write('\nError: invalid input.\n'),
 	request_enter, nl,
-	player_computer_menu_option.
+	player_computer_menu.
 
 print_player_computer_menu:-
 	clear_console,
