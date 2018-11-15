@@ -267,12 +267,26 @@ aux_max_list([H|T], Max, Curr):-
 
 
 %SICSTUS DOES NOT HAVE A SUMLIST EITHER!=!=?!?
-sum_list(L, Sum):-
-    aux_sum_list(L, Sum, 0).
+sum_lists(Sum, Lists):-
+    aux_sum_lists(Sum, Lists, 0).
 
-aux_sum_list([], Sum, Sum).
-aux_sum_list([H|T], Sum, Acc):-
-    Acc1 is Acc + H,
-    aux_sum_list(T, Sum, Acc1).
+aux_sum_lists(Sum, [], Sum).
+aux_sum_lists(Sum, [List|T], Acc):-
+    sumlist(List, SumList),
+    Acc1 is Acc + SumList,
+    aux_sum_lists(Sum, T, Acc1).
 
-    
+%----
+max_lists(Max, Lists):-
+    aux_max_lists(Max, Lists, -1).
+
+aux_max_lists(Max, [], Max).
+aux_max_lists(Max, [List|T], AuxMax):-
+    max_member(TempMax, List),
+    TempMax > AuxMax,
+    aux_max_lists(Max, T, TempMax).
+
+aux_max_lists(Max, [List|T], AuxMax):-
+    max_member(TempMax, List),
+    TempMax =< AuxMax,
+    aux_max_lists(Max, T, AuxMax).

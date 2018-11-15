@@ -255,32 +255,40 @@ valid_move_col([Line|Board], Coord):-
 
 %------ALL LINES max in a row count
 max_in_a_row_lines(Board, Piece, Max):-
+    cnt_in_a_row_lines(Board, Piece, LinesCnt),
+    max_member(Max, LinesCnt).
+
+cnt_in_a_row_lines(Board, Piece, LinesCnt):-
     length(Board, Lines),
     findall(Occur, ( (between(1, Lines, I), 
                         nth1(I, Board, Line), 
                         cnt_in_a_row_line(Line, Piece, Occur)) ),
-                        L),
-    max_member(Max, L).
+                        LinesCnt).
     
 %------ALL COLUMNS max in a row count
 max_in_a_row_cols([Line|Board], Piece, Max):-
+    cnt_in_a_row_cols([Line|Board], Piece, ColsCnt),
+    max_member(Max, ColsCnt).
+
+cnt_in_a_row_cols([Line|Board], Piece, ColsCnt):-
     length(Line, NumbCols),
     NumbCols0 is NumbCols-1,
     findall(Occur, ( (between(0, NumbCols0, Col),
                         cnt_in_a_row_col([Line|Board], Col, Piece, Occur))),   
-                        L),
-    max_member(Max, L).
+                        ColsCnt).
 
 %------ALL DIAGONALS max in a row count
 max_in_a_row_diags(Board, Piece, Max):-
+    cnt_in_a_row_diags(Board, Piece, DiagsCnt),
+    max_member(Max, DiagsCnt).
+
+cnt_in_a_row_diags(Board, Piece, DiagsCnt):-
     get_all_diags(Board, Diags),
     length(Diags, NDiags),
     findall(Occur, (between(1, NDiags, I),
                     nth1(I, Diags, Diag),
                     cnt_in_a_row_line(Diag, Piece, Occur)), 
-                    L),
-    max_member(Max, L).
-
+                    DiagsCnt).
 
 %--------Counts in a row occurrences of a piece in a line
 cnt_in_a_row_line(Line, Piece, InARow):- 
@@ -318,21 +326,20 @@ evaluate_move(Board, Coord, Dir, Piece, Eval):-
     evaluate(NewBoard, Piece, Eval).
 
 evaluate(Board, Piece, Eval):-
-    max_in_a_row_lines(Board, Piece, LinesCnt),
-    max_in_a_row_cols(Board, Piece, ColsCnt),
-    
-    max_in_a_row_diags(Board, Piece, DiagsCnt),
+    cnt_in_a_row_lines(Board, Piece, LinesCnt),
+    cnt_in_a_row_cols(Board, Piece, ColsCnt),
+    cnt_in_a_row_diags(Board, Piece, DiagsCnt),
     aux_eval([LinesCnt, ColsCnt, DiagsCnt], Eval).
 
 aux_eval(Cnts, Eval):-
-    max_list(Cnts, Max),
+    max_member(Max, Cnts),
     Max >= 5,
     max_int(MaxInt),
-    sum_list(Cnts, AuxEval),
+    aux_eval(Cnts, AuxEval),
     Eval is MaxInt + AuxEval.
 
 aux_eval(Cnts, Eval):-
-    sum_list(Cnts, Eval).
+    sum_lists(Cnts, Eval).
 
 %----------Win check TEST-----
 %NEED TO CHECK MAXIMUM BUT KEEP SUM OF ALL
@@ -340,10 +347,10 @@ aux_eval(Cnts, Eval):-
 %TODO in the end of the project
 check_win(Board, Player):-
     player_stone(Player, Piece),
-    max_in_a_row_lines(Board, Piece, LinesCnt),
-    max_in_a_row_cols(Board, Piece, ColsCnt),
-    max_in_a_row_diags(Board, Piece, DiagsCnt),
-    max_list([LinesCnt, ColsCnt, DiagsCnt], Max),
+    cnt_in_a_row_lines(Board, Piece, LinesCnt),
+    cnt_in_a_row_cols(Board, Piece, ColsCnt),
+    cnt_in_a_row_diags(Board, Piece, DiagsCnt),
+    max_lists(Max, [LinesCnt, ColsCnt, DiagsCnt]),
     Max >= 5.
 
 
