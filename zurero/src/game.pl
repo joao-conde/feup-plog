@@ -1,14 +1,14 @@
 create_pvp_game(Game):-
-	initial_board2(Board),
+	initial_board(Board),
     Game = [Board, black, pvp].
 
 create_pvb_game(Game, Diff):-
-	initial_board2(Board),
+	initial_board(Board),
     Game = [Board, black, pvb, Diff].
 
 % First move, place anywhere
 play_game([Board, Player|Other]):-
-    initial_board2(Board),
+    initial_board(Board),
     clear_console,
     print_board(Board),
     print_player_turn(Player),

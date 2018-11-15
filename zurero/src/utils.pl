@@ -14,7 +14,7 @@ letter_to_int(Letter, Num) :-
     Num is AsciiL - AsciiA.
 
 % Clears console by printing multiple newlines 
-clear_console:- clear_console(25), !.
+clear_console:- clear_console(25), !. %TODO more '\n'
 clear_console(0).
 clear_console(N):-
 	nl,
@@ -56,9 +56,20 @@ print_player_turn(Player):-
     Receive integer from user input.
 */
 get_int(Input):-
-	get_code(TempInput),
-  	get_code(_),
-	Input is TempInput - 48.
+    get_code(FirstChar),
+    get_code(SecondChar),
+    aux_get_int(FirstChar, SecondChar, Input).
+
+aux_get_int(FirstChar, 10, Input):-
+    Input is FirstChar - 48.
+
+aux_get_int(FirstChar, SecondChar, Input):-
+    FirstDigit is FirstChar - 48,
+    SecondDigit is SecondChar - 48,
+    Temp is FirstDigit * 10,
+    Input is Temp + SecondDigit,
+    get_char(_).
+
 
 /**
     get_direction(-Direction)
