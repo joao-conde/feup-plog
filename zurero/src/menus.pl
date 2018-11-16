@@ -89,7 +89,6 @@ game_mode_menu_option(3):-
 	play_game(Game).
 
 
-
 game_mode_menu_option(4):- main_menu.
 game_mode_menu_option(_):- 
 	write('\nError: invalid input.\n'),
@@ -120,12 +119,10 @@ player_computer_menu:-
 	player_computer_menu_option(Input).
 
 player_computer_menu_option(1):- 
-	create_pvb_game(Game, easy), 
-	play_game(Game).
+	starting_player_menu(easy).
 
 player_computer_menu_option(2):- 
-	create_pvb_game(Game, hard), 
-	play_game(Game).
+	starting_player_menu(hard).
 
 player_computer_menu_option(3):- game_mode_menu. %back to previous menu
 player_computer_menu_option(_):- 
@@ -141,6 +138,44 @@ print_player_computer_menu:-
 	write('=                               =\n'),
 	write('=   1. Easy                     =\n'),
 	write('=   2. Hard                     =\n'),
+	write('=   3. Back                     =\n'),
+	write('=                               =\n'),
+	write('=================================\n'),
+	write('Choose an option:\t').
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%    Starting Player  Selection Menu    %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+starting_player_menu(Diff):-
+	print_starting_player_menu,
+	get_int(Input),
+	starting_player_menu_option(Input, Diff).
+
+starting_player_menu_option(1, Diff):-
+	create_pvb_game(Game, Diff, player), 
+	play_game(Game).
+
+starting_player_menu_option(2, Diff):-
+	create_pvb_game(Game, Diff, bot), 
+	play_game(Game).
+
+starting_player_menu_option(3, _):-
+	player_computer_menu.
+
+starting_player_menu_option(_, _):-
+	write('\nError: invalid input.\n'),
+	request_enter, nl,
+	starting_player_menu.
+
+print_starting_player_menu:-
+	clear_console,
+	write('=================================\n'),
+	write('=         Who plays first?      =\n'),
+	write('=================================\n'),
+	write('=                               =\n'),
+	write('=   1. AI                       =\n'),
+	write('=   2. Me                       =\n'),
 	write('=   3. Back                     =\n'),
 	write('=                               =\n'),
 	write('=================================\n'),
