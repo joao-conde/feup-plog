@@ -1,7 +1,7 @@
 TODO
 
-- if by pushing an opponent stone a player places 5 opponent's stones in a row then the player loses the game unless the player forms 5-in-a-row with his own stones at the same move.
--allow to play on last lines/cols (verify if possible)
+-if by pushing an opponent stone a player places 5 opponent's stones in a row then the player loses the game unless the player forms 5-in-a-row with his own stones at the same move.
+-allow to play on last lines/cols
 -harder bot (takes into account enemy board)
 -switch starting order (player or bot)
 -do bot vs bot (any diff vs any diff)
