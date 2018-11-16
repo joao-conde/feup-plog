@@ -83,7 +83,13 @@ game_mode_menu_option(1):-
 	play_game(Game).
 	
 game_mode_menu_option(2):- player_computer_menu.
-game_mode_menu_option(3):- write('LAUNCH BOT V BOT (ez vs hard by default)'), game_mode_menu.
+
+game_mode_menu_option(3):-
+	create_bvb_game(Game),
+	play_game(Game).
+
+
+
 game_mode_menu_option(4):- main_menu.
 game_mode_menu_option(_):- 
 	write('\nError: invalid input.\n'),

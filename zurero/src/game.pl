@@ -6,6 +6,10 @@ create_pvb_game(Game, Diff):-
 	initial_board(Board),
     Game = [Board, black, pvb, Diff].
 
+create_bvb_game(Game):-
+    initial_board(Board),
+    Game = [Board, black, bvb].
+
 % First move - place in the middle
 play_game([Board, Player|Other]):-
     initial_board(Board),
@@ -46,6 +50,25 @@ play_game([Board, Player, pvb, Diff]):-
     player_move(NewBoard, NextPlayer, NewBoard2),
     check_game_over(NewBoard2, NextPlayer),
     play_game([NewBoard2, Player, pvb, Diff]).
+
+
+
+%---BvB---
+play_game([Board, Player, bvb]):-
+    clear_console,
+    print_board(Board),
+    print_player_turn(Player),
+    request_enter,
+    bot_move(easy, Board, Player, NewBoard),
+    print_board(NewBoard),
+    request_enter,
+    check_game_over(NewBoard, Player),
+    switch_turn(Player, NextPlayer),
+    check_game_over(NewBoard, NextPlayer),
+    print_board(NewBoard),
+    bot_move(hard, NewBoard, NextPlayer, NewBoard2),
+    check_game_over(NewBoard2, NextPlayer),
+    play_game([NewBoard2, Player, bvb]).
 
 
 
