@@ -26,8 +26,9 @@ Commenting style from official SWI-Prolog code, public at their repository.
 ```c
 /*  max_member(-Max, +List)
     
-    True when Max is the largest  member in the standard order of
-    terms.  Fails if List is empty.
+    True when Max is the largest  member in the standard order of terms.  
+    
+    Fails if List is empty.
 */
   max_member(Max, List).
 ```
@@ -37,9 +38,7 @@ Commenting style from official SWI-Prolog code, public at their repository.
 
 ## Line breaking
 
-If the predicate makes only one subsequent predicate call, both can be placed on the same line. In some cases a line break is still better.
-
-If not, one predicate per line.   
+One predicate per line.   
 
 If argument list is too long, put one argument in every line with matching brackets in same column.  
 
@@ -47,7 +46,8 @@ If argument list is too long, put one argument in every line with matching brack
 
 ```c
 
-mortal(X):- alive(X).
+mortal(X):- 
+  alive(X).
 
 example_with_long_parameter_list(X, Y, Z):-
   findall(X,

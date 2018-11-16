@@ -40,14 +40,37 @@ how_to_play:-
 
 print_how_to_play:-
 	clear_console,
-	write('=================================\n'),
-	write('=          HOW TO PLAY          =\n'),
-	write('=================================\n'),
-	write('=                               =\n'),
-	write('=   Do stuff                    =\n'),
-	write('=   And More stuff              =\n'),
-	write('=                               =\n'),
-	write('=================================\n').
+	write('=========================================================================================================\n'),
+	write('=                                          HOW TO PLAY                                                  =\n'),
+	write('=========================================================================================================\n'),
+	write('=                                                                                                       =\n'),
+	write('=    The objective of Zurero is to place five stones in a row, horizontally, vertically or diagonally.  =\n'),
+	write('=    The first one, who achieves this goal, wins the game.                                              =\n'),
+	write('=                                                                                                       =\n'),
+	write('=    A game begins with an empty board.                                                                 =\n'),
+	write('=    Each player has an allocated color, Black or White.                                                =\n'),
+	write('=                                                                                                       =\n'),
+	write('=    Black plays first, putting one black stone at the middle of the board.                             =\n'),
+	write('=    After this move players take turns alternatively sliding a stone from any edge of the board along  =\n'),
+	write('=   the board lines.                                                                                    =\n'),
+	write('=                                                                                                       =\n'),
+	write('=    A stone slides until it hits another stone already on the board. Its not allowed to slide a stone  =\n'),
+	write('=   along a line with no other stones on it.                                                            =\n'),
+	write('=                                                                                                       =\n'),
+	write('=                                                                                                       =\n'),
+	write('=    If the stone already on the board that the sliding stone hits has nothing behind it in the sliding =\n'),																                          
+	write('=   direction, the stone is pushed backwards one step and the sliding stone moves into the square the   =\n'),
+	write('=   preexisting stone previously occupied.                                                              =\n'),
+	write('=    If not, the sliding stone stops on impact.                                                         =\n'),
+	write('=                                                                                                       =\n'),
+	write('=    If by pushing an opponent stone a player places 5 opponent\'s stones in a row then the player      =\n'),   
+	write('=   loses the game unless the player forms 5-in-a-row with his own stones at the same move, thus        =\n'),
+	write('=   winning the game himself.                                                                           =\n'),
+	write('=                                                                                                       =\n'),
+	write('=   That\'s it!                                                                                         =\n'),
+	write('=   Good luck and have fun!                                                                             =\n'),
+	write('=                                                                                                       =\n'),
+	write('=========================================================================================================\n').
 
 
 %%%%%%%%%%%%%%%%%%%%%%%
@@ -60,14 +83,23 @@ about:-
 
 print_about:-
 	clear_console,
-	write('=================================\n'),
-	write('=            ABOUT              =\n'),
-	write('=================================\n'),
-	write('=                               =\n'),
-	write('=   By Afonso Jorge Ramos       =\n'),
-	write('=   And Joao Conde              =\n'),
-	write('=                               =\n'),
-	write('=================================\n').
+	write('================================================================\n'),
+	write('=                            ABOUT                             =\n'),
+	write('================================================================\n'),
+	write('=   Zurero is a two-player abstract board game played on a     =\n'),								
+	write('=   square board with orthogonal grid lines, with 19x19        =\n'),
+	write('=   intersections.                                             =\n'),
+	write('=   This game was invented by Jordan Goldstein in 2009.        =\n'),
+	write('=                                                              =\n'),
+	write('=   Zurero was developed for the course of Logic Programming.  =\n'),
+	write('=                                                              =\n'),
+	write('=   It is written entirely in SICStus PROLOG                   =\n'),
+	write('=                                                              =\n'),
+	write('=   Developed by:                                              =\n'),
+	write('=    > Afonso Ramos                                            =\n'),
+	write('=    > Joao Conde                                              =\n'),
+	write('=                                                              =\n'),
+	write('================================================================\n').
 
 
 %%%%%%%%%%%%%%%%%%%%%%%

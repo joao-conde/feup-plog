@@ -2,10 +2,8 @@ TODO
 
 Friday + Saturday:
 -harder bot (takes into account enemy board)
--board size not fix
 
 Sunday:
--about & howtoplay text
 -refactor code
 -document code
 -report
