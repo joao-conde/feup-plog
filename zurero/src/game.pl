@@ -6,9 +6,9 @@ create_pvb_game(Game, Diff, StartingPlayer):-
 	initial_board(Board),
     Game = [Board, black, pvb, Diff, StartingPlayer].
 
-create_bvb_game(Game):-
+create_bvb_game(Game, Bot1Lvl, Bot2Lvl):-
     initial_board(Board),
-    Game = [Board, black, bvb].
+    Game = [Board, black, bvb, Bot1Lvl, Bot2Lvl].
 
 % First move - place in the middle
 play_game([Board, Player|Other]):-
@@ -61,8 +61,6 @@ play_game([Board, Player, pvb, Diff, player]):-
     print_board(Board),
     print_player_turn(Player),
     player_move(Board, Player, NewBoard),
-
-%    bot_move(Diff, Board, Player, NewBoard),
     
     switch_turn(Player, NextPlayer),
     check_game_over(NewBoard, Player),
@@ -77,24 +75,24 @@ play_game([Board, Player, pvb, Diff, player]):-
     check_game_over(NewBoard2, Player),
     play_game([NewBoard2, Player, pvb, Diff, player]).
 
-
+%TODO add 2 check game overs everytime
 
 %---BvB---
-play_game([Board, Player, bvb]):-
+play_game([Board, Player, bvb, Bot1Lvl, Bot2Lvl]):-
     clear_console,
     print_board(Board),
     print_player_turn(Player),
     request_enter,
-    bot_move(easy, Board, Player, NewBoard),
+    bot_move(Bot1Lvl, Board, Player, NewBoard),
     print_board(NewBoard),
     request_enter,
-    check_game_over(NewBoard, Player),
     switch_turn(Player, NextPlayer),
+    check_game_over(NewBoard, Player),
     check_game_over(NewBoard, NextPlayer),
     print_board(NewBoard),
-    bot_move(hard, NewBoard, NextPlayer, NewBoard2),
+    bot_move(Bot2Lvl, NewBoard, NextPlayer, NewBoard2),
     check_game_over(NewBoard2, NextPlayer),
-    play_game([NewBoard2, Player, bvb]).
+    play_game([NewBoard2, Player, bvb, Bot1Lvl, Bot2Lvl]).
 
 
 

@@ -9,7 +9,6 @@ bot_move(easy, Board, Player, NewBoard):-
 
 
 bot_move(hard, Board, Player, NewBoard):-
-    write(Player), write(hard),nl,
     player_stone(Player, Piece),
     setof(Eval-Coord-Dir, 
                 (valid_move(Board, Coord, Dir),

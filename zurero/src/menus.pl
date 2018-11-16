@@ -85,9 +85,10 @@ game_mode_menu_option(1):-
 game_mode_menu_option(2):- player_computer_menu.
 
 game_mode_menu_option(3):-
-	create_bvb_game(Game),
+	bot_select_lvl_menu(Bot1Lvl, '=          Bot1 level?          =\n'),
+	bot_select_lvl_menu(Bot2Lvl, '=          Bot2 level?          =\n'),
+	create_bvb_game(Game, Bot1Lvl, Bot2Lvl),
 	play_game(Game).
-
 
 game_mode_menu_option(4):- main_menu.
 game_mode_menu_option(_):- 
@@ -145,7 +146,7 @@ print_player_computer_menu:-
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%    Starting Player  Selection Menu    %
+%    Starting Player Selection Menu     %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 starting_player_menu(Diff):-
 	print_starting_player_menu,
@@ -176,6 +177,38 @@ print_starting_player_menu:-
 	write('=                               =\n'),
 	write('=   1. AI                       =\n'),
 	write('=   2. Me                       =\n'),
+	write('=   3. Back                     =\n'),
+	write('=                               =\n'),
+	write('=================================\n'),
+	write('Choose an option:\t').
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%     Bot Gameplay Level Selection      %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+bot_select_lvl_menu(Diff, Message):-
+	print_bot_select_lvl_menu(Message),
+	get_int(Input),
+	bot_select_lvl_menu_option(Input, Diff, Message).
+
+bot_select_lvl_menu_option(1, easy, _).
+bot_select_lvl_menu_option(2, hard, _).
+bot_select_lvl_menu_option(3, _, _):-
+	game_mode_menu.
+
+bot_select_lvl_menu_option(_, Diff, Message):-
+	write('\nError: invalid input.\n'),
+	request_enter, nl,
+	bot_select_lvl_menu(Diff, Message).
+
+print_bot_select_lvl_menu(Message):-
+	clear_console,
+	write('=================================\n'),
+	write(Message),
+	write('=================================\n'),
+	write('=                               =\n'),
+	write('=   1. Easy                     =\n'),
+	write('=   2. Hard                     =\n'),
 	write('=   3. Back                     =\n'),
 	write('=                               =\n'),
 	write('=================================\n'),

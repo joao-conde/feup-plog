@@ -1,12 +1,10 @@
 TODO
 
 Friday + Saturday:
--allow both difficulty selection
 -harder bot (takes into account enemy board)
--allow to play on last lines/cols (possibly not needed)
+-board size not fix
 
 Sunday:
--board size not fix
 -about & howtoplay text
 -refactor code
 -document code
