@@ -6,15 +6,18 @@ create_pvb_game(Game, Diff):-
 	initial_board(Board),
     Game = [Board, black, pvb, Diff].
 
-% First move, place anywhere
+% First move - place in the middle
 play_game([Board, Player|Other]):-
     initial_board(Board),
     clear_console,
-    print_board(Board),
-    print_player_turn(Player),
-    player_first_move(Board, Player, NewBoard),
+    player_stone(Player, Piece),
+    set_cell(9, 9, Piece, Board, NewBoard),
     switch_turn(Player, NextPlayer),
+    print_board(NewBoard),
+    write('First piece placed in the middle of the board for '), write(Player), write(' player\n'),
+    request_enter,
     play_game([NewBoard, NextPlayer|Other]).
+
 
 %---PVP---
 play_game([Board, Player, pvp]):-
