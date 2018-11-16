@@ -8,6 +8,9 @@
 :- include('menus.pl').
 :- include('game.pl').
 :- include('board.pl').
+:- include('ai.pl').
+
+:- include('test_boards/simultaneous-win.pl').
 
 %game entry point
 zurero:- main_menu.

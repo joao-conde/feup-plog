@@ -24,6 +24,7 @@ play_game([Board, Player, pvp]):-
     player_move(Board, Player, NewBoard),
     check_game_over(NewBoard, Player),
     switch_turn(Player, NextPlayer),
+    check_game_over(NewBoard, NextPlayer),
     play_game([NewBoard, NextPlayer, pvp]).
 
 %---PvB---
@@ -37,31 +38,12 @@ play_game([Board, Player, pvb, Diff]):-
     request_enter,
     check_game_over(NewBoard, Player),
     switch_turn(Player, NextPlayer),
+    check_game_over(NewBoard, NextPlayer),
     print_board(NewBoard),
     player_move(NewBoard, NextPlayer, NewBoard2),
     check_game_over(NewBoard2, NextPlayer),
     play_game([NewBoard2, Player, pvb, Diff]).
 
-%---------------
-bot_move(easy, Board, Player, NewBoard):-
-    findall(Coord-Dir, valid_move(Board, Coord, Dir), ValidMoves),
-    length(ValidMoves, NumbMoves),
-    random(0, NumbMoves, MoveIdx), %[Lower, Upper[
-    nth0(MoveIdx, ValidMoves, MvCoord-MvDir),
-    player_stone(Player, Piece),
-    throw_stone(Board, NewBoard, MvCoord, MvDir, Piece).
-
-
-bot_move(hard, Board, Player, NewBoard):-
-    player_stone(Player, Piece),
-    setof(Eval-Coord-Dir, 
-                (valid_move(Board, Coord, Dir),
-                 once(evaluate_move(Board, Coord, Dir, Piece, Eval))
-                ), 
-            AscValidMoves),
-    write(AscValidMoves), nl,
-    reverse(AscValidMoves, [_-BestMoveCoord-BestMoveDir|_]),
-    throw_stone(Board, NewBoard, BestMoveCoord, BestMoveDir, Piece).
 
 
 player_first_move(Board, Player, NewBoard):-

@@ -342,26 +342,7 @@ cnt_in_a_row_col(Board, Col, Piece, InARow):-
     cnt_in_a_row_line(L, Piece, InARow).
 %--------
 
-%--------EVAL TEST------
-evaluate_move(Board, Coord, Dir, Piece, Eval):-
-    throw_stone(Board, NewBoard, Coord, Dir, Piece),
-    evaluate(NewBoard, Piece, Eval).
 
-evaluate(Board, Piece, Eval):-
-    cnt_in_a_row_lines(Board, Piece, LinesCnt),
-    cnt_in_a_row_cols(Board, Piece, ColsCnt),
-    cnt_in_a_row_diags(Board, Piece, DiagsCnt),
-    aux_eval([LinesCnt, ColsCnt, DiagsCnt], Eval).
-
-aux_eval(Cnts, Eval):-
-    max_lists(Max, Cnts),
-    Max >= 5,
-    max_int(MaxInt),
-    sum_lists(AuxEval, Cnts),
-    Eval is MaxInt + AuxEval.
-
-aux_eval(Cnts, Eval):-
-    sum_lists(Eval, Cnts).
 
 %----------Win check TEST-----
 %NEED TO CHECK MAXIMUM BUT KEEP SUM OF ALL
