@@ -34,6 +34,7 @@ play_game([Board, Player, pvp]):-
     check_game_over(NewBoard, NextPlayer),
     play_game([NewBoard, NextPlayer, pvp]).
 
+
 %---PvB---
 play_game([Board, Player, pvb, Diff]):-
     clear_console,

@@ -1,10 +1,11 @@
 TODO
 
 Friday + Saturday:
--do bot vs bot (any diff vs any diff)
 -switch starting order (player or bot)
+-allow both difficulty selection
 -harder bot (takes into account enemy board)
--allow to play on last lines/cols
+
+-allow to play on last lines/cols (possibly not needed)
 
 Sunday:
 -refactor code
