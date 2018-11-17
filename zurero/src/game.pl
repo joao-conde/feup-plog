@@ -69,6 +69,7 @@ play_game([Board, Player, pvp]):-
 */
 play_game([Board, Player, pvb, Diff, bot]):-
     bot_turn(Board, NewBoard, Player, NextPlayer, Diff),
+    request_enter,
     player_turn(NewBoard, NewBoard2, NextPlayer, _),
     play_game([NewBoard2, Player, pvb, Diff, bot]).
 
@@ -81,6 +82,7 @@ play_game([Board, Player, pvb, Diff, bot]):-
 play_game([Board, Player, pvb, Diff, player]):-
     player_turn(Board, NewBoard, Player, NextPlayer),
     bot_turn(NewBoard, NewBoard2, NextPlayer, _, Diff),
+    request_enter,
     play_game([NewBoard2, Player, pvb, Diff, player]).
 
 
@@ -92,7 +94,9 @@ play_game([Board, Player, pvb, Diff, player]):-
 */
 play_game([Board, Player, bvb, Bot1Lvl, Bot2Lvl]):-
     bot_turn(Board, NewBoard, Player, NextPlayer, Bot1Lvl),
+    request_enter,
     bot_turn(NewBoard, NewBoard2, NextPlayer, _, Bot2Lvl),
+    request_enter,
     play_game([NewBoard2, Player, bvb, Bot1Lvl, Bot2Lvl]).
 
 
