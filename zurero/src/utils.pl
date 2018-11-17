@@ -1,3 +1,10 @@
+/* High value simulating maximum integer value */
+max_int(5000).
+
+/* Low value simulating minimum integer value */
+min_int(-5000).
+
+
 /*  letter_to_int(+Letter, -Num)
     
     Instantiates Num with the corresponding number assuming A/a is 0 and Z/z is 25.

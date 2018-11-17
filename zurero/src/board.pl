@@ -1,41 +1,43 @@
-% Game structure and predicates to operate with it
+/*  switch_turn(?Player, ?Enemy)
+
+    Given Player unifies Enemy with other player.
+    Given Enemy unifies Player with other player.
+*/
 switch_turn(white, black).
 switch_turn(black, white).
 
-/**
-    player_stone(-Player, +PieceNumber)
+
+/*  player_stone(?Player, ?PieceNumber)
 
     Given a Player unifies PieceNumber with the internal board representation of that player's piece.
+    Given a PieceNumber unifies Player with the owner.
 */
 player_stone(black, 1).
 player_stone(white, 2).
 
-/**
-    direction(-UserInput, +Direction)
 
-    Maps each of the 4 possible UserInput directions selected by the user to a Direction.
+/*  direction(?UserInput, ?Direction)
+
+    Given an UserInput unifies Direction with the direction.
+    Given a Direction unifies UserInput with the corresponding digit.
 */
 direction(1, top).
 direction(2, right).
 direction(3, bot).
 direction(4, left).
 
-/**
-    board_element(-PieceNumber, PieceView)
+
+/*  board_element(?PieceNumber, ?PieceView)
 
     Given a PieceNumber unifies PieceView with the console board representation of that piece. 
+    Given a PieceView unifies PieceNumber with the internal board piece representation.
 */
 board_element(0, '-+-').
 board_element(1, '-B-').
 board_element(2, '-W-').
 
 
-/* max value */
-max_int(500).
-min_int(-500).
-
-/**
-    initial_board(-Board)
+/*  initial_board(+Board)
 
     Unifies Board with the initial empy game board (19x19)
 */
@@ -60,19 +62,18 @@ initial_board([[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
               [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]]).
 
 
-%%%%%%%%%%%%%%%%%%%%%%
-%   BOARD DISPLAY    %
-%%%%%%%%%%%%%%%%%%%%%%
+/* Line numbers */
 line_numbers(['19','18','17','16','15','14','13','12','11','10',' 9',' 8',' 7',' 6',' 5',' 4',' 3',' 2',' 1']).
 
+/* Prints column separators */
 print_separator:-
     write('  |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |\n').
 
+/* Prints line separators */
 print_hline:-
     write('  *-------------------------------------------------------------------------------*\n').
 
-/**
-    print_board(-Board)
+/*  print_board(+Board)
 
     Prints the line numbers, game board and separators.
 */
@@ -84,12 +85,11 @@ print_board(Board) :-
     print_hline,
     write('      A   B   C   D   E   F   G   H   I   J   K   L   M   N   O   P   Q   R   S\n').
 
-/**
-    print_board_aux(-Board, -LineNumbers)
+/*  print_board_aux(+Board, +LineNumbers)
 
     Recursive predicate that prints each line with separators and LineNumbers
 */
-print_board_aux([],[]).    
+print_board_aux([], []).    
 
 print_board_aux([Line|Board],[LineNumb|Remainder]) :-
     print_separator,
@@ -98,8 +98,7 @@ print_board_aux([Line|Board],[LineNumb|Remainder]) :-
     write('--|'), nl,
     print_board_aux(Board,Remainder).
 
-/**
-    print_line(-Line)
+/*  print_line(+Line)
 
     Recursive predicate that prints each line
 */
@@ -111,17 +110,12 @@ print_line([Head|Tail]) :-
     print_line(Tail).
 
 
-%%%%%%%%%%%%%%%%%%%%%%%
-%   BOARD MODIFIERS   %
-%%%%%%%%%%%%%%%%%%%%%%%
+/*  move(+Board, -NewBoard, +Coord, top, +Cell)
 
-/**
-    move(-Board, +NewBoard, -Coord, top, -Cell)
-
-    Equivalent to a play where a player throws a stone and slide_horizontallys it from the top edge of the board
-    towards the bottom
+    Equivalent to a play where a player throws a stone and slides it from the top edge of the board
+    towards the bottom.
     Places the player's stone Cell at the place of impact with another stone, in column Coord unifying
-    the result with NewBoard
+    the result with NewBoard.
 */
 move(Board, NewBoard, Coord, top, Piece):-    
     get_leading_pos_col(Board, Coord, LinePos),
@@ -130,13 +124,12 @@ move(Board, NewBoard, Coord, top, Piece):-
     slide_vertically(Board, NewBoard, Coord, LinePos, LinePos1, LinePos2, Piece).
 
 
-/**
-    move(-Board, +NewBoard, -Coord, bot, -Cell)
+/*  move(+Board, -NewBoard, +Coord, bot, +Cell)
 
-    Equivalent to a play where a player throws a stone and slide_horizontallys it from the bottom edge of the board
-    towards the top
+    Equivalent to a play where a player throws a stone and slides it from the bottom edge of the board
+    towards the top.
     Places the player's stone Cell at the place of impact with another stone, in column Coord unifying
-    the result with NewBoard
+    the result with NewBoard.
 */
 move(Board, NewBoard, Coord, bot, Piece):-    
     get_trailing_pos_col(Board, Coord, LinePos),
@@ -145,13 +138,12 @@ move(Board, NewBoard, Coord, bot, Piece):-
     slide_vertically(Board, NewBoard, Coord, LinePos, LinePos1, LinePos2, Piece).
 
 
-/**
-    move(-Board, +NewBoard, -Coord, right, -Cell)
+/*  move(+Board, -NewBoard, +Coord, right, +Cell)
 
-    Equivalent to a play where a player throws a stone and slide_horizontallys it from the right edge of the board
-    towards the left
+    Equivalent to a play where a player throws a stone and slides it from the right edge of the board
+    towards the left.
     Places the player's stone Cell at the place of impact with another stone, in row Coord unifying
-    the result with NewBoard
+    the result with NewBoard.
 */
 move(Board, NewBoard, Coord, right, Piece):-
     nth0(Coord, Board, Line),
@@ -160,13 +152,13 @@ move(Board, NewBoard, Coord, right, Piece):-
     Pos2 is Pos - 2, 
     slide_horizontally(Board, NewBoard, Coord, Line, Pos, Pos1, Pos2, Piece).
 
-/**
-    move(-Board, +NewBoard, -Coord, left, -Cell)
 
-    Equivalent to a play where a player throws a stone and slide_horizontallys it from the left edge of the board
-    towards the right
+/*  move(+Board, -NewBoard, +Coord, left, +Cell)
+
+    Equivalent to a play where a player throws a stone and slides it from the left edge of the board
+    towards the right.
     Places the player's stone Cell at the place of impact with another stone, in row Coord unifying
-    the result with NewBoard
+    the result with NewBoard.
 */
 move(Board, NewBoard, Coord, left, Piece):-
     nth0(Coord, Board, Line),
@@ -175,33 +167,39 @@ move(Board, NewBoard, Coord, left, Piece):-
     Pos2 is Pos + 2, 
     slide_horizontally(Board, NewBoard, Coord, Line, Pos, Pos1, Pos2, Piece).
 
-/**
-    slide_horizontally(-Board, +NewBoard, -Coord, -Line, -Pos, -Pos1, -Pos2, -Piece)
 
-    Throws a piece horizontally checking if the piece it hits can move or not.
+/*  slide_horizontally(+Board, -NewBoard, +Coord, +Line, _, +Pos1, +Pos2, +Piece)
+
+    Throws a piece horizontally pushing back the stone hit.
 */
 slide_horizontally(Board, NewBoard, Coord, Line, _, Pos1, Pos2, Piece):-
     nth0(Pos2, Line, 0),
     nth0(Pos1, Line, PushedPiece),
     push_stones_horizontally(Board, NewBoard, Coord, Pos1, Pos2, PushedPiece, Piece).
 
+
+/*  slide_horizontally(+Board, -NewBoard, +Coord, +Line, _, +Pos1, +Pos2, +Piece)
+
+    Throws a piece horizontally, stopping it at impact.
+*/
 slide_horizontally(Board, NewBoard, Coord, Line, Pos, _, Pos2, Piece):-
     \+ nth0(Pos2, Line, 0),
     set_cell(Pos, Coord, Piece, Board, NewBoard).
 
-/**
-    push_stones_horizontally(-Board, +NewBoard, -Coord, -Pos1, -Pos2, -PushedPiece, -Piece)
+
+/*  push_stones_horizontally(+Board, -NewBoard, +Coord, +Pos1, +Pos2, +PushedPiece, +Piece)
 
     Sets the positions of the two pieces moved.
+    The new one in the old one's cell and the old one pushed back.
 */
 push_stones_horizontally(Board, NewBoard, Coord, Pos1, Pos2, PushedPiece, Piece):-
     set_cell(Pos1, Coord, Piece, Board, Board2),
     set_cell(Pos2, Coord, PushedPiece, Board2, NewBoard).
 
-/**
-    slide_vertically(-Board, +NewBoard, -Coord, -LinePos, -LinePos1, -LinePos2, -Piece)
 
-    Throws a piece vertically checking if the piece it hits can move or not.
+/*  slide_vertically(+Board, -NewBoard, +Coord, +LinePos, +LinePos1, +LinePos2, +Piece)
+
+    Throws a piece vertically pushing back the stone hit.
 */
 slide_vertically(Board, NewBoard, Coord, _, LinePos1, LinePos2, Piece):-
     nth0(LinePos2, Board, Line2),
@@ -210,40 +208,57 @@ slide_vertically(Board, NewBoard, Coord, _, LinePos1, LinePos2, Piece):-
     nth0(Coord, Line1, PushedPiece),    
     push_stones_vertically(Board, NewBoard, Coord, LinePos1, LinePos2, PushedPiece, Piece).
 
+
+/*  slide_vertically(+Board, -NewBoard, +Coord, +LinePos, _, +LinePos2, +Piece)
+
+    Throws a piece vertically, stopping it at impact.
+*/
 slide_vertically(Board, NewBoard, Coord, LinePos, _, LinePos2, Piece):-
     nth0(LinePos2, Board, Line2),
     \+ nth0(Coord, Line2, 0),
     set_cell(Coord, LinePos, Piece, Board, NewBoard).
 
-/**
-    push_stones_vertically(-Board, +NewBoard, -Coord, -LinePos1, -LinePos2, -PushedPiece, -Piece)
+
+/*  push_stones_vertically(+Board, -NewBoard, +Coord, +LinePos1, +LinePos2, +PushedPiece, +Piece)
 
     Sets the positions of the two pieces moved.
+    The new one in the old one's cell and the old one pushed back.
 */
 push_stones_vertically(Board, NewBoard, Coord, LinePos1, LinePos2, PushedPiece, Piece):-
     set_cell(Coord, LinePos1, Piece, Board, Board2),
     set_cell(Coord, LinePos2, PushedPiece, Board2, NewBoard).
 
 
-/**
-    valid_move(-Board, -Coord, -Direction)
+/*  valid_move(+Board, +Coord, +Direction)
 
-    Calls the correct valid move.
+    Succeeds if move is valid.
 */
-valid_move(Board, Coord, top):- valid_move_col(Board, Coord).
+valid_move(Board, Coord, top):- 
+    valid_move_col(Board, Coord).
 
-valid_move(Board, Coord, bot):- valid_move_col(Board, Coord).
+valid_move(Board, Coord, bot):- 
+    valid_move_col(Board, Coord).
 
-valid_move(Board, Coord, left):- valid_move_line(Board, Coord).
+valid_move(Board, Coord, left):- 
+    valid_move_line(Board, Coord).
 
-valid_move(Board, Coord, right):- valid_move_line(Board, Coord).
+valid_move(Board, Coord, right):- 
+    valid_move_line(Board, Coord).
 
-%----
+
+/*  valid_move_line(+Board, +Coord)
+
+    Succeeds if line is empty, meaning it only has empty cells.
+*/
 valid_move_line(Board, Coord):-
     nth0(Coord, Board, Line),
     \+ empty(Line).
 
-%----
+
+/*  valid_move_col(+Board, +Coord)
+
+    Succeeds if col is empty, meaning it only has empty cells.
+*/
 valid_move_col([Line|_], Coord):- 
     \+ nth0(Coord, Line, 0).
 
@@ -252,25 +267,49 @@ valid_move_col([Line|Board], Coord):-
     valid_move_col(Board, Coord).
 
 
-%%%%%%%%%%%%%% TESTING GAME OVER AND BOARD EVALUATION %%%%%%%%%%%%%%
+/*  max_in_a_row_lines(+Board, +Piece, -Max)
 
-%------ALL LINES max in a row count
+    Unifies Max with the maximum in a row Pieces in the Board lines.
+*/
 max_in_a_row_lines(Board, Piece, Max):-
     cnt_in_a_row_lines(Board, Piece, LinesCnt),
     max_member(Max, LinesCnt).
 
+
+/*  max_in_a_row_cols(+Board, +Piece, -Max)
+
+    Unifies Max with the maximum in a row Pieces in the Board columns.
+*/
+max_in_a_row_cols([Line|Board], Piece, Max):-
+    cnt_in_a_row_cols([Line|Board], Piece, ColsCnt),
+    max_member(Max, ColsCnt).
+
+
+/*  max_in_a_row_diags(+Board, +Piece, -Max)
+
+    Unifies Max with the maximum in a row Pieces in the Board diagonals.
+*/
+max_in_a_row_diags(Board, Piece, Max):-
+    cnt_in_a_row_diags(Board, Piece, DiagsCnt),
+    max_member(Max, DiagsCnt).
+
+
+/*  cnt_in_a_row_lines(+Board, +Piece, -LinesCnt)
+
+    Unifies LinesCnt with a list for each line in Board with the maximum in a row count of Pieces.
+*/
 cnt_in_a_row_lines(Board, Piece, LinesCnt):-
     length(Board, Lines),
     findall(Occur, ( (between(1, Lines, I), 
                         nth1(I, Board, Line), 
                         cnt_in_a_row_line(Line, Piece, Occur)) ),
                         LinesCnt).
-    
-%------ALL COLUMNS max in a row count
-max_in_a_row_cols([Line|Board], Piece, Max):-
-    cnt_in_a_row_cols([Line|Board], Piece, ColsCnt),
-    max_member(Max, ColsCnt).
 
+
+/*  cnt_in_a_row_cols(+Board, +Piece, -ColsCnt)
+
+    Unifies ColsCnt with a list for each column in Board with the maximum in a row count of Pieces.
+*/
 cnt_in_a_row_cols([Line|Board], Piece, ColsCnt):-
     length(Line, NumbCols),
     NumbCols0 is NumbCols-1,
@@ -278,11 +317,11 @@ cnt_in_a_row_cols([Line|Board], Piece, ColsCnt):-
                         cnt_in_a_row_col([Line|Board], Col, Piece, Occur))),   
                         ColsCnt).
 
-%------ALL DIAGONALS max in a row count
-max_in_a_row_diags(Board, Piece, Max):-
-    cnt_in_a_row_diags(Board, Piece, DiagsCnt),
-    max_member(Max, DiagsCnt).
 
+/*  cnt_in_a_row_cols(+Board, +Piece, -DiagsCnt)
+
+    Unifies DiagsCnt with a list for each diagonal in Board with the maximum in a row count of Pieces.
+*/
 cnt_in_a_row_diags(Board, Piece, DiagsCnt):-
     get_all_diags(Board, Diags),
     length(Diags, NDiags),
@@ -291,42 +330,51 @@ cnt_in_a_row_diags(Board, Piece, DiagsCnt):-
                     cnt_in_a_row_line(Diag, Piece, Occur)), 
                     DiagsCnt).
 
-%--------Counts in a row occurrences of a piece in a line
+
+/*  cnt_in_a_row_line(+Line, +Piece, -InARow)
+
+    Unifies InARow with the count of in a row Pieces in Line.
+*/
 cnt_in_a_row_line(Line, Piece, InARow):- 
     aux_cnt_in_a_row_line(Line, Piece, InARow, 0, 0).
 
+/* Base cases */
 aux_cnt_in_a_row_line([], _, Max, Cnt, Max):- Cnt =< Max.
 aux_cnt_in_a_row_line([], _, Cnt, Cnt, Max):- Cnt > Max.
 
+/* Matching Piece */
 aux_cnt_in_a_row_line([Piece|T], Piece, InARow, Cnt, Max):-
     Cnt1 is Cnt+1,
     aux_cnt_in_a_row_line(T, Piece, InARow, Cnt1, Max).
 
+/* Different Piece, reset Cnt, update Max */
 aux_cnt_in_a_row_line([H|T], Piece, InARow, Cnt, Max):-
     H \= Piece,
     Cnt > Max,
     aux_cnt_in_a_row_line(T, Piece, InARow, 0, Cnt).
 
+/* Different Piece, reset Cnt, not updating Max */
 aux_cnt_in_a_row_line([H|T], Piece, InARow, Cnt, Max):-
     H \= Piece,
     Cnt =< Max,
     aux_cnt_in_a_row_line(T, Piece, InARow, 0, Max).
-%--------
 
-%--------Counts in a row occurrences of a piece in a column
+
+/*  cnt_in_a_row_col(+Board, +Col, +Piece, -InARow)
+
+    Unifies InARow with the count of in a row Pieces in column Col.
+*/
 cnt_in_a_row_col(Board, Col, Piece, InARow):- 
     length(Board, NumbLines),
     Col1 is Col+1,
     findall(Cell, (between(1, NumbLines, I), nth1(I, Board, Line), nth1(Col1, Line, Cell)), L),
     cnt_in_a_row_line(L, Piece, InARow).
-%--------
 
 
+/*  check_win(+Board, +Player)
 
-%----------Win check TEST-----
-%NEED TO CHECK MAXIMUM BUT KEEP SUM OF ALL
-%SO BOT MAXIMIZES PLACING MORE IN A ROW
-%TODO in the end of the project
+    Checks if with Board Player won.
+*/
 check_win(Board, Player):-
     player_stone(Player, Piece),
     cnt_in_a_row_lines(Board, Piece, LinesCnt),
@@ -336,33 +384,47 @@ check_win(Board, Player):-
     Max >= 5.
 
 
-%---- get diagonals
+/*  get_all_diags(+Board, -Diags)
+
+    Unifies Diags with a list of all the Board diagonals.
+    BSDiags refer to BACKSLASH diagonals (\).
+    FSDiags refer to FORWARDSLASH diagonals (/).
+*/
 get_all_diags(Board, Diags):-
     nth0(0, Board, FLine),
     length(Board, Lines),
     length(FLine, Cols),
     Lines1 is Lines-1,
-    get_diags(1, 1, Board, Cols, Lines1, BsDiags),     %get bs \ diagonals
-    get_diags(-1, Cols, Board, Cols, Lines1, FsDiags),     %get fs / diagonals
+    get_diags(1, 1, Board, Cols, Lines1, BsDiags),
+    get_diags(-1, Cols, Board, Cols, Lines1, FsDiags),
     append(BsDiags, FsDiags, Diags).
 
-get_diags(Inc, ScanStart, Board, NCols, NLines, BsDiags):-
-    %top diagonals
+
+/*  get_diags(+Inc, +ScanStart, +Board, +NCols, +NLines, -SlashDiags)
+
+    Unifies SlashDiags with a list of all the current slash diagonals.
+    Board scanning order depends on the ScanStart and Inc. 
+    Inc is 1 for FSDiagonals and -1 for BSDiagonals.
+    ScanStart is either first column or last, respectively.
+*/
+get_diags(Inc, ScanStart, Board, NCols, NLines, SlashDiags):-
     findall(DiagEl,
                 (between(1, NCols, C), 
                  once(get_diagonal(Inc, Board, 0, C, DiagEl))
                 ), 
             TopDiags),
-    %bot diagonals
     findall(DiagEl,
                 (between(1, NLines, L),
                 once(get_diagonal(Inc, Board, L, ScanStart, DiagEl))                    
                 ),
             BotDiags),
-    append(TopDiags, BotDiags, BsDiags).
+    append(TopDiags, BotDiags, SlashDiags).
 
 
-%Inc: 1 for fs and -1 for bs
+/*  get_diagonal(+Inc, +Board, +Line, +Cols, -SlashDiag)
+
+    Unfies SlashDiag with one diagonal.
+*/
 get_diagonal(Inc, [_|Board], L, C, BsDiag):-
     L1 is L - 1,
     get_diagonal(Inc, Board, L1, C, BsDiag).
@@ -376,21 +438,3 @@ aux_get_diagonal(Inc, [FLine|Board], C, BsDiag, Acc):-
     aux_get_diagonal(Inc, Board, C1, BsDiag, [DiagEl|Acc]).
 
 aux_get_diagonal(_, _, _, BsDiag, BsDiag).
-
-
-% test_board_diag([[ 0, 1, 2, 3, 4, 5],
-%                  [-1, 0, 1, 2, 3, 4],
-%                  [-2,-1, 0, 1, 2, 3],
-%                  [-3,-2,-1, 0, 1, 2],
-%                  [-4,-3,-2,-1, 0, 1],
-%                  [-5,-4,-3,-2,-1, 0]]).
-
-test_board_diag([[1, 0, 0, 0, 0, 0],
-                 [0, 1, 0, 0, 0, 1],
-                 [0, 0, 1, 0, 1, 0],
-                 [0, 0, 0, 1, 0, 0],
-                 [0, 0, 0, 0, 1, 0],
-                 [0, 0, 0, 0, 0, 1]]).
-
-% print_matrix([]).
-% print_matrix([H|T]) :- write(H), nl, print_matrix(T).
