@@ -4,11 +4,12 @@
 :- use_module(library(lists)).
 :- use_module(library(random)).
 
-:- include('utils.pl').
-:- include('menus.pl').
-:- include('game.pl').
-:- include('board.pl').
 :- include('ai.pl').
+:- include('board.pl').
+:- include('cli.pl').
+:- include('game.pl').
+:- include('menus.pl').
+:- include('utils.pl').
 
-%game entry point
+/* Application entry point */
 play:- main_menu.
