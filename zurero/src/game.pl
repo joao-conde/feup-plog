@@ -30,8 +30,8 @@ play_game([Board, Player, pvp]):-
     print_player_turn(Player),
     player_move(Board, Player, NewBoard),
     switch_turn(Player, NextPlayer),
-    check_game_over(NewBoard, Player),
-    check_game_over(NewBoard, NextPlayer),
+    game_over(NewBoard, Player),
+    game_over(NewBoard, NextPlayer),
     play_game([NewBoard, NextPlayer, pvp]).
 
 
@@ -44,15 +44,15 @@ play_game([Board, Player, pvb, Diff, bot]):-
     bot_move(Diff, Board, Player, NewBoard),
     
     switch_turn(Player, NextPlayer),
-    check_game_over(NewBoard, Player),
-    check_game_over(NewBoard, NextPlayer),
+    game_over(NewBoard, Player),
+    game_over(NewBoard, NextPlayer),
     
     clear_console,
     print_board(NewBoard),
     print_player_turn(NextPlayer),
     player_move(NewBoard, NextPlayer, NewBoard2),
-    check_game_over(NewBoard2, NextPlayer),
-    check_game_over(NewBoard2, Player),
+    game_over(NewBoard2, NextPlayer),
+    game_over(NewBoard2, Player),
     play_game([NewBoard2, Player, pvb, Diff, bot]).
 
 
@@ -63,16 +63,16 @@ play_game([Board, Player, pvb, Diff, player]):-
     player_move(Board, Player, NewBoard),
     
     switch_turn(Player, NextPlayer),
-    check_game_over(NewBoard, Player),
-    check_game_over(NewBoard, NextPlayer),
+    game_over(NewBoard, Player),
+    game_over(NewBoard, NextPlayer),
     
     clear_console,
     print_board(NewBoard),
     print_player_turn(NextPlayer),
     request_enter,
     bot_move(Diff, NewBoard, NextPlayer, NewBoard2),
-    check_game_over(NewBoard2, NextPlayer),
-    check_game_over(NewBoard2, Player),
+    game_over(NewBoard2, NextPlayer),
+    game_over(NewBoard2, Player),
     play_game([NewBoard2, Player, pvb, Diff, player]).
 
 %TODO add 2 check game overs everytime
@@ -87,11 +87,11 @@ play_game([Board, Player, bvb, Bot1Lvl, Bot2Lvl]):-
     print_board(NewBoard),
     request_enter,
     switch_turn(Player, NextPlayer),
-    check_game_over(NewBoard, Player),
-    check_game_over(NewBoard, NextPlayer),
+    game_over(NewBoard, Player),
+    game_over(NewBoard, NextPlayer),
     print_board(NewBoard),
     bot_move(Bot2Lvl, NewBoard, NextPlayer, NewBoard2),
-    check_game_over(NewBoard2, NextPlayer),
+    game_over(NewBoard2, NextPlayer),
     play_game([NewBoard2, Player, bvb, Bot1Lvl, Bot2Lvl]).
 
 
@@ -107,10 +107,10 @@ player_move(Board, Player, NewBoard):-
     get_coord(Coord, Direction), %turns input to 0-based indexes
     valid_move(Board, Coord, Direction),
     player_stone(Player, Piece),
-    throw_stone(Board, NewBoard, Coord, Direction, Piece).
+    move(Board, NewBoard, Coord, Direction, Piece).
 
 
-check_game_over(Board, Player):-
+game_over(Board, Player):-
     check_win(Board, Player),
     clear_console,
     print_board(Board),
@@ -118,4 +118,4 @@ check_game_over(Board, Player):-
     request_enter,
     game_mode_menu.
 
-check_game_over(_, _).
+game_over(_, _).

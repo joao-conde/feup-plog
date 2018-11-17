@@ -54,7 +54,7 @@ print_how_to_play:-
 	write('=    After this move players take turns alternatively sliding a stone from any edge of the board along  =\n'),
 	write('=   the board lines.                                                                                    =\n'),
 	write('=                                                                                                       =\n'),
-	write('=    A stone slides until it hits another stone already on the board. Its not allowed to slide a stone  =\n'),
+	write('=    A stone slides until it hits another stone already on the board. It\'s not allowed to slide a stone  =\n'),
 	write('=   along a line with no other stones on it.                                                            =\n'),
 	write('=                                                                                                       =\n'),
 	write('=                                                                                                       =\n'),

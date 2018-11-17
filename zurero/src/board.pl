@@ -116,14 +116,14 @@ print_line([Head|Tail]) :-
 %%%%%%%%%%%%%%%%%%%%%%%
 
 /**
-    throw_stone(-Board, +NewBoard, -Coord, top, -Cell)
+    move(-Board, +NewBoard, -Coord, top, -Cell)
 
     Equivalent to a play where a player throws a stone and slide_horizontallys it from the top edge of the board
     towards the bottom
     Places the player's stone Cell at the place of impact with another stone, in column Coord unifying
     the result with NewBoard
 */
-throw_stone(Board, NewBoard, Coord, top, Piece):-    
+move(Board, NewBoard, Coord, top, Piece):-    
     get_leading_pos_col(Board, Coord, LinePos),
     LinePos1 is LinePos + 1,
     LinePos2 is LinePos + 2,
@@ -131,14 +131,14 @@ throw_stone(Board, NewBoard, Coord, top, Piece):-
 
 
 /**
-    throw_stone(-Board, +NewBoard, -Coord, bot, -Cell)
+    move(-Board, +NewBoard, -Coord, bot, -Cell)
 
     Equivalent to a play where a player throws a stone and slide_horizontallys it from the bottom edge of the board
     towards the top
     Places the player's stone Cell at the place of impact with another stone, in column Coord unifying
     the result with NewBoard
 */
-throw_stone(Board, NewBoard, Coord, bot, Piece):-    
+move(Board, NewBoard, Coord, bot, Piece):-    
     get_trailing_pos_col(Board, Coord, LinePos),
     LinePos1 is LinePos - 1,
     LinePos2 is LinePos - 2,
@@ -146,14 +146,14 @@ throw_stone(Board, NewBoard, Coord, bot, Piece):-
 
 
 /**
-    throw_stone(-Board, +NewBoard, -Coord, right, -Cell)
+    move(-Board, +NewBoard, -Coord, right, -Cell)
 
     Equivalent to a play where a player throws a stone and slide_horizontallys it from the right edge of the board
     towards the left
     Places the player's stone Cell at the place of impact with another stone, in row Coord unifying
     the result with NewBoard
 */
-throw_stone(Board, NewBoard, Coord, right, Piece):-
+move(Board, NewBoard, Coord, right, Piece):-
     nth0(Coord, Board, Line),
     get_trailing_pos_line(Line, Pos),
     Pos1 is Pos - 1,
@@ -161,14 +161,14 @@ throw_stone(Board, NewBoard, Coord, right, Piece):-
     slide_horizontally(Board, NewBoard, Coord, Line, Pos, Pos1, Pos2, Piece).
 
 /**
-    throw_stone(-Board, +NewBoard, -Coord, left, -Cell)
+    move(-Board, +NewBoard, -Coord, left, -Cell)
 
     Equivalent to a play where a player throws a stone and slide_horizontallys it from the left edge of the board
     towards the right
     Places the player's stone Cell at the place of impact with another stone, in row Coord unifying
     the result with NewBoard
 */
-throw_stone(Board, NewBoard, Coord, left, Piece):-
+move(Board, NewBoard, Coord, left, Piece):-
     nth0(Coord, Board, Line),
     get_leading_pos_line(Line, Pos),
     Pos1 is Pos + 1,

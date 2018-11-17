@@ -13,4 +13,4 @@
 :- include('test_boards/simultaneous-win.pl').
 
 %game entry point
-zurero:- main_menu.
+play:- main_menu.
