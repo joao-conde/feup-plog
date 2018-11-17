@@ -47,6 +47,22 @@ print_coord_msg:-
 	write('Where to throw it?\t').
 
 
+/*  print_msg_piece_mid_placed(+Player)
+    
+    Prints the information that the Player's piece was automatically placed in the middle of the board.
+*/
+print_msg_piece_mid_placed(Player):-
+    write('First piece placed in the middle of the board for '), write(Player), write(' player\n').
+
+
+/*  print_msg_win_game(+Player)
+    
+    Prints the information that Player won the game.
+*/
+print_msg_win_game(Player):-
+    write('Congratulations, '), write(Player), write('!\nYou won the game!\n').
+
+
 /*  print_player_turn(+Player)
     
     Prints that the current turn belongs to Player.
