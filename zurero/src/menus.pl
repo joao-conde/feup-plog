@@ -6,13 +6,21 @@ main_menu:-
 	get_int(Input),
 	main_menu_option(Input).
 
-main_menu_option(1):- game_mode_menu.
-main_menu_option(2):- how_to_play.
-main_menu_option(3):- about.
-main_menu_option(4). %terminates
+main_menu_option(1):- 
+	game_mode_menu.
+
+main_menu_option(2):- 
+	how_to_play.
+
+main_menu_option(3):- 
+	about.
+
+/* Does nothing, terminates program */
+main_menu_option(4).
+
 main_menu_option(_):- 
 	write('\nError: invalid input.\n'),
-	request_enter, nl,
+	request_enter,
 	main_menu.
 
 print_main_menu:-
@@ -27,7 +35,7 @@ print_main_menu:-
 	write('=   4. Exit                     =\n'),
 	write('=                               =\n'),
 	write('=================================\n'),
-	write('Choose an option: ').
+	write('Choose an option:\t').
 
 
 %%%%%%%%%%%%%%%%%%%%%%%
@@ -114,7 +122,8 @@ game_mode_menu_option(1):-
 	create_pvp_game(Game),
 	play_game(Game).
 	
-game_mode_menu_option(2):- player_computer_menu.
+game_mode_menu_option(2):- 
+	player_computer_menu.
 
 game_mode_menu_option(3):-
 	bot_select_lvl_menu(Bot1Lvl, '=          Bot1 level?          =\n'),
@@ -122,10 +131,12 @@ game_mode_menu_option(3):-
 	create_bvb_game(Game, Bot1Lvl, Bot2Lvl),
 	play_game(Game).
 
-game_mode_menu_option(4):- main_menu.
+game_mode_menu_option(4):- 
+	main_menu.
+
 game_mode_menu_option(_):- 
 	write('\nError: invalid input.\n'),
-	request_enter, nl,
+	request_enter,
 	game_mode_menu.
 
 print_game_mode_menu:-
@@ -140,7 +151,7 @@ print_game_mode_menu:-
 	write('=   4. Back                     =\n'),
 	write('=                               =\n'),
 	write('=================================\n'),
-	write('Choose an option: ').
+	write('Choose an option:\t').
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -157,10 +168,12 @@ player_computer_menu_option(1):-
 player_computer_menu_option(2):- 
 	starting_player_menu(hard).
 
-player_computer_menu_option(3):- game_mode_menu. %back to previous menu
+player_computer_menu_option(3):- 
+	game_mode_menu.
+
 player_computer_menu_option(_):- 
 	write('\nError: invalid input.\n'),
-	request_enter, nl,
+	request_enter,
 	player_computer_menu.
 
 print_player_computer_menu:-
@@ -198,7 +211,7 @@ starting_player_menu_option(3, _):-
 
 starting_player_menu_option(_, _):-
 	write('\nError: invalid input.\n'),
-	request_enter, nl,
+	request_enter,
 	starting_player_menu.
 
 print_starting_player_menu:-
@@ -225,12 +238,10 @@ bot_select_lvl_menu(Diff, Message):-
 
 bot_select_lvl_menu_option(1, easy, _).
 bot_select_lvl_menu_option(2, hard, _).
-bot_select_lvl_menu_option(3, _, _):-
-	game_mode_menu.
 
 bot_select_lvl_menu_option(_, Diff, Message):-
 	write('\nError: invalid input.\n'),
-	request_enter, nl,
+	request_enter,
 	bot_select_lvl_menu(Diff, Message).
 
 print_bot_select_lvl_menu(Message):-
@@ -241,7 +252,6 @@ print_bot_select_lvl_menu(Message):-
 	write('=                               =\n'),
 	write('=   1. Easy                     =\n'),
 	write('=   2. Hard                     =\n'),
-	write('=   3. Back                     =\n'),
 	write('=                               =\n'),
 	write('=================================\n'),
 	write('Choose an option:\t').

@@ -17,16 +17,6 @@ clear_console(N):-
 	clear_console(N1).
 
 
-/*  get_char_nl(-Input)
-    
-    Reads a character from console unifying it with Input.
-    Reads the remaining newline character ('\n') in the console.
-*/
-get_char_nl(Input):-
-	get_char(Input),
-	get_char(_).
-
-
 /*  request_enter
     
     Requests user to press Enter key to advance.
@@ -63,6 +53,16 @@ print_coord_msg:-
 */
 print_player_turn(Player):-
     write(Player), write(' \'s turn\n').
+
+
+/*  get_char_nl(-Input)
+    
+    Reads a character from console unifying it with Input.
+    Reads the remaining newline character ('\n') in the console.
+*/
+get_char_nl(Input):-
+	get_char(Input),
+	get_char(_).
 
 
 /*  get_int(-Input)
