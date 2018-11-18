@@ -1,3 +1,0 @@
-TODO
--harder bot (takes into account enemy board)
--report

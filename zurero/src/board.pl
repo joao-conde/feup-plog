@@ -1,10 +1,14 @@
-/*  switch_turn(?Player, ?Enemy)
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%   Board Modifiers and Facts Module  %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+/*  enemy_player(?Player, ?Enemy)
 
     Given Player unifies Enemy with other player.
     Given Enemy unifies Player with other player.
 */
-switch_turn(white, black).
-switch_turn(black, white).
+enemy_player(white, black).
+enemy_player(black, white).
 
 
 /*  player_stone(?Player, ?PieceNumber)
@@ -229,44 +233,6 @@ push_stones_vertically(Board, NewBoard, Coord, LinePos1, LinePos2, PushedPiece, 
     set_cell(Coord, LinePos2, PushedPiece, Board2, NewBoard).
 
 
-/*  valid_move(+Board, +Coord, +Direction)
-
-    Succeeds if move is valid.
-*/
-valid_move(Board, Coord, top):- 
-    valid_move_col(Board, Coord).
-
-valid_move(Board, Coord, bot):- 
-    valid_move_col(Board, Coord).
-
-valid_move(Board, Coord, left):- 
-    valid_move_line(Board, Coord).
-
-valid_move(Board, Coord, right):- 
-    valid_move_line(Board, Coord).
-
-
-/*  valid_move_line(+Board, +Coord)
-
-    Succeeds if line is empty, meaning it only has empty cells.
-*/
-valid_move_line(Board, Coord):-
-    nth0(Coord, Board, Line),
-    \+ empty(Line).
-
-
-/*  valid_move_col(+Board, +Coord)
-
-    Succeeds if col is empty, meaning it only has empty cells.
-*/
-valid_move_col([Line|_], Coord):- 
-    \+ nth0(Coord, Line, 0).
-
-valid_move_col([Line|Board], Coord):-
-    nth0(Coord, Line, 0),
-    valid_move_col(Board, Coord).
-
-
 /*  max_in_a_row_lines(+Board, +Piece, -Max)
 
     Unifies Max with the maximum in a row Pieces in the Board lines.
@@ -369,19 +335,6 @@ cnt_in_a_row_col(Board, Col, Piece, InARow):-
     Col1 is Col+1,
     findall(Cell, (between(1, NumbLines, I), nth1(I, Board, Line), nth1(Col1, Line, Cell)), L),
     cnt_in_a_row_line(L, Piece, InARow).
-
-
-/*  check_win(+Board, +Player)
-
-    Checks if with Board Player won.
-*/
-check_win(Board, Player):-
-    player_stone(Player, Piece),
-    cnt_in_a_row_lines(Board, Piece, LinesCnt),
-    cnt_in_a_row_cols(Board, Piece, ColsCnt),
-    cnt_in_a_row_diags(Board, Piece, DiagsCnt),
-    max_lists(Max, [LinesCnt, ColsCnt, DiagsCnt]),
-    Max >= 5.
 
 
 /*  get_all_diags(+Board, -Diags)

@@ -1,6 +1,8 @@
-%%%%%%%%%%%%%%%%%%
-%   MAIN MENU    %
-%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%
+%    MENUS MODULE     %
+%%%%%%%%%%%%%%%%%%%%%%%
+
+/* Main menu options */
 main_menu:-
 	print_main_menu,
 	get_int(Input),
@@ -38,9 +40,7 @@ print_main_menu:-
 	write('Choose an option:\t').
 
 
-%%%%%%%%%%%%%%%%%%%%%%%
-%     HOW TO PLAY     %
-%%%%%%%%%%%%%%%%%%%%%%%
+/* How to play display */
 how_to_play:-
 	print_how_to_play,
 	request_enter,
@@ -81,9 +81,7 @@ print_how_to_play:-
 	write('=========================================================================================================\n').
 
 
-%%%%%%%%%%%%%%%%%%%%%%%
-%        ABOUT        %
-%%%%%%%%%%%%%%%%%%%%%%%
+/* About display */
 about:-
 	print_about,
 	request_enter,
@@ -110,9 +108,7 @@ print_about:-
 	write('================================================================\n').
 
 
-%%%%%%%%%%%%%%%%%%%%%%%
-%   GAME MODE MENU    %
-%%%%%%%%%%%%%%%%%%%%%%%
+/* Game mode menu options */
 game_mode_menu:-
 	print_game_mode_menu,
 	get_int(Input),
@@ -154,9 +150,7 @@ print_game_mode_menu:-
 	write('Choose an option:\t').
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%    Player vs Computer Menu    %
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+/* Player versus Bot menu options */
 player_computer_menu:-
 	print_player_computer_menu,
 	get_int(Input),
@@ -190,9 +184,7 @@ print_player_computer_menu:-
 	write('Choose an option:\t').
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%    Starting Player Selection Menu     %
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+/* Starting player select menu options */
 starting_player_menu(Diff):-
 	print_starting_player_menu,
 	get_int(Input),
@@ -228,9 +220,7 @@ print_starting_player_menu:-
 	write('Choose an option:\t').
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%     Bot Gameplay Level Selection      %
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+/* Bot gameplay difficulty menu options */
 bot_select_lvl_menu(Diff, Message):-
 	print_bot_select_lvl_menu(Message),
 	get_int(Input),

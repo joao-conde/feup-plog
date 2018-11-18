@@ -1,3 +1,7 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%   Artificial Intelligence Module  %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 /*  bot_move(+Diff, +Board, +Player, -NewBoard)
 
     Performs the bot move unifying resulting board with NewBoard.

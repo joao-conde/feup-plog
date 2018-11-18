@@ -1,3 +1,7 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%          Game loops Module          %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 /*  create_pvp_game(-Game)
 
     Creates a PvP (Player versus Player) game.
@@ -40,7 +44,7 @@ play_game([Board, Player|Other]):-
     clear_console,
     player_stone(Player, Piece),
     set_cell(9, 9, Piece, Board, NewBoard), 
-    switch_turn(Player, NextPlayer),
+    enemy_player(Player, NextPlayer),
     print_board(NewBoard),
     print_msg_piece_mid_placed(Player),
     request_enter,
@@ -132,7 +136,7 @@ player_turn(Board, NewBoard, Player, NextPlayer):-
     print_board(Board),
     print_player_turn(Player),
     player_move(Board, Player, NewBoard),
-    switch_turn(Player, NextPlayer),
+    enemy_player(Player, NextPlayer),
     game_over(NewBoard, Player),
     game_over(NewBoard, NextPlayer).
 
@@ -152,7 +156,7 @@ bot_turn(Board, NewBoard, Player, NextPlayer, Diff):-
     print_board(Board),
     print_player_turn(Player),
     bot_move(Diff, Board, Player, NewBoard),
-    switch_turn(Player, NextPlayer),
+    enemy_player(Player, NextPlayer),
     game_over(NewBoard, Player),
     game_over(NewBoard, NextPlayer).
 
@@ -174,3 +178,54 @@ player_move(Board, Player, NewBoard):-
     valid_move(Board, Coord, Direction),
     player_stone(Player, Piece),
     move(Board, NewBoard, Coord, Direction, Piece).   
+
+
+/*  valid_move(+Board, +Coord, +Direction)
+
+    Succeeds if move is valid.
+*/
+valid_move(Board, Coord, top):- 
+    valid_move_col(Board, Coord).
+
+valid_move(Board, Coord, bot):- 
+    valid_move_col(Board, Coord).
+
+valid_move(Board, Coord, left):- 
+    valid_move_line(Board, Coord).
+
+valid_move(Board, Coord, right):- 
+    valid_move_line(Board, Coord).
+
+
+/*  valid_move_line(+Board, +Coord)
+
+    Succeeds if line is empty, meaning it only has empty cells.
+*/
+valid_move_line(Board, Coord):-
+    nth0(Coord, Board, Line),
+    \+ empty(Line).
+
+
+/*  valid_move_col(+Board, +Coord)
+
+    Succeeds if col is empty, meaning it only has empty cells.
+*/
+valid_move_col([Line|_], Coord):- 
+    \+ nth0(Coord, Line, 0).
+
+valid_move_col([Line|Board], Coord):-
+    nth0(Coord, Line, 0),
+    valid_move_col(Board, Coord).
+
+
+/*  check_win(+Board, +Player)
+
+    Checks if with Board the Player won.
+*/
+check_win(Board, Player):-
+    player_stone(Player, Piece),
+    cnt_in_a_row_lines(Board, Piece, LinesCnt),
+    cnt_in_a_row_cols(Board, Piece, ColsCnt),
+    cnt_in_a_row_diags(Board, Piece, DiagsCnt),
+    max_lists(Max, [LinesCnt, ColsCnt, DiagsCnt]),
+    Max >= 5. 

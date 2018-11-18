@@ -1,3 +1,7 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%    COMMAND-LINE INTERFACE MODULE     %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 /*  clear_console
     
     Simulates a console clear by printing out 100 newline characters ('\n').
