@@ -36,15 +36,6 @@ choose_move(easy, Board, _, MvCoord-MvDir):-
     nth0(MoveIdx, ValidMoves, MvCoord-MvDir).
 
 
-/*  valid_moves(+Board, -ValidMoves)
-
-    Returns a list with the valid moves.
-    Depends only on the Board.
-*/
-valid_moves(Board, ValidMoves):-
-    findall(Coord-Dir, valid_move(Board, Coord, Dir), ValidMoves).
-
-
 /*  evaluate_move(+Board, +Coord, +Dir, +Piece, -Eval)
 
     Evaluates a move.
@@ -52,7 +43,12 @@ valid_moves(Board, ValidMoves):-
 */
 evaluate_move(Board, Coord, Dir, Piece, Eval):-
     move(Board, NewBoard, Coord, Dir, Piece),
-    value(NewBoard, Piece, Eval).
+    value(NewBoard, Piece, MyEval),
+    player_stone(Player, Piece),
+    enemy_player(Player, Enemy),
+    player_stone(Enemy, EnemyPiece),
+    value(NewBoard, EnemyPiece, EnemyEval),
+    Eval is MyEval - EnemyEval.
 
 
 /*  value(+Board, +Piece, -Eval)

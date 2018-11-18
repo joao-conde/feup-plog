@@ -180,6 +180,15 @@ player_move(Board, Player, NewBoard):-
     move(Board, NewBoard, Coord, Direction, Piece).   
 
 
+/*  valid_moves(+Board, -ValidMoves)
+
+    Returns a list with the valid moves.
+    Depends only on the Board.
+*/
+valid_moves(Board, ValidMoves):-
+    findall(Coord-Dir, valid_move(Board, Coord, Dir), ValidMoves).
+
+
 /*  valid_move(+Board, +Coord, +Direction)
 
     Succeeds if move is valid.
