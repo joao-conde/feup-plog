@@ -1,4 +1,5 @@
-:-dynamic(played/4).
+:- dynamic(played/4).
+:- use_module(library(lists)).
 
 
 %player(Name, UserName, Age).
@@ -56,14 +57,6 @@ listGamesOfCategory(_).
 
 
 %5
-sumList(List, Sum):-
-	sumList(List, Sum, 0).
-
-sumList([], Sum, Sum).
-sumList([H|T], Sum, Acc):-
-	Acc1 is Acc + H,
-	sumList(T, Sum, Acc1).
-
 buildHoursPlayedList(Player, Games, Times):-
 	auxBuildHoursPlayedList(Player, Games, Times, []).
 
