@@ -8,7 +8,7 @@ The purpose of the game is to be the first player to move their king to the eigh
 
 Apart from the above, pieces move and capture exactly as in normal chess.
 
-![board](https://github.com/joao-conde/feup-plog/blob/master/racing-kings/report/Relat%C3%B3rio%20Final/initialBoard.PNG)
+![board](https://github.com/joao-conde/feup-plog/blob/master/racing-kings/docs/Relat%C3%B3rio%20Final/initialBoard.PNG)
 
 ## Zurero
 
