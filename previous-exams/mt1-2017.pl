@@ -134,7 +134,13 @@ mostEffectivePlayers(Game, Players):-
 					Ratio is Perc / Hours
 					), 
 					PlayersRatios),
-	bestPlayers(PlayersRatios, Players, [], -1).
+    sort(PlayersRatios, SortedPlayersRatios), 
+    /* 
+        sorts to prevent the case of a player having the biggest ratio so far
+        and then another showing up with an even bigger ratio 
+    */
+    reverse(SortedPlayersRatios, NewPlayersRatios),
+	bestPlayers(NewPlayersRatios, Players, [], -1).
 
 bestPlayers([], Players, Players, _).
 bestPlayers([R-P|T], Player, Acc, CurRatio):-
