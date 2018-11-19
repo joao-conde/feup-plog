@@ -1,3 +1,4 @@
+:-use_module(library(lists)).
 :-dynamic(relation/5).
 
 %district(District ID, District name).
@@ -113,5 +114,121 @@ auxSelfEmployer(DistrictID, CheckedCities, Cities, Acc):-
 	auxSelfEmployer(DistrictID, [CityID|CheckedCities], Cities, Acc), !.
 
 auxSelfEmployer(_, _, Cities, Cities).
+
+
+%7
+populationRange(MinPop, MaxPop, Cities):-
+	findall(City, (
+					city(_, _, City, Inhabitants, _),
+					Inhabitants >= MinPop,
+					Inhabitants =< MaxPop
+				)
+				, Cities).
+
+
+%8
+averagePop(District, AveragePop):-
+	findall(Inhabitants, (
+							district(DistrictID, District),
+							city(_, DistrictID, _, Inhabitants, _)
+						), Populations),
+	length(Populations, Pops),
+	sumlist(Populations, Sum),
+	AveragePop is Sum / Pops.
+
+
+%9
+distalTwins(Cities, DLA):-
+	findall(DLA-City1-City2, 
+					(
+						computeDLA(City1, City2, DLA)
+					), 
+					DLAS),
+	sort(DLAS, AscDLAS),
+	reverse(AscDLAS, DescDLAS),
+	processDLAS(DescDLAS, Cities, DLA, [], -1000).
+
+computeDLA(City1ID, City2ID, DLA):-
+	relation(City1ID, City2ID, Distance, Inb12, _),
+	city(City1ID, _, _, Total, _),
+	DLA is Distance * (Inb12 / Total).
+
+
+processDLAS([], Cities, DLA, Cities, DLA).
+processDLAS([HDLA-HC1-HC2|T], Cities, DLA, Acc, CurDLA):-
+	HDLA >= CurDLA,
+	CurDLA1 is HDLA,
+	city(HC1, _, City1Name, _, _),
+	city(HC2, _, City2Name, _, _),
+	append(Acc, [City1Name-City2Name], Acc1),
+	processDLAS(T, Cities, DLA, Acc1, CurDLA1).
+
+processDLAS([HDLA-_-_|T], Cities, DLA, Acc, CurDLA):-
+	HDLA < CurDLA,
+	processDLAS(T, Cities, DLA, Acc, CurDLA).
+
+
+%10
+districtHasCitiesWithSameExternalWorkers(DistrictID):-
+	city(CityID, DistrictID, _, _, _), !,
+	( relation(CityID, AnotherCityID, Distance, OutWorkers, OutWorkers) ; 
+			relation(AnotherCityID, CityID, Distance, OutWorkers, OutWorkers) ).
+
+/*
+	O predicado procura 2 cidades e.g. A e B que tenham o mesmo número de trabalhadores
+	a trabalhar na outra cidade i.e. há X cidadãos de A a trabalhar em B e X cidadãos de B
+	a trabalhar em A.
+
+	CUT?
+*/
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+ingrediente(laranjas, 6). 	% existem 3 laranjas
+ingrediente(manteigas, 23). % existem 23 manteigas
+ingrediente(farinhas, 50). 	% existem 50 farinhas
+ingrediente(azeites, 13). 	% existem 13 azeites
+ingrediente(nozes, 43). 	% existem 43 nozes
+ingrediente(avelas, 55). 	% existem 55 avelas
+ingrediente(bolachas, 85). 	% existem 85 bolachas
+
+receita(boloLaranjas, [laranjas/5, avelas/10, nozes/7]).
+receita(boloBolacha, [bolachas/20, laranjas/2, manteigas/2, nozes/7]).
+receita(boloNozes, [farinhas/20, manteigas/2, nozes/7]).
+receita(boloAvelasNozes, [farinhas/20, manteigas/2, avelas/45, nozes/7]).
+receita(boloImpossivel, [farinhas/51, manteigas/2, avelas/45, nozes/7]).
+
+
+%11
+podeFazer_Se(Receita):-
+	receita(Receita, Ingredientes),
+	verificaStock(Ingredientes).
+
+verificaStock([]).
+verificaStock([Ing/Quant|T]):-
+	ingrediente(Ing, Available),
+	Quant =< Available,
+	verificaStock(T).
+
+
+%12
+% cozinhaTodos/1
+% adicionaReceitas(Receitas, Ingredientes):-
+% Code BELOW NOT WORKING
+% adicionaIngredientes(IngredientesDaReceita, Ingredientes):-
+% 	auxAdicionaIngredientes(IngredientesDaReceita, Ingredientes, []).
+
+% auxAdicionaIngredientes([], Ingredientes, Ingredientes).
+% auxAdicionaIngredientes([Ing/Quant|T], Ingredientes, Acc):-
+% 	member(Ing/_, Ingredientes),
+% 	nth1(Idx, Ingredientes, Ing/_),
+% 	nth1(Idx, Ingredientes, Ing/Quant1),
+% 	delete(Idx, Ingredientes, NewIngredientes),
+% 	Quant2 is Quant1 + Quant,
+% 	auxAdicionaIngredientes(T, [Ing/Quant2|NewIngredientes], [Ing/Quant2|Acc]).
+
+% auxAdicionaIngredientes([Ing/Quant|T], Ingredientes, Acc):-
+% 	\+member(Ing/_, Ingredientes),
+% 	auxAdicionaIngredientes(T, [Ing/Quant|Ingredientes], [Ing/Quant|Acc]).
 
 
