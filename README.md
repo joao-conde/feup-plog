@@ -1,3 +1,23 @@
+# PROLOG PROJECTS
+
+## Racing Kings
+
+In this game, checks are entirely forbidden: not only is it forbidden to move one's king into check, but it is also forbidden to check the opponent's king.
+
+The purpose of the game is to be the first player to move their king to the eighth row. When White moves their king to the eighth row, and Black, immediately on the next move, moves their king to the eighth rank, the game is declared a draw (this rule is to compensate for White's first-move advantage).
+
+Apart from the above, pieces move and capture exactly as in normal chess.
+
+![board](https://github.com/joao-conde/feup-plog/blob/master/racing-kings/report/Relat%C3%B3rio%20Final/initialBoard.PNG)
+
+## Zurero
+
+This game is an interesting variation of Go-Moku, in which players "slide" stones along the board lines from the edge of the board till the "sliding" stone is stopped by another stone on the board.
+
+The intriguing feature of the game is that the "sliding" stone pushes the "stopping" stone if there is an empty space behind it.
+
+![board](https://github.com/joao-conde/feup-plog/blob/master/zurero/docs/Intermediate%20Report/end_game.png)
+
 # PROLOG CONVENTIONS FOR BETTER CODE
 
 ## Predicate names
