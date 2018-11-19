@@ -122,7 +122,7 @@ ageRange(MinAge, MaxAge, Players):-
 averageAge(Game, AverageAge):-
 	findall(Age, (played(Player, Game, _, _),
 					player(_, Player, Age)), PlayersAge),
-	sumList(PlayersAge, SumAges),
+	sumlist(PlayersAge, SumAges),
 	length(PlayersAge, NumAges),
 	AverageAge is SumAges / NumAges.
 
