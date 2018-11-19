@@ -73,7 +73,22 @@ auxBuildHoursPlayedList(Player, [Game|T], Times, Acc):-
 
 timePlayingGames(Player, Games, ListOfTimes, SumTimes):-
 	buildHoursPlayedList(Player, Games, ListOfTimes),
-	sumList(ListOfTimes, SumTimes).
+	sumlist(ListOfTimes, SumTimes).
+
+
+%6
+fewHours(Player, Games) :-
+    countHours(Player, Games, [], []).
+
+countHours(Player, Games, Acc, OldGames) :-
+    played(Player, GameTemp, HoursTemp, _),
+    \+member(GameTemp, OldGames),
+    append([GameTemp], OldGames, NewOldGames),
+    HoursTemp < 10,
+    append([GameTemp], Acc, Acc1),
+    countHours(Player, Games, Acc1, NewOldGames), !.
+
+countHours(_, Games, Games, _).
 
 
 %6
