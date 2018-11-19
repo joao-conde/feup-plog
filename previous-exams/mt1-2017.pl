@@ -90,16 +90,88 @@ bigAchievement(Player, Games):-
 auxBigAchievement(Player, CheckedGames, Games, Acc):-
 	played(Player, Game, _, PerUnlocked),
 	\+ member(Game, CheckedGames),
-	PerUnlocked > 80,
+	PerUnlocked > 80, !,
 	auxBigAchievement(Player, [Game|CheckedGames], Games, [Game|Acc]).
 
 auxBigAchievement(Player, CheckedGames, Games, Acc):-
 	played(Player, Game, _, PerUnlocked),
 	\+ member(Game, CheckedGames),
-	PerUnlocked =< 80,
+	PerUnlocked =< 80, !,
 	auxBigAchievement(Player, [Game|CheckedGames], Games, Acc).
 
 
 auxBigAchievement(_, _, Games, Games).
 
-	
+
+%7
+ageRange(MinAge, MaxAge, Players):-
+	findall(Player, (player(Player, _, Age), 
+					Age >= MinAge, Age =< MaxAge), 
+					Players).
+
+
+%8
+averageAge(Game, AverageAge):-
+	findall(Age, (played(Player, Game, _, _),
+					player(_, Player, Age)), PlayersAge),
+	sumList(PlayersAge, SumAges),
+	length(PlayersAge, NumAges),
+	AverageAge is SumAges / NumAges.
+
+
+%9
+mostEffectivePlayers(Game, Players):-
+	findall(Ratio-Player, (
+					played(Player, Game, Hours, Perc),
+					Ratio is Perc / Hours
+					), 
+					PlayersRatios),
+	bestPlayers(PlayersRatios, Players, [], -1).
+
+bestPlayers([], Players, Players, _).
+bestPlayers([R-P|T], Player, Acc, CurRatio):-
+	CurRatio =< R,
+	CurRatio1 is R,
+	append(Acc, [P], Acc1),
+	bestPlayers(T, Player, Acc1, CurRatio1).
+
+bestPlayers([R-_|T], Player, Acc, CurRatio):-
+	CurRatio > R,
+	bestPlayers(T, Player, Acc, CurRatio).
+
+
+%10
+checkMinAge(PlayerUserName):-
+	player(_, PlayerUserName, Age), !,
+	\+ ( played(PlayerUserName, Game, _, _),
+		game(Game, _, MinAge),
+	 	MinAge > Age ).	
+
+/*
+	O predicado verifica se o jogador PlayerUserName joga algum jogo
+	para o qual não tenha a idade mínima.
+
+	O cut é verde porque logo após se verificar que o jogador joga um jogo
+	para o qual não tem idade, o predicado não tenta reunificar (idk?)
+
+*/
+
+
+%11 - not certain
+distance(1, 0, 8).
+distance(2, 0, 8).
+distance(3, 0, 7).
+distance(4, 0, 7).
+
+distance(3, 2, 2).
+distance(4, 2, 4).
+distance(5, 2, 4).
+
+distance(3, 4, 3).
+distance(3, 5, 3).
+
+distance(4, 5, 1).
+
+distance(X, X, X).
+distance(A, B, C):-
+	distance(B, A, C).
