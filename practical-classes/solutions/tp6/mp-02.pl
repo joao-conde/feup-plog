@@ -2,8 +2,8 @@
 	Test with:
 
 	| ?- divide([1,2,3,4,5,6], is_pair, L).
-		L = [2,4,6,1,3,5] ? 
-		yes
+		  L = [2,4,6,1,3,5] ? 
+		  yes
 */
 
 %Test predicate
