@@ -192,11 +192,11 @@ ingrediente(nozes, 43). 	% existem 43 nozes
 ingrediente(avelas, 55). 	% existem 55 avelas
 ingrediente(bolachas, 85). 	% existem 85 bolachas
 
-receita(boloLaranjas, [laranjas/5, avelas/10, nozes/7]).
+receita(boloLaranjas, [avelas/10, laranjas/5, nozes/7]).
 receita(boloBolacha, [bolachas/20, laranjas/2, manteigas/2, nozes/7]).
 receita(boloNozes, [farinhas/20, manteigas/2, nozes/7]).
-receita(boloAvelasNozes, [farinhas/20, manteigas/2, avelas/45, nozes/7]).
-receita(boloImpossivel, [farinhas/51, manteigas/2, avelas/45, nozes/7]).
+receita(boloAvelasNozes, [avelas/45, farinhas/20, manteigas/2, nozes/7]).
+receita(boloImpossivel, [avelas/45, farinhas/51, manteigas/2, nozes/7]).
 
 
 %11
@@ -212,17 +212,6 @@ verificaStock([Ing/Quant|T]):-
 
 
 %12
-adicionaListasIngredientes([], [], Ingredientes, Ingredientes).
-
-adicionaListasIngredientes([H1|IngList1], [H2|IngList2], Ingredientes, Acc):-
-	adicionaIngrediente(H1, Acc, Acc1),
-	adicionaIngrediente(H2, Acc1, Acc2),
-	adicionaListasIngredientes(IngList1, IngList2, Ingredientes, Acc2).
-
-adicionaListasIngredientes([H1|IngList1], [], Ingredientes, Acc):-
-	adicionaIngrediente(H1, Acc, Acc1),
-	adicionaListasIngredientes(IngList1, [], Ingredientes, Acc1).
-
 adicionaIngrediente(Ing/Quant, L, [Ing/Quant|L]):-
 	\+ member(Ing/_, L).
 
@@ -233,15 +222,40 @@ adicionaIngrediente(Ing/Quant, L, NewList):-
 	delete(L, Ing/CurQuant, L2),
 	append(L2, [Ing/NewQuant], NewList).
 
+
+adicionaIngredientes([], Ingredientes, Ingredientes).
+adicionaIngredientes([H1|Ingredientes1], Ingredientes2, Ingredientes):-
+	adicionaIngrediente(H1, Ingredientes2, Acc),
+	adicionaIngredientes(Ingredientes1, Acc, Ingredientes).
+
 cozinhaTodos(Receitas):-
 	auxCozinhaTodos(Receitas, Ingredientes, []),
 	verificaStock(Ingredientes).
 
 auxCozinhaTodos([], Ingredientes, Ingredientes).
 auxCozinhaTodos([Receita|T], Ingredientes, Acc):-
-	receita(Receita, ListaIngredientes),
-	adicionaListasIngredientes(ListaIngredientes, Acc, Acc1, []),
+	receita(Receita, ReceitaIng),
+	adicionaIngredientes(ReceitaIng, Acc, Acc1),
 	auxCozinhaTodos(T, Ingredientes, Acc1).
 
 
 %13
+mySublist(Sublist, List) :-
+    append([_, Sublist, _], List).
+
+maxCozinhados(N):-
+	findall(Receita, receita(Receita, _), L),
+	findall(SubList, subseq0(L, SubList), SubLists),
+	findall(Lista, (member(Lista, SubLists), cozinhaTodos(Lista)), Doable),
+	findBiggestList(Doable, N, -1).
+
+findBiggestList([], N, N).
+findBiggestList([Doable|T], N, CurMax):-
+	length(Doable, Len),
+	Len > CurMax,
+	findBiggestList(T, N, Len).
+
+findBiggestList([Doable|T], N, CurMax):-
+	length(Doable, Len),
+	Len =< CurMax,
+	findBiggestList(T, N, CurMax).
