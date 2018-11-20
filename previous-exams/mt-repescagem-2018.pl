@@ -184,7 +184,7 @@ districtHasCitiesWithSameExternalWorkers(DistrictID):-
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-ingrediente(laranjas, 6). 	% existem 3 laranjas
+ingrediente(laranjas, 6). 	% existem 6 laranjas
 ingrediente(manteigas, 23). % existem 23 manteigas
 ingrediente(farinhas, 50). 	% existem 50 farinhas
 ingrediente(azeites, 13). 	% existem 13 azeites
@@ -212,23 +212,36 @@ verificaStock([Ing/Quant|T]):-
 
 
 %12
-% cozinhaTodos/1
-% adicionaReceitas(Receitas, Ingredientes):-
-% Code BELOW NOT WORKING
-% adicionaIngredientes(IngredientesDaReceita, Ingredientes):-
-% 	auxAdicionaIngredientes(IngredientesDaReceita, Ingredientes, []).
+adicionaListasIngredientes([], [], Ingredientes, Ingredientes).
 
-% auxAdicionaIngredientes([], Ingredientes, Ingredientes).
-% auxAdicionaIngredientes([Ing/Quant|T], Ingredientes, Acc):-
-% 	member(Ing/_, Ingredientes),
-% 	nth1(Idx, Ingredientes, Ing/_),
-% 	nth1(Idx, Ingredientes, Ing/Quant1),
-% 	delete(Idx, Ingredientes, NewIngredientes),
-% 	Quant2 is Quant1 + Quant,
-% 	auxAdicionaIngredientes(T, [Ing/Quant2|NewIngredientes], [Ing/Quant2|Acc]).
+adicionaListasIngredientes([H1|IngList1], [H2|IngList2], Ingredientes, Acc):-
+	adicionaIngrediente(H1, Acc, Acc1),
+	adicionaIngrediente(H2, Acc1, Acc2),
+	adicionaListasIngredientes(IngList1, IngList2, Ingredientes, Acc2).
 
-% auxAdicionaIngredientes([Ing/Quant|T], Ingredientes, Acc):-
-% 	\+member(Ing/_, Ingredientes),
-% 	auxAdicionaIngredientes(T, [Ing/Quant|Ingredientes], [Ing/Quant|Acc]).
+adicionaListasIngredientes([H1|IngList1], [], Ingredientes, Acc):-
+	adicionaIngrediente(H1, Acc, Acc1),
+	adicionaListasIngredientes(IngList1, [], Ingredientes, Acc1).
+
+adicionaIngrediente(Ing/Quant, L, [Ing/Quant|L]):-
+	\+ member(Ing/_, L).
+
+adicionaIngrediente(Ing/Quant, L, NewList):-
+	member(Ing/_, L),
+	nth1(_, L, Ing/CurQuant),
+	NewQuant is CurQuant + Quant,
+	delete(L, Ing/CurQuant, L2),
+	append(L2, [Ing/NewQuant], NewList).
+
+cozinhaTodos(Receitas):-
+	auxCozinhaTodos(Receitas, Ingredientes, []),
+	verificaStock(Ingredientes).
+
+auxCozinhaTodos([], Ingredientes, Ingredientes).
+auxCozinhaTodos([Receita|T], Ingredientes, Acc):-
+	receita(Receita, ListaIngredientes),
+	adicionaListasIngredientes(ListaIngredientes, Acc, Acc1, []),
+	auxCozinhaTodos(T, Ingredientes, Acc1).
 
 
+%13
