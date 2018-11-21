@@ -165,8 +165,7 @@ checkMinAge(PlayerUserName):-
 	O predicado verifica se o jogador PlayerUserName joga algum jogo
 	para o qual não tenha a idade mínima.
 
-	O cut é verde porque logo após se verificar que o jogador joga um jogo
-	para o qual não tem idade, o predicado não tenta reunificar (idk?)
+	
 
 */
 
@@ -186,6 +185,20 @@ distance(3, 5, 3).
 
 distance(4, 5, 1).
 
-distance(X, X, X).
+distance(X, X, 0).
 distance(A, B, C):-
 	distance(B, A, C).
+
+
+%13
+tree(a, b, c).
+tree(b, d, f).
+tree(c, void, void).
+tree(d, void, void).
+tree(f, void, void).
+
+printTree(void).
+printTree(Root):-
+	write(Root), nl,
+	tree(Root, L, R),
+	printTree(L), printTree(R).

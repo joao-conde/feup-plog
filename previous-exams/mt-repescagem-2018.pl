@@ -174,7 +174,8 @@ districtHasCitiesWithSameExternalWorkers(DistrictID):-
 	a trabalhar na outra cidade i.e. há X cidadãos de A a trabalhar em B e X cidadãos de B
 	a trabalhar em A.
 
-	CUT?
+	O cut é vermelho porque apenas é verificado para a primeira cidade do districto se existe 
+	outra com o mesmo numero de external workers. 
 */
 
 

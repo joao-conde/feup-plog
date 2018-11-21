@@ -146,7 +146,7 @@ predX(_,[],[]).
 /* 
 	Para uma idade Q e uma lista de participantes R devolve uma lista de atuações
 	realizadas por um participante com idade inferior ou igual a Q.
-	Cut verde? idk, para este caso dá igual mas para outros poderia nao dar?
+	O cut é verde pois a chamada a predX não falha, logo o cut não tem efeito.
 */
 
 
