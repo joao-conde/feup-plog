@@ -60,33 +60,28 @@ auxSum([H|T], Sum, Acc):-
 	Acc1 is Acc + H,
 	auxSum(T, Sum, Acc1).
 
-workingOutOfCity(City, OtherCities, ListOfPeople, SumPeople):-
-	city(CityID, _, City, _, _),
-	processOtherCities(CityID, OtherCities, [], ListOfPeople, []), !,
-	sumList(ListOfPeople, SumPeople).
+workingOutOfCity(City, OtherCities, ListOfPeople, SumPeople) :-
+    city(CityID, _, City, _, _),
+    workingOutOfCityAux(CityID, OtherCities, ListOfPeople, []),
+    sumList(ListOfPeople, SumPeople).
 
-processOtherCities(CityID, [C|Cities], CheckedCities, ListOfPeople, Acc):-
-	\+ member(C, Cities),
-	city(CID, _, C, _, _),
-	relation(CityID, CID, _, In, _),
-	append(Acc, [In], Acc1),
-	processOtherCities(CityID, Cities, [C|CheckedCities], ListOfPeople, Acc1).
+workingOutOfCityAux(City, [CityH|CityT], ListOfPeople, Acc) :-
+    city(CityID, _, CityH, _, _),
+    relation(City, CityID, _, WorkingOutOfCity, _),
+    append([WorkingOutOfCity], Acc, Acc1),
+    workingOutOfCityAux(City, CityT, ListOfPeople, Acc1).
 
-processOtherCities(CityID, [C|Cities], CheckedCities, ListOfPeople, Acc):-
-	\+ member(C, Cities),
-	city(CID, _, C, _, _),
-	relation(CID, CityID, _, _, In),
-	append(Acc, [In], Acc1),
-	processOtherCities(CityID, Cities, [C|CheckedCities], ListOfPeople, Acc1).
+workingOutOfCityAux(City, [CityH|CityT], ListOfPeople, Acc) :-
+    city(CityID, _, CityH, _, _),
+    relation(CityID, City, _, _, WorkingOutOfCity),
+    append([WorkingOutOfCity], Acc, Acc1),
+    workingOutOfCityAux(City, CityT, ListOfPeople, Acc1).
 
+workingOutOfCityAux(City, [_|CityT], ListOfPeople, Acc) :-
+    append([0], Acc, Acc1),
+    workingOutOfCityAux(City, CityT, ListOfPeople, Acc1).
 
-processOtherCities(CityID, [C|Cities], CheckedCities, ListOfPeople, Acc):-
-	\+ member(C, Cities),
-	append(Acc, [0], Acc1),
-	processOtherCities(CityID, Cities, [C|CheckedCities], ListOfPeople, Acc1).
-
-
-processOtherCities(_, _, _, ListOfPeople, ListOfPeople).
+workingOutOfCityAux(_, [], ListOfPeople, ListOfPeople).
 
 
 %6
