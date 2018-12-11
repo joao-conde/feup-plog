@@ -1,7 +1,3 @@
-% amarelo está depois do preto. A questão a resolver é a seguinte:
-% O primeiro carro: a) é amarelo ; b) é azul; c) é preto ; d) é verde; e) não pode ser determinado com
-% estes dados?
-
 :-use_module(library(clpfd)).
 
 /*
@@ -10,7 +6,6 @@
 	Green - 3
 	Black - 4
 */
-
 solve:-
 	length(Colors, 4), domain(Colors, 1, 4), all_distinct(Colors),
 	length(Sizes, 4), domain(Sizes, 1, 4), all_distinct(Sizes),

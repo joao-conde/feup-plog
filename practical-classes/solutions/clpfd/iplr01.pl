@@ -23,6 +23,10 @@ solve_magic_quad_3x3:-
 	%forwardslash diagonal
 	G + E + C #= S,
 
+	%eliminates symmetries
+	A #< B, A #< C,
+	A #< D, B #< D,
+
 	labeling([], Vars),
 	print_quad(Vars), nl,
 	fail.
