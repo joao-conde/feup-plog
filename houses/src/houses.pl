@@ -9,4 +9,6 @@
 :- include('utils.pl').
 
 /* Application entry point */
-play:- main_menu.
+play :- main_menu.
+
+con :- consult('houses.pl').

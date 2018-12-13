@@ -9,7 +9,7 @@ main_menu:-
 	main_menu_option(Input).
 
 main_menu_option(1):- 
-	game_mode_menu.
+	puzzles_menu(1).
 
 main_menu_option(2):- 
 	how_to_play.
@@ -28,7 +28,7 @@ main_menu_option(_):-
 print_main_menu:-
 	clear_console,
 	write('=================================\n'),
-	write('=            ZURERO             =\n'),
+	write('=        Houses Puzzles         =\n'),
 	write('=================================\n'),
 	write('=                               =\n'),
 	write('=   1. Play                     =\n'),
@@ -87,34 +87,80 @@ print_about:-
 
 
 /* Game mode menu options */
-game_mode_menu:-
-	print_game_puzzles_list,
+puzzles_menu(Page):-
+	print_game_puzzles_list(Page),
 	get_int(Input),
-	game_mode_menu_option(Input).
+	puzzles_menu_option(Input, Page).
 
-game_mode_menu_option(1):.
-	
-game_mode_menu_option(2).
+puzzles_menu_option(1, 1):-
+	puzzles_menu(1).
 
-game_mode_menu_option(4):- 
+puzzles_menu_option(2, 1):-
+	puzzles_menu(1).
+
+puzzles_menu_option(3, 1):-
+	puzzles_menu(1).
+
+puzzles_menu_option(4, 1):-
+	puzzles_menu(1).
+
+puzzles_menu_option(5, 1):-
+	puzzles_menu(1).
+
+puzzles_menu_option(6, 1):-
+	puzzles_menu(1).
+
+puzzles_menu_option(7, 1):-
+	puzzles_menu(1).
+
+puzzles_menu_option(10, 1):-
+	puzzles_menu(2).
+
+puzzles_menu_option(11, _):- 
 	main_menu.
 
-game_mode_menu_option(_):- 
+puzzles_menu_option(_, _):- 
 	write('\nError: invalid input.\n'),
 	request_enter,
-	game_mode_menu.
+	puzzles_menu(1).
 
-print_game_puzzles_list:-
+print_game_puzzles_list(1):-
 	clear_console,
 	write('=================================\n'),
-	write('=           Game Mode           =\n'),
+	write('=         Puzzles List          =\n'),
 	write('=================================\n'),
 	write('=                               =\n'),
 	write('=   0. Puzzle 0                 =\n'),
 	write('=   1. Puzzle 1                 =\n'),
 	write('=   2. Puzzle 2                 =\n'),
 	write('=   3. Puzzle 3                 =\n'),
-	write('=   4. Back                     =\n'),
+	write('=   4. Puzzle 4                 =\n'),
+	write('=   5. Puzzle 5                 =\n'),
+	write('=   6. Puzzle 6                 =\n'),
+	write('=   7. Puzzle 7                 =\n'),
+	write('=   8. Puzzle 8                 =\n'),
+	write('=   9. Puzzle 9                 =\n'),
+	write('=   10. Next Page               =\n'),
+	write('=   11. Back to Menu            =\n'),
+	write('=                               =\n'),
+	write('=================================\n'),
+	write('Choose an option:\t').
+
+print_game_puzzles_list(2):-
+	clear_console,
+	write('=================================\n'),
+	write('=         Puzzles List          =\n'),
+	write('=================================\n'),
+	write('=                               =\n'),
+	write('=   0. Puzzle 10                =\n'),
+	write('=   1. Puzzle 11                =\n'),
+	write('=   2. Puzzle 12                =\n'),
+	write('=   3. Puzzle 13                =\n'),
+	write('=   4. Puzzle 14                =\n'),
+	write('=   5. Puzzle 15                =\n'),
+	write('=   6. Puzzle 16                =\n'),
+	write('=   7. Puzzle 17                =\n'),
+	write('=   11. Back to Menu            =\n'),
 	write('=                               =\n'),
 	write('=================================\n'),
 	write('Choose an option:\t').
