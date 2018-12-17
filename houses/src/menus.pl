@@ -92,6 +92,12 @@ puzzles_menu(Page):-
 	get_int(Input),
 	puzzles_menu_option(Input, Page).
 
+puzzles_menu_option(0, 1):-
+	puzzle0(Puzzle),
+	connect(Puzzle),
+	request_enter,
+	puzzles_menu(1).
+
 puzzles_menu_option(1, 1):-
 	puzzles_menu(1).
 

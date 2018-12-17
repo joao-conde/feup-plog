@@ -26,7 +26,7 @@ clear_console(N):-
     Reads the remaining newline character ('\n') in the console.
 */
 request_enter:-
-	write('Press <Enter> to continue.\n'),
+	write('\nPress <Enter> to continue.\n'),
 	get_char(_), !.
 
 /*  get_char_nl(-Input)
