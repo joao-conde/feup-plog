@@ -1,19 +1,7 @@
-:-use_module(library(lists)).
-:-use_module(library(clpfd)).
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%      Utility Predicates Module      %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-% Solution
-% [0,0] - [0,3] 
-% [2,0] - [3,1]
-% [3,0] - [2,1]
-% [2,2] - [3,3]
-puzzle0([[0, 0], [0, 3], [2, 0], [3, 0], [2, 1], [3, 1], [2, 2], [3, 3]]).
-
-%why does solve([[_, _], [_, _], [_, _], [_, _]]). not work for puzzle generating?
-
-/*
-    Houses are represented as [x, y] pairs
-    Connections are represented as [[x1, y1], [x2, y2]]
-*/
 connect(Houses):-
     %There are only 2 distances and they're different
     length(Distances, 2),
