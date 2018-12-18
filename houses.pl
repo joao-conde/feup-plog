@@ -29,7 +29,7 @@ connect(Houses):-
     
     %All the houses must be connected
     append(Connections, ConnectedHouses),
-    ensureAllConnected(Houses, ConnectedHouses),
+    ensureAllConnected(Houses, ConnectedHouses), %table
 
     removeSymmetries(Connections), %avoid symmetries
 
@@ -47,7 +47,7 @@ restrictDistances([[[X1, Y1], [X2, Y2]]|Connections], Distances):-
     DiffX #= X2 - X1,
     DiffY #= Y2 - Y1,
     Dis #= DiffX * DiffX + DiffY * DiffY,
-    member(Dis, Distances),
+    member(Dis, Distances), %element
     restrictDistances(Connections, Distances).
 
 /*
