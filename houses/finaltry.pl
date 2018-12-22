@@ -77,13 +77,19 @@ printSolution(Houses, [I1, I2|Connections]):-
 
 
 %generator ---------------------------------------------------
-generate(NHouses, _, _):- NHouses mod 2 =\= 0, write('INVALID NUMBER OF HOUSES: must be an EVEN number').
-generate(_, MaxX, _):- MaxX < 0, write('INVALID X DOMAIN RESTRICTION: must be >= 0').
-generate(_, _, MaxY):- MaxY < 0, write('INVALID Y DOMAIN RESTRICTION: must be >= 0').
+generate(NHouses, _, _):- NHouses mod 2 =\= 0, write('INVALID RESTRICTION: number of houses must be an even number').
+generate(_, MaxX, _):- MaxX =< 1, write('INVALID RESTRICTION: X domain upper bound must be > 1').
+generate(_, _, MaxY):- MaxY =< 1, write('INVALID RESTRICTION: Y domain upper bound must be > 1').
 
+/*
+    1 - generate 2 random distances
+    2 - generate N/2 pairs of houses at distance D1 or D2
+*/
 % generate(NHouses, MaxX, MaxY):-
 %     MaxDis is MaxX * MaxX + MaxY * MaxY,
 %     getRandomDiffNumb(D1, D2, 1, MaxDis),
+%     generateHouses([D1, D2], NHouses, Houses, []),
+%     write(Houses).
 
 % getRandomDiffNumb(N1, N2, LB, UB):-
 %     random(LB, UB, N1), %interval [Lower, Upper[
@@ -91,34 +97,40 @@ generate(_, _, MaxY):- MaxY < 0, write('INVALID Y DOMAIN RESTRICTION: must be >=
 %     N1 \= N2.
 
 % getRandomDiffNumb(N1, N2, LB, UB):- getRandomDiffNumb(N1, N2, LB, UB).
-    
-
-generate(NHouses, MaxX, MaxY):-    
-    /*
-        let's assume ALL LISTS FLAT 
-            -houses is a list of integers, each 2 integers is (X,Y) of an house
-            -connections refer to houses using indexes of houses list
-            -connections are not a list of lists, but a list of integers, and each 2 consecutive integers  are indexes to house and represent
-            a connection
-    */
-    
-    length(XCoords, NHouses), domain(XCoords, 0, MaxX),
-    length(YCoords, NHouses), domain(YCoords, 0, MaxY),
-
-    ensureDifferentHouseCoords(XCoords, YCoords),
-
-    append(XCoords, YCoords, Coords),
-    labeling([], Coords),
-    write(XCoords), nl, write(YCoords).
 
 
-ensureDifferent(_, [], []).
-ensureDifferent([X1, Y1], [X2|XCoords], [Y2|YCoords]):-
-    X1 #\= X2 #\/ Y1 #\= Y2,
-    ensureDifferent([X1, Y1], XCoords, YCoords).
 
-ensureDifferentHouseCoords([], []).
-ensureDifferentHouseCoords([X|XCoords], [Y|YCoords]):-
-    ensureDifferent([X, Y], XCoords, YCoords),
-    ensureDifferentHouseCoords(XCoords, YCoords).
+% generateHouses([D1, D2], 0, Houses, Houses).
+% generateHouses([D1, D2], NHouses, Houses, Acc):-
+%     NHouses1 is NHouses - 1,
+%     random(0, 2, 0), %interval [Lower, Upper[
+%     generateHousesPair(D1, HousesPair, []),
+%     generateHouses([D1, D2], NHouses1, Houses, Acc).
+
+% generateHouses([D1, D2], NHouses, Houses, Acc):-
+%     NHouses1 is NHouses - 1,
+%     random(0, 2, 1), %interval [Lower, Upper[
+%     generateHousesPair(D2, HousesPair, []),
+%     generateHouses([D1, D2], NHouses1, Houses, Acc).
+
+
+% generateHousesPair(D, HousePair, Acc):-
+%     random(),
+
+% ensureDifferent(_, [], []).
+% ensureDifferent([X1, Y1], [X2|XCoords], [Y2|YCoords]):-
+%     X1 #\= X2 #\/ Y1 #\= Y2,
+%     ensureDifferent([X1, Y1], XCoords, YCoords).
+
+% ensureDifferentHouseCoords([], []).
+% ensureDifferentHouseCoords([X|XCoords], [Y|YCoords]):-
+%     ensureDifferent([X, Y], XCoords, YCoords),
+%     ensureDifferentHouseCoords(XCoords, YCoords).
+
+
+% buildFlatHouseList([], [], FlatHouses, FlatHouses).
+% buildFlatHouseList([X|XCoords], [Y|YCoords], FlatHouses, Acc):-
+%     append([X], [Y], Coords),
+%     append(Coords, Acc, Acc2),
+%     buildFlatHouseList(XCoords, YCoords, FlatHouses, Acc2). 
     
