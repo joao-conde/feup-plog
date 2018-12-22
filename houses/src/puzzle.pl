@@ -2,10 +2,18 @@
 %      Utility Predicates Module      %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+
+:- use_module(library(lists)).
+:- use_module(library(clpfd)).
+
+
+puzzle0([[0,0],[0,3],[2,0],[3,0],[2,1],[3,1],[2,2],[3,3]]).
+
 connect(Houses):-
     %There are only 2 distances and they're different
     length(Distances, 2),
     all_distinct(Distances),
+    domain(Distances, 1, 10),
 
     %One connection per 2 houses (pairs) means half the number of houses as connections
     length(Houses, NHouses),
@@ -14,16 +22,15 @@ connect(Houses):-
     
     restrictDistances(Connections, Distances), %restrict every connection to have one of the two distances
     
-    
     %All the houses must be connected
     append(Connections, ConnectedHouses),
     ensureAllConnected(Houses, ConnectedHouses), %table
 
-    removeSymmetries(Connections), %avoid symmetries
+    % removeSymmetries(Connections), %avoid symmetries
 
     %flatten list and labeling
-    append(ConnectedHouses, HousesCoordinates),
-    labeling([], HousesCoordinates),
+    append(Connections, Distances, Vars),
+    labeling([], Vars),
     write(Connections).
 
 /*
@@ -35,7 +42,7 @@ restrictDistances([[[X1, Y1], [X2, Y2]]|Connections], Distances):-
     DiffX #= X2 - X1,
     DiffY #= Y2 - Y1,
     Dis #= DiffX * DiffX + DiffY * DiffY,
-    member(Dis, Distances), %element
+    element(_, Distances, Dis),
     restrictDistances(Connections, Distances).
 
 /*
@@ -43,7 +50,7 @@ restrictDistances([[[X1, Y1], [X2, Y2]]|Connections], Distances):-
 */
 ensureAllConnected([], _).
 ensureAllConnected([H|Houses], ConnectedHouses):-
-    member(H, ConnectedHouses),
+    table(ConnectedHouses, [H]),
     ensureAllConnected(Houses, ConnectedHouses).
 
 /*
