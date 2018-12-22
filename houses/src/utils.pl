@@ -32,3 +32,10 @@ randomSelector(Set, BestValue):-
 puzzleFilePath(FilePath):-
     current_directory(Dir),
     atom_concat(Dir, 'puzzles.pl', FilePath).
+
+
+savePuzzle(Houses, PuzzleName):-
+    puzzleFilePath(PuzzlesPath),
+    Term =.. [PuzzleName, Houses],    
+    open(PuzzlesPath, append, Stream), write_term(Stream, Term, []), write(Stream, '.\n'), close(Stream),
+    consult(PuzzlesPath).

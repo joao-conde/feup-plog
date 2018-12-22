@@ -49,11 +49,10 @@ connect(Houses):-
 
 
 %generator ---------------------------------------------------
-generate(' ', _, _, _):- write('PLEASE SPECIFY A PUZZLE NAME').
-generate(_, _, NHouses, _):- NHouses mod 2 =\= 0, write('INVALID RESTRICTION: number of houses must be an even number').
-generate(_, _, _, Domain):- Domain =< 1, write('INVALID RESTRICTION: domain upper bound must be > 1').
+generate(_, NHouses, _):- NHouses mod 2 =\= 0, write('INVALID RESTRICTION: number of houses must be an even number').
+generate(_, _, Domain):- Domain =< 1, write('INVALID RESTRICTION: domain upper bound must be > 1').
 
-generate(PuzzleName, Houses, NHouses, Domain):-
+generate(Houses, NHouses, Domain):-
     NFlatHouses is NHouses * 2,
     length(FlatHouses, NFlatHouses),
     domain(FlatHouses, 0, Domain),
@@ -73,8 +72,4 @@ generate(PuzzleName, Houses, NHouses, Domain):-
     append(FlatHouses, Connections, Vars),
     append(Vars, Distances, Vars2),
     labeling([value(randomLabeling)], Vars2),
-    buildHouseList(FlatHouses, Houses, []),
-    puzzleFilePath(PuzzlesPath),
-    Term =.. [PuzzleName, Houses],    
-    open(PuzzlesPath, append, Stream), write_term(Stream, Term, []), write(Stream, '.\n'), close(Stream),
-    consult(PuzzlesPath).
+    buildHouseList(FlatHouses, Houses, []).

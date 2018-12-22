@@ -50,11 +50,11 @@ print_about:-
 	write('=   In Houses Puzzles the objective is to connect pairs of     =\n'),								
 	write('=   houses so that there are only two different distances.     =\n'),
 	write('=                                                              =\n'),
-	write('=   All houses must be connected                               =\n'),
+	write('=   All houses must be connected to a single different house.  =\n'),
 	write('=                                                              =\n'),
 	write('=   Each puzzle below has a unique solution.                   =\n'),
 	write('=                                                              =\n'),
-	write('=   All pre-loaded puzzles were created by Erich               =\n'),
+	write('=   Some pre-loaded puzzles were created by Erich              =\n'),
 	write('=   Friedman, 2008.                                            =\n'),
 	write('=                                                              =\n'),
 	write('=   Houses Puzzles was developed for the course of             =\n'),
@@ -108,24 +108,33 @@ print_puzzles_menu:-
 /* Game mode menu options */
 solve_puzzles_prompt:-
 	print_puzzle_to_solve(PuzzleName),
-	write('Solve puzzle '), write(PuzzleName), nl,
+	write('Solve puzzle '),
+	Term =.. [PuzzleName, Houses],
+	Term, 
+	connect(Houses),
 	request_enter,
 	puzzles_menu.
 
 print_puzzle_to_solve(PuzzleName):-
 	write('Puzzle name:\t'),
-	read(PuzzleName), get_char(_).	
+	get_word(PuzzleName, '').
 
 
 
 /* Game mode menu options */
 generate_puzzles_prompt:-
-	print_generate_puzzle(PuzzleName),
+	print_generate_puzzle(PuzzleName, NHouses, Domain),
 	write('New puzzle name'), write(PuzzleName), nl,
+	generate(Houses, NHouses, Domain),
+	savePuzzle(Houses, PuzzleName),
 	request_enter,
 	puzzles_menu.
 
-print_generate_puzzle(PuzzleName):-
+print_generate_puzzle(PuzzleName, NHouses, Domain):-
 	write('New puzzle name:\t'),
-	read(PuzzleName), get_char(_).	
+	get_word(PuzzleName, ''),
+	write('New puzzle number of houses:\t'),
+	get_int(NHouses),
+	write('New puzzle size:\t'),
+	get_int(Domain).
 

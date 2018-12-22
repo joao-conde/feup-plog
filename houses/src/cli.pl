@@ -178,3 +178,12 @@ get_coord(InvLine, left):-
 */
 get_coord(InvLine, right):-
 	get_horizontal_coord(InvLine).
+
+
+get_word(Word, Acc):-
+    get_char(Char),
+    Char \= '\n',
+    atom_concat(Acc, Char, Acc2),
+    get_word(Word, Acc2).
+
+get_word(Word, Word).
