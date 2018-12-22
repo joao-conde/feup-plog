@@ -27,3 +27,8 @@ randomSelector(Set, BestValue):-
     length(List, Len),
     random(0, Len, RandomIndex),
     nth0(RandomIndex, List, BestValue).
+
+
+puzzleFilePath(FilePath):-
+    current_directory(Dir),
+    atom_concat(Dir, 'puzzles.pl', FilePath).
