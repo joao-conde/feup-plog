@@ -1,3 +1,5 @@
+/* PUZZLE PROBLEM: https://www2.stetson.edu/~efriedma/puzzle/house/ */
+
 :- use_module(library(lists)).
 :- use_module(library(clpfd)).
 :- use_module(library(random)).
