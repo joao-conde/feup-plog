@@ -26,7 +26,10 @@ printSolution(Houses, [I1, I2|Connections]):-
     printSolution(Houses, Connections).
 
 
-%TODO DOCUMENT THIS TWO BELOW
+/*  randomLabeling(Var, _Rest, BB, BB1)
+
+    Custom random labeling heuristic for value selection.
+*/
 randomLabeling(Var, _Rest, BB, BB1):-
     fd_set(Var, Set),
     randomSelector(Set, Value),
@@ -36,13 +39,16 @@ randomLabeling(Var, _Rest, BB, BB1):-
     ).
   
 
+/*  randomSelector(Set, BestValue)
+    
+    Randomly selects a variable from the Set.
+*/
 randomSelector(Set, BestValue):-
     fdset_to_list(Set, List),
     length(List, Len),
     random(0, Len, RandomIndex),
     nth0(RandomIndex, List, BestValue).
 
-%%%%%%%%%%%%%
 
 /*  puzzleFilePath(-FilePath)
     

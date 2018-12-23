@@ -21,6 +21,8 @@
     4 - Distances are kept squared so they are always integers (sum of 2 squared integers).
 */
 connect(Houses):-
+    statistics(runtime,[Start|_]), %statistics - runtime calculation (ms) 
+
     append(Houses, FlatHouses), 
     max_member(Max, FlatHouses), %max coordinate will represent our domain range
     
@@ -37,11 +39,14 @@ connect(Houses):-
     restrictConnectDistances(Connections, FlatHouses, Distances), %connections will have one of the two existing distances
 
     append(Distances, Connections, Vars), %unique list of domain variables
-    labeling([], Vars),
-    
-    %statistics, %print execution statistics
-    
-    %print of the solution
+    labeling([ffc, down], Vars),
+
+    %statistics - runtime calculation (ms) 
+    statistics(runtime,[Stop|_]),
+    Runtime is Stop - Start,
+    write('---Total solver runtime of '), write(Runtime), write(' ms'), nl,
+
+    %print of the solution in an human-friendly way
     write('---Make the following connections---'), nl,
     printSolution(Houses, Connections),
     write('---End---'), nl.
@@ -82,7 +87,7 @@ generate(Houses, NHouses, Domain):-
 
     append(FlatHouses, Connections, Vars), %unique list of domain variables
     append(Vars, Distances, Vars2),
-    labeling([value(randomLabeling)], Vars2),
+    labeling([value(randomLabeling), ffc], Vars2),
     buildHouseList(FlatHouses, Houses, []). %turn into puzzle input format
 
 

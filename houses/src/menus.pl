@@ -48,7 +48,7 @@ print_about:-
 	write('=                            ABOUT                             =\n'),
 	write('================================================================\n'),
 	write('=   In Houses the objective is to connect pairs of houses so   =\n'),								
-	write('=   that there are only two different distances.               =\n'),
+	write('=   that there are at max two different distances.             =\n'),
 	write('=                                                              =\n'),
 	write('=   All houses must be connected to a single different house.  =\n'),
 	write('=                                                              =\n'),
