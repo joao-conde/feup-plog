@@ -2,7 +2,7 @@
 %    MENUS MODULE     %
 %%%%%%%%%%%%%%%%%%%%%%%
 
-/* Main menu options */
+/* Main menu */
 main_menu:-
 	print_main_menu,
 	get_int(Input),
@@ -36,7 +36,7 @@ print_main_menu:-
 	write('Choose an option:\t').
 
 
-/* About display */
+/* About */
 about:-
 	print_about,
 	request_enter,
@@ -70,7 +70,7 @@ print_about:-
 	write('================================================================\n').
 
 
-/* Game mode menu options */
+/* Puzzles menu */
 puzzles_menu:-
 	print_puzzles_menu,
 	get_int(Input),
@@ -104,8 +104,7 @@ print_puzzles_menu:-
 	write('Choose an option:\t').
 
 
-
-/* Game mode menu options */
+/* Solver interface */
 solve_puzzles_prompt:-
 	print_puzzle_to_solve(PuzzleName), nl,
 	Term =.. [PuzzleName, Houses],
@@ -120,8 +119,7 @@ print_puzzle_to_solve(PuzzleName):-
 	get_word(PuzzleName, '').
 
 
-
-/* Game mode menu options */
+/* Generator interface */
 generate_puzzles_prompt:-
 	print_generate_puzzle(PuzzleName, NHouses, Domain), nl,
 	generate(Houses, NHouses, Domain),

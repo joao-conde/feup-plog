@@ -1,9 +1,22 @@
+%%%%%%%%%%%%%%%%%%%%%
+%   UTILS MODULE    %
+%%%%%%%%%%%%%%%%%%%%%
+
+
+/*  computeDistance(+[X1, Y1], +[X2, Y2], -Dis)
+    
+    Computes the squared Euclidean distance between [X1, Y1] and [X2, Y2].
+*/
 computeDistance([X1, Y1], [X2, Y2], Dis):-
     DiffX #= X2 - X1,
     DiffY #= Y2 - Y1,
     Dis #= DiffX * DiffX + DiffY * DiffY.
 
 
+/*  printSolution(+Houses, +Connections)
+    
+    Prints the solution computed by the solver in an human-friendly way.
+*/
 printSolution(_, []).
 printSolution(Houses, [I1, I2|Connections]):-
     nth1(I1, Houses, House1),
@@ -13,7 +26,8 @@ printSolution(Houses, [I1, I2|Connections]):-
     printSolution(Houses, Connections).
 
 
-randomLabeling(Var, _Rest, BB, BB1) :-
+%TODO DOCUMENT THIS TWO BELOW
+randomLabeling(Var, _Rest, BB, BB1):-
     fd_set(Var, Set),
     randomSelector(Set, Value),
     (   
@@ -28,12 +42,21 @@ randomSelector(Set, BestValue):-
     random(0, Len, RandomIndex),
     nth0(RandomIndex, List, BestValue).
 
+%%%%%%%%%%%%%
 
+/*  puzzleFilePath(-FilePath)
+    
+    Gives the created puzzles file path.
+*/
 puzzleFilePath(FilePath):-
     current_directory(Dir),
     atom_concat(Dir, 'puzzles.pl', FilePath).
 
 
+/*  savePuzzle(+Houses, +PuzzleName)
+    
+    Saves the puzzle Houses given with the name PuzzleName in the created puzzles file.
+*/
 savePuzzle(Houses, PuzzleName):-
     puzzleFilePath(PuzzlesPath),
     Term =.. [PuzzleName, Houses],    
