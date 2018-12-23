@@ -25,7 +25,7 @@ main_menu_option(_):-
 print_main_menu:-
 	clear_console,
 	write('=================================\n'),
-	write('=        Houses Puzzles         =\n'),
+	write('=             Houses            =\n'),
 	write('=================================\n'),
 	write('=                               =\n'),
 	write('=   1. Solve Puzzles            =\n'),
@@ -47,8 +47,8 @@ print_about:-
 	write('================================================================\n'),
 	write('=                            ABOUT                             =\n'),
 	write('================================================================\n'),
-	write('=   In Houses Puzzles the objective is to connect pairs of     =\n'),								
-	write('=   houses so that there are only two different distances.     =\n'),
+	write('=   In Houses the objective is to connect pairs of houses so   =\n'),								
+	write('=   that there are only two different distances.               =\n'),
 	write('=                                                              =\n'),
 	write('=   All houses must be connected to a single different house.  =\n'),
 	write('=                                                              =\n'),
@@ -107,34 +107,34 @@ print_puzzles_menu:-
 
 /* Game mode menu options */
 solve_puzzles_prompt:-
-	print_puzzle_to_solve(PuzzleName),
-	write('Solve puzzle '),
+	print_puzzle_to_solve(PuzzleName), nl,
 	Term =.. [PuzzleName, Houses],
-	Term, 
-	connect(Houses),
+	Term,
+	nl, write('This might take a few minutes... or not :D'), nl,
+	connect(Houses), nl,
 	request_enter,
 	puzzles_menu.
 
 print_puzzle_to_solve(PuzzleName):-
-	write('Puzzle name:\t'),
+	write('Enter puzzle name:\t'), 
 	get_word(PuzzleName, '').
 
 
 
 /* Game mode menu options */
 generate_puzzles_prompt:-
-	print_generate_puzzle(PuzzleName, NHouses, Domain),
-	write('New puzzle name'), write(PuzzleName), nl,
+	print_generate_puzzle(PuzzleName, NHouses, Domain), nl,
 	generate(Houses, NHouses, Domain),
+	nl, write('This might take a few minutes... or not :D'), nl,
 	savePuzzle(Houses, PuzzleName),
+	write(PuzzleName), write(' saved successfully'), nl, nl,
 	request_enter,
 	puzzles_menu.
 
 print_generate_puzzle(PuzzleName, NHouses, Domain):-
-	write('New puzzle name:\t'),
+	write('Enter new UNIQUE puzzle name:\t'),
 	get_word(PuzzleName, ''),
-	write('New puzzle number of houses:\t'),
+	write('Enter EVEN number of houses:\t'),
 	get_int(NHouses),
-	write('New puzzle size:\t'),
+	write('Enter coordinates domain upper bound (> 1):\t'),
 	get_int(Domain).
-

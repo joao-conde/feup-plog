@@ -49,9 +49,6 @@ connect(Houses):-
 
 
 %generator ---------------------------------------------------
-generate(_, NHouses, _):- NHouses mod 2 =\= 0, write('INVALID RESTRICTION: number of houses must be an even number').
-generate(_, _, Domain):- Domain =< 1, write('INVALID RESTRICTION: domain upper bound must be > 1').
-
 generate(Houses, NHouses, Domain):-
     NFlatHouses is NHouses * 2,
     length(FlatHouses, NFlatHouses),
