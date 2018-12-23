@@ -109,7 +109,7 @@ solve_puzzles_prompt:-
 	print_puzzle_to_solve(PuzzleName), nl,
 	Term =.. [PuzzleName, Houses],
 	Term,
-	nl, write('This might take a few minutes... or not :D'), nl,
+	nl, write('This might take a few minutes... or not :D'), nl, nl,
 	connect(Houses), nl,
 	request_enter,
 	puzzles_menu.
@@ -122,10 +122,9 @@ print_puzzle_to_solve(PuzzleName):-
 /* Generator interface */
 generate_puzzles_prompt:-
 	print_generate_puzzle(PuzzleName, NHouses, Domain), nl,
+	nl, write('This might take a few minutes... or not :D'), nl, nl,
 	generate(Houses, NHouses, Domain),
-	nl, write('This might take a few minutes... or not :D'), nl,
 	savePuzzle(Houses, PuzzleName),
-	write(PuzzleName), write(' saved successfully'), nl, nl,
 	request_enter,
 	puzzles_menu.
 

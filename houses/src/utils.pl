@@ -60,5 +60,10 @@ puzzleFilePath(FilePath):-
 savePuzzle(Houses, PuzzleName):-
     puzzleFilePath(PuzzlesPath),
     Term =.. [PuzzleName, Houses],    
-    open(PuzzlesPath, append, Stream), write_term(Stream, Term, []), write(Stream, '.\n'), close(Stream),
-    consult(PuzzlesPath).
+    open(PuzzlesPath, append, Stream), 
+    write(Stream, '\n'),
+    write_term(Stream, Term, []), 
+    write(Stream, '.\n'), 
+    close(Stream),
+    write(PuzzleName), write(' saved successfully at '), write(PuzzlesPath), nl, nl,
+    reconsult(PuzzlesPath).
