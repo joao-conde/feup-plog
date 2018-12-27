@@ -8,15 +8,15 @@ The purpose of the game is to be the first player to move their king to the eigh
 
 Apart from the above, pieces move and capture exactly as in normal chess.
 
-![board](https://github.com/joao-conde/feup-plog/blob/master/racing-kings/docs/Relat%C3%B3rio%20Final/initialBoard.PNG)
-
 ## Zurero
 
 This game is an interesting variation of Go-Moku, in which players "slide" stones along the board lines from the edge of the board till the "sliding" stone is stopped by another stone on the board.
 
 The intriguing feature of the game is that the "sliding" stone pushes the "stopping" stone if there is an empty space behind it.
 
-![board](https://github.com/joao-conde/feup-plog/blob/master/zurero/docs/Intermediate%20Report/end_game.png)
+## Houses
+
+The Houses Puzzle’s is a puzzle created by Erich Friedman, a puzzles enthusiast, with the objective of connecting pairs of houses so that there are at max two different distances. These pairs of houses, with only one connection each, are created with the elements of a list with even number of house coordinates, which is the puzzle’s input.
 
 # PROLOG CONVENTIONS FOR BETTER CODE
 
