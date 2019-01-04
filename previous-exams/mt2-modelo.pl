@@ -45,38 +45,25 @@ build(Budget, NPacks, ObjectCosts, ObjectPacks, Objects, UsedPacks):-
 
 
 %p5
-embrulha(Rolos, Presentes, RolosSelecionados):-
+embrulha(Rolos, Presentes, RolosSelecionados) :-
 	length(Presentes, NPresentes),
 	length(Rolos, NRolos),
 	length(RolosSelecionados, NPresentes),
 	domain(RolosSelecionados, 1, NRolos),
-	for(NRolos, Rolos, RolosSelecionados, Presentes),
-	ensurePresentsEnoughPaper(1, Presentes, RolosSelecionados, Rolos),
+	machines(Rolos, 1, Machines), % machines -> paper tubes
+	tasks(Presentes, RolosSelecionados, Tasks), % tasks -> gifts
+	cumulatives(Tasks, Machines, [bound(upper)]),
 	labeling([], RolosSelecionados).
 
+machines([], _, []).
+machines([H|T], Index, Machines) :-
+	NextIndex is Index + 1,
+	machines(T, NextIndex, TempMachines),
+	% A machine needs an ID and an upper limit of resources at a given instant
+	append(TempMachines, [machine(Index, H)], Machines).
 
-ensurePresentsEnoughPaper(_, _, [], _).
-ensurePresentsEnoughPaper(Idx, Presentes, [Rolo|RolosSelecionados], Rolos):-
-	element(Idx, Presentes, Papel),
-	element(Rolo, Rolos, PapelRolo),
-	Papel #=< PapelRolo,
-	Idx2 #= Idx + 1,
-	ensurePresentsEnoughPaper(Idx2, Presentes, RolosSelecionados, Rolos).
-
-
-paperUsed(_, _, [], _, PapelUsado, PapelUsado).
-
-paperUsed(Idx, Rolo, [R|RolosSelecionados], Presentes, PapelUsado, Acc):-
-	element(Idx, Presentes, Val),
-	Rolo #= R #=> Acc2 #= Acc + Val,
-	Rolo #\= R #=> Acc2 #= Acc,
-	Idx2 #= Idx + 1,
-	paperUsed(Idx2, Rolo, RolosSelecionados, Presentes, PapelUsado, Acc2).
-
-for(0, _, _, _).
-for(Iter, Rolos, RolosSelecionados, Presentes):-
-	paperUsed(1, Iter, RolosSelecionados, Presentes, PapelUsado, 0),
-	element(Iter, Rolos, Total),
-	PapelUsado #=< Total,
-	Iter2 #= Iter-1,
-	for(Iter2,  Rolos, RolosSelecionados, Presentes).
+tasks([], [], []).
+tasks([HP|TP], [HS|TS], Tasks) :-
+	tasks(TP, TS, TempTasks),
+	% A task needs a start time, duration and end time, resources consumed and the machine it is done on
+	append(TempTasks, [task(0, 1, 1, HP, HS)], Tasks).

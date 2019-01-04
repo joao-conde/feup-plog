@@ -16,6 +16,7 @@ The intriguing feature of the game is that the "sliding" stone pushes the "stopp
 
 ## Houses
 
+This project is based on a CLPFD (Constraint Logic Programming with Finite Domains) solution.
 The Houses Puzzle’s is a puzzle created by Erich Friedman, a puzzles enthusiast, with the objective of connecting pairs of houses so that there are at max two different distances. These pairs of houses, with only one connection each, are created with the elements of a list with even number of house coordinates, which is the puzzle’s input.
 
 # PROLOG CONVENTIONS FOR BETTER CODE
