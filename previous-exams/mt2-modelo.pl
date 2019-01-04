@@ -60,28 +60,23 @@ ensurePresentsEnoughPaper(Idx, Presentes, [Rolo|RolosSelecionados], Rolos):-
 	element(Idx, Presentes, Papel),
 	element(Rolo, Rolos, PapelRolo),
 	Papel #=< PapelRolo,
-	Idx2 is Idx + 1,
+	Idx2 #= Idx + 1,
 	ensurePresentsEnoughPaper(Idx2, Presentes, RolosSelecionados, Rolos).
 
 
 paperUsed(_, _, [], _, PapelUsado, PapelUsado).
 
-paperUsed(Idx, Rolo, [Rolo|RolosSelecionados], Presentes, PapelUsado, Acc):-
+paperUsed(Idx, Rolo, [R|RolosSelecionados], Presentes, PapelUsado, Acc):-
 	element(Idx, Presentes, Val),
-	Acc2 is Acc + Val,
-	Idx2 is Idx + 1,
+	Rolo #= R #=> Acc2 #= Acc + Val,
+	Rolo #\= R #=> Acc2 #= Acc,
+	Idx2 #= Idx + 1,
 	paperUsed(Idx2, Rolo, RolosSelecionados, Presentes, PapelUsado, Acc2).
-
-paperUsed(Idx, Rolo, [X|RolosSelecionados], Presentes, PapelUsado, Acc):-
-	Rolo #\= X,
-	Idx2 is Idx + 1,
-	paperUsed(Idx2, Rolo, RolosSelecionados, Presentes, PapelUsado, Acc).
-
 
 for(0, _, _, _).
 for(Iter, Rolos, RolosSelecionados, Presentes):-
 	paperUsed(1, Iter, RolosSelecionados, Presentes, PapelUsado, 0),
 	element(Iter, Rolos, Total),
 	PapelUsado #=< Total,
-	Iter2 is Iter-1,
+	Iter2 #= Iter-1,
 	for(Iter2,  Rolos, RolosSelecionados, Presentes).
