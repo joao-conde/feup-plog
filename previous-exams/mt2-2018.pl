@@ -71,3 +71,103 @@ removeSymmetries([_]).
 removeSymmetries([X1, X2|Xs]):-
     X1 #=< X2,
     removeSymmetries([X2|Xs]).
+
+
+%p4
+% | ?- gym_pairs([95,78,67,84],[65,83,75,80],10,Pairs).
+% no
+% | ?- gym_pairs([95,78,67,84],[65,83,75,86],10,Pairs).
+% Pairs = [1-4,2-3,3-1,4-2] ? ;
+% no
+% | ?- gym_pairs([95,78,67,84],[65,77,75,86],10,Pairs).
+% Pairs = [1-4,2-2,3-1,4-3] ? ;
+% Pairs = [1-4,2-3,3-1,4-2] ? ;
+% no
+gym_pairs(MenHeights, WomenHeights, Delta, Pairs):-
+    length(MenHeights, NPairs),
+    length(Men, NPairs),
+    length(Women, NPairs),
+    domain(Men, 1, NPairs),
+    domain(Women, 1, NPairs),
+    all_distinct(Men),
+    all_distinct(Women),
+    restrictHeights(Men, Women, Delta, MenHeights, WomenHeights),
+    removeGymSymmetries(Men),
+    append(Men, Women, Vars),
+    labeling([], Vars),
+    pairUp(Men, Women, Pairs, []).
+
+restrictHeights([], [], _, _, _).
+restrictHeights([M|Men], [W|Women], Delta, MenHeights, WomenHeights):-
+    element(M, MenHeights, MH),
+    element(W, WomenHeights, WH),
+    MH #>= WH,
+    Diff #= MH - WH,
+    Delta #>= abs(Diff),
+    restrictHeights(Men, Women, Delta, MenHeights, WomenHeights).
+
+removeGymSymmetries([_]).
+removeGymSymmetries([M1, M2|Men]):-
+    M1 #=< M2,
+    removeGymSymmetries([M2|Men]).
+
+pairUp([], [], Pairs, Pairs).
+pairUp([M|Men], [W|Women], Pairs, Acc):-
+    append(Acc, [M-W], Acc2),
+    pairUp(Men, Women, Pairs, Acc2).
+
+
+%p5
+
+% Uma escola de patinagem artística pretende ter um programa que obtenha, de forma
+% automática, emparelhamentos de alunos para as suas aulas.
+% Dadas as alturas dos homens e das mulheres presentes na aula, pretendem-se
+% emparelhamentos em que a diferença de alturas entre o homem e a mulher seja inferior
+% a um delta. O homem nunca poderá ser mais baixo do que a mulher.
+% Por vezes não é possível emparelhar todas as pessoas presentes numa aula. Contudo, é
+% útil saber que pares é possível formar, ficando as pessoas não emparelhadas a assistir à
+% aula. Pode até acontecer que o número de homens e de mulheres na aula sejam
+% diferentes, o que inviabiliza a constituição de pares para todas as pessoas.
+% Construa um programa em PLR que permita obter o maior número possível de
+% emparelhamentos. O predicado
+% optimal_skating_pairs(+MenHeights,+WomenHeights,+Delta,-Pairs) recebe as alturas dos
+% homens e das mulheres (listas não necessariamente com o mesmo tamanho) e a
+% diferença máxima de alturas; devolve em Pairs o maior número possível de
+% emparelhamentos de pessoas, identificadas pelo seu índice, que cumpram as restrições.
+% Exemplos:
+% | ?- optimal_skating_pairs([95,78,67,84],[65,83,75,80],10,Pairs).
+% Pairs = [2-3,3-1,4-2]
+% | ?- optimal_skating_pairs([95,78,67,84,65,90,77],[65,83,75,80],10,Pairs
+% ).
+% Pairs = [4-4,5-1,6-2,7-3]
+% | ?- optimal_skating_pairs([65,83,75,80],[95,78,67,84,65,90,77],10,Pairs
+% ).
+% Pairs = [1-5,2-2,3-3,4-7]
+% | ?- optimal_skating_pairs([95,78,67,84,65,90,77],[55,83,75,80],10,Pairs
+% ).
+% Pairs = [4-4,6-2,7-3]
+% | ?- optimal_skating_pairs([55,83,75,80],[95,78,67,84,65,90,77],10,Pairs
+% ).
+% Pairs = [2-2,3-3,4-7]
+
+optimal_skating_pairs(MenHeights, WomenHeights, Delta, Pairs):-
+    length(MenHeights, NMen),
+    length(WomenHeights, NWomen),
+    minimum(Min, [NMen, NWomen]),
+    NPairs in 1..Min,
+
+    length(Men, NPairs),
+    length(Women, NPairs),
+    domain(Men, 1, NMen),
+    domain(Women, 1, NWomen),
+    all_distinct(Men),
+    all_distinct(Women),
+
+    restrictHeights(Men, Women, Delta, MenHeights, WomenHeights),
+    removeGymSymmetries(Men),
+
+    append(Men, Women, Vars),
+    labeling([maximize(NPairs)], Vars),
+    pairUp(Men, Women, Pairs, []),
+    write('AFTER LABEL'),nl,
+    write(Pairs), nl, write(NPairs), nl.
