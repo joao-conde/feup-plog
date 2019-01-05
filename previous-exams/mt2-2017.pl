@@ -113,3 +113,30 @@ sweet_recipes(MaxTime, NEggs, RecipeTimes, RecipeEggs, Cookings, Eggs):-
 
     labeling([maximize(Eggs)], Cookings).
     
+
+%p5
+% | ?- cut([12,50,14,8,10,90,24], [100,45,70], S).
+% S = [2,3,3,2,1,1,2] ? ;
+% S = [3,3,2,3,1,1,2] ? ;
+% no
+
+cut(Shelves, Boards, SelectedBoards):-
+    length(Shelves, NShelves),
+    length(S, NShelves),
+    length(Boards, NBoards),
+    domain(S, 1, NBoards),
+    makeTasks(Shelves, SelectedBoards, Tasks, []),
+    makeMachines(1, Boards, Machines, []),
+    cumulatives(Tasks, Machines, [bound(upper)]),
+    labeling([], SelectedBoards).
+
+
+makeTasks([], [], Tasks, Tasks).
+makeTasks([Hi|Shelves], [Mi|SelectedBoards], Tasks, Acc):-
+    makeTasks(Shelves, SelectedBoards, Tasks, [task(0, 1 , 1, Hi, Mi)|Acc]).
+
+
+makeMachines(_, [], Machines, Machines).
+makeMachines(Idx, [B|Boards], Machines, Acc):-
+    Idx2 is Idx + 1,
+    makeMachines(Idx2, Boards, Machines, [machine(Idx, B)|Acc]).
