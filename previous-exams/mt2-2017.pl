@@ -19,7 +19,7 @@ test([X1,X2,X3|Xs]) :-
 /*
     O predicado gen/2 sucede se as duas listas tiverem os mesmos elementos, por qualquer ordem.
     Assim, dadas L1 e L2, se L1 for dada como instanciada e L2 não, L2 será instanciada resultando numa lista
-    com elementos todos os elementos de L1. Por backtracking podem ser geradas todas as permutações de elementos
+    com todos os elementos de L1. Por backtracking podem ser geradas todas as permutações de elementos
     da lista L1.
 
     O predicado test/2 sucede caso a lista esteja ordenada, quer por ordem crescente quer por ordem decrescente.
