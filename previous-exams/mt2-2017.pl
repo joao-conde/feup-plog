@@ -52,7 +52,10 @@ pos([X|Xs],L2,[I|Is]) :-
     nth1(I,L2,X),
     pos(Xs,L2,Is).
 
-/*
+/*  
+    a. As variáveis de domínio estão a ser instanciadas antes da fase de pesquisa e nem todas as
+    restrições foram colocadas antes da fase da pesquisa.
+
     1 - são usados predicados que instanciam os valores a descobrir na fase de pesquisa, antes desta, como por
     exemplo nth1, e '<' ou '>' no predicado test.
     2 - a restrição imposta pelo predicado test/2 (quando corrigido para #> e #<) deve aparecer antes da fase de labeling (pesquisa).
