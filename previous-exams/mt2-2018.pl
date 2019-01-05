@@ -168,6 +168,4 @@ optimal_skating_pairs(MenHeights, WomenHeights, Delta, Pairs):-
 
     append(Men, Women, Vars),
     labeling([maximize(NPairs)], Vars),
-    pairUp(Men, Women, Pairs, []),
-    write('AFTER LABEL'),nl,
-    write(Pairs), nl, write(NPairs), nl.
+    pairUp(Men, Women, Pairs, []).
