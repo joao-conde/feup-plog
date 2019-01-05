@@ -81,3 +81,35 @@ testPLR([X1,X2,X3|Xs]) :-
     X1 #< X2 #=> X2 #< X3,
     X1 #> X2 #=> X2 #> X3,
     testPLR([X2,X3|Xs]).
+
+%p4 
+
+% | ?- sweet_recipes(60,30,[20,50,10,20,15],[6,4,12,20,6],Cookings,Eggs).
+% Cookings = [1,3,5],
+% Eggs = 24
+
+% | ?- sweet_recipes(120,30,[20,50,10,20,15],[6,4,12,20,6],Cookings,Eggs).
+% Cookings = [1,2,4],
+% Eggs = 30
+
+sweet_recipes(MaxTime, NEggs, RecipeTimes, RecipeEggs, Cookings, Eggs):-
+    length(RecipeTimes, NRecipes),
+
+    Cookings = [C1, C2, C3],
+    domain(Cookings, 1, NRecipes),
+    all_distinct(Cookings),
+
+    Eggs in 1..NEggs, 
+
+    element(C1, RecipeTimes, T1),
+    element(C2, RecipeTimes, T2),
+    element(C3, RecipeTimes, T3),
+    T1 + T2 + T3 #=< MaxTime,
+
+    element(C1, RecipeEggs, E1),
+    element(C2, RecipeEggs, E2),
+    element(C3, RecipeEggs, E3),
+    Eggs #= E1 + E2 + E3,
+
+    labeling([maximize(Eggs)], Cookings).
+    
