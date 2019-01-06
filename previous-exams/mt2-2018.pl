@@ -44,9 +44,8 @@ check([A,B|R],[X|Xs]) :-
 /*  M^(2N−1)
 
     O predicado select/3 será efetuado M vezes, uma vez que os possíveis valores de X são todos os da lista de [1, M].
-    Isto será feito para cada elemento das listas de tamanho N, logo temos M^N.
-    Como é feito duas vezes temos M^(2N). 
-    A opção mais semelhante seria a M^(2N−1).
+    Isto será feito para cada elemento das listas de tamanho N e N-1 (L1 e L2), logo temos M^N para L1 e M^N-1 para L2.
+    Assim temos M^N + M^N-1 ou seja M^(2N-1).
 */
 
 %p3
