@@ -23,8 +23,8 @@ check([A,B|R],[X|Xs]) :-
     check([B|R],Xs).
 
 /*
-    O predicado fill/3 leva como argumentos 2 listas L1 e LE e retorna em LEf a diferença entre as listas LE e L1, ou seja, um lista LEf
-    com todos os elementos de LE que nao ocorrem em L1.
+    O predicado fill/3 leva como argumentos 2 listas L1, na qual só está definido o seu tamanho, e LE, na qual possuímos todos os 
+    elementos de 1 a M, e retorna em L1 os N elementos selecionados e em LE_ os restantes elementos da lista LE.
 
     O predicado check/2 leva como argumentos 2 listas L1 e L2 e sucede se para cada par de elementos consecutivos em L1 a soma destes for o proximo
     elemento de L2, pelo que L2 deverá ter menos um elemento que L1.
