@@ -32,6 +32,7 @@ check([A,B|R],[X|Xs]) :-
     O predicado prog1/4 gera então duas listas, L1 e L2, em que L1 tem tamanho N e L2 tem tamanho N - 1.
     Cada elemento de cada uma das listas tem que estar obrigatoriamente dentro do intervalo [1, M]. 
     O preenchimento destas listas é feito pelo predicado fill, aceitando apenas valores que ocorrem dentro do intervalo.
+    Os argumentos requiridos são M, e N que tem de ser M/2 arredondado para cima.
     
     A soma de cada par de elementos da lista L1 é igual ao elemento da lista L2, garantido pelo predicado check.
     Ou seja, se a solução for: 
