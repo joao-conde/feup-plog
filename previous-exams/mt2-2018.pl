@@ -26,8 +26,8 @@ check([A,B|R],[X|Xs]) :-
     O predicado fill/3 leva como argumentos 2 listas L1, na qual só está definido o seu tamanho, e LE, na qual possuímos todos os 
     elementos de 1 a M, e retorna em L1 os N elementos selecionados e em LE_ os restantes elementos da lista LE.
 
-    O predicado check/2 leva como argumentos 2 listas L1 e L2 e sucede se para cada par de elementos consecutivos em L1 a soma destes for o proximo
-    elemento de L2, pelo que L2 deverá ter menos um elemento que L1.
+    O predicado check/2 leva como argumentos 2 listas L1 e L2 e sucede se para cada par de elementos consecutivos em L1 a soma destes 
+    for o proximo elemento de L2, pelo que L2 deverá ter menos um elemento que L1, algo já definido no predicado prog1.
 
     O predicado prog1/4 gera então duas listas, L1 e L2, em que L1 tem tamanho N e L2 tem tamanho N - 1.
     Cada elemento de cada uma das listas tem que estar obrigatoriamente dentro do intervalo [1, M]. 
