@@ -106,8 +106,7 @@ restrictHeights([M|Men], [W|Women], Delta, MenHeights, WomenHeights):-
     element(M, MenHeights, MH),
     element(W, WomenHeights, WH),
     MH #>= WH,
-    Diff #= MH - WH,
-    Delta #>= abs(Diff),
+    Delta #>= MH - WH,
     restrictHeights(Men, Women, Delta, MenHeights, WomenHeights).
 
 removeGymSymmetries([_]).
