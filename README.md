@@ -1,5 +1,7 @@
 # PROLOG PROJECTS
 
+The following projects can be found in the 'projects' folder.
+
 ## Racing Kings
 
 In this game, checks are entirely forbidden: not only is it forbidden to move one's king into check, but it is also forbidden to check the opponent's king.
