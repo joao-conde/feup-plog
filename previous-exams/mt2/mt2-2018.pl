@@ -57,6 +57,10 @@ prog2(N,M,L1,L2) :-
     domain(L1,1,M),
     domain(L2,1,M),
     all_distinct(L1), /* Elementos diferentes, não são solução listas L1 com elementos repetidos */
+    S #= N + N1,
+    length(L3,S),
+    append(L1,L2,L3),
+    all_distinct(L3),
     removeSymmetries(L1), /* Remoção das simetrias ordenando os elementos da lista L1 */
     checkCLP(L1,L2),
     labeling([],L1).
