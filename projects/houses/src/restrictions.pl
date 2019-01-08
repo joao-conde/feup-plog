@@ -39,9 +39,9 @@ connect(Houses, Connections, Runtime):-
     restrictConnectDistances(Connections, FlatHouses, Distances), %connections will have one of the two existing distances
 
     %eliminate symmetries
-	D1 #=< D2,
-	removeCoordsPermutation(Connections), %avoids permutations of type A <-> B and B <-> A
-	removeConnectionsPermutation(Connections),%avoids permutations of type [A<->B, C<->D] and [C<->D, A<->B]
+    D1 #< D2,
+    removeCoordsPermutation(Connections), %avoids permutations of type A <-> B and B <-> A
+    removeConnectionsPermutation(Connections), %avoids permutations of type [A<->B, C<->D] and [C<->D, A<->B]
     labeling([ffc, down], [D1, D2|Connections]),
 
     %statistics - runtime calculation (ms) 
