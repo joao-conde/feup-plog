@@ -3,10 +3,10 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
-/*  connect(+Houses)
+/*  connect(+Houses, -Connections, -Runtime)
     
     Solver predicate. Takes a list of houses. Each house is a list of coordinates [x, y]. Coordinates X and Y go from [0, Range].
-    Computes the solution and shows the connections made.
+    Computes the solution and returns the connections made in Connections and the total runtime in Runtime.
 
     ---Implementation---
      
@@ -20,7 +20,7 @@
     This means connections are a list of integers where each 2 consecutive integers are indexes to the Houses list and represent a connection.
     4 - Distances are kept squared so they are always integers (sum of 2 squared integers).
 */
-connect(Houses):-
+connect(Houses, Connections, Runtime):-
     statistics(runtime,[Start|_]), %statistics - runtime calculation (ms) 
 
     append(Houses, FlatHouses), 
@@ -31,25 +31,22 @@ connect(Houses):-
     domain(Connections, 1, NHouses), 
     all_distinct(Connections), %all the houses must be connected so all are different
 
-    length(Distances, 2), %there are 2 different distances
+    Distances = [D1, D2], %there are 2 different distances
     all_distinct(Distances),
     MaxDis is 2 * Max * Max, 
     domain(Distances, 1, MaxDis), %can't be 0 (2 houses same coords) and range from 1 to the maximum representing a diagonal on our "squared matrix" domain range
 
     restrictConnectDistances(Connections, FlatHouses, Distances), %connections will have one of the two existing distances
 
-    append(Distances, Connections, Vars), %unique list of domain variables
-    labeling([ffc, down], Vars),
+    %eliminate symmetries
+	D1 #=< D2,
+	removeCoordsPermutation(Connections), %avoids permutations of type A <-> B and B <-> A
+	removeConnectionsPermutation(Connections),%avoids permutations of type [A<->B, C<->D] and [C<->D, A<->B]
+    labeling([ffc, down], [D1, D2|Connections]),
 
     %statistics - runtime calculation (ms) 
     statistics(runtime,[Stop|_]),
-    Runtime is Stop - Start,
-    write('---Total solver runtime of '), write(Runtime), write(' ms'), nl,
-
-    %print of the solution in an human-friendly way
-    write('---Make the following connections---'), nl,
-    printSolution(Houses, Connections),
-    write('---End---'), nl.
+    Runtime is Stop - Start.
 
 
 /*  generate(-Houses, +NHouses, +Domain)
@@ -79,11 +76,16 @@ generate(Houses, NHouses, Domain):-
     all_distinct(Connections), %all indexes to all houses appear because all connected
     
     MaxDis is 2 * Domain * Domain,
-    length(Distances, 2),
+    Distances = [D1, D2],
     domain(Distances, 1, MaxDis), %distances go from [1, MaxDis] where MaxDis represents the distance of a "diagonal"
     all_distinct(Distances),  %they're both different
 
     restrictConnectDistances(Connections, FlatHouses, Distances), %same as before connections have one of the two distances
+    
+    %symmetries removal
+    removeCoordsPermutation(Connections),
+    removeConnectionsPermutation(Connections),
+    D1 #< D2,
 
     append(FlatHouses, Connections, Vars), %unique list of domain variables
     append(Vars, Distances, Vars2),
@@ -140,3 +142,23 @@ ensureDifferentHouses([X1, Y1|FlatHouses]):-
 buildHouseList([], Houses, Houses).
 buildHouseList([X, Y|FlatHouses], Houses, Acc):-
     buildHouseList(FlatHouses, Houses, [[X, Y]|Acc]).
+
+
+/*  removeCoordsPermutation(+Connections)
+    
+    Ensures that connection A<->B appears once and not also B<->A.
+*/
+removeCoordsPermutation([]).
+removeCoordsPermutation([C1, C2|Connections]):-
+	C1 #=< C2,
+	removeCoordsPermutation(Connections).
+
+
+/*  removeConnectionsPermutation(+Connections)
+    
+    Ensures that connection list [A<->B, C<->D] appears once and not also permutations like [C<->D, A<->B].
+*/
+removeConnectionsPermutation([_, _]).
+removeConnectionsPermutation([C1, _, C3|Connections]):-
+	C1 #=< C3,
+	removeConnectionsPermutation([C3|Connections]).

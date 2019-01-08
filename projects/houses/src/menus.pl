@@ -110,7 +110,12 @@ solve_puzzles_prompt:-
 	Term =.. [PuzzleName, Houses],
 	Term,
 	nl, write('This might take a few minutes... or not :D'), nl, nl,
-	connect(Houses), nl,
+	connect(Houses, Connections, Runtime),
+	%print of the solution in an human-friendly way
+    write('---Make the following connections---'), nl,
+    printSolution(Houses, Connections),
+    write('---End---'), nl,
+	write('---Total solver runtime of '), write(Runtime), write(' ms'), nl,
 	request_enter,
 	puzzles_menu.
 

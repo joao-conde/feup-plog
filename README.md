@@ -1,6 +1,7 @@
 # PROLOG PROJECTS
 
 The following projects can be found in the 'projects' folder.
+To run each one make sure you have a SICStus Prolog installation and consult the file within the respective 'src' folder of each project with the name of that project (racingkings.pl, houses.pl or zurero.pl).
 
 ## Racing Kings
 
@@ -20,6 +21,9 @@ The intriguing feature of the game is that the "sliding" stone pushes the "stopp
 
 This project is based on a CLPFD (Constraint Logic Programming with Finite Domains) solution.
 The Houses Puzzle’s is a puzzle created by Erich Friedman, a puzzles enthusiast, with the objective of connecting pairs of houses so that there are at max two different distances. These pairs of houses, with only one connection each, are created with the elements of a list with even number of house coordinates, which is the puzzle’s input.
+
+
+
 
 # PROLOG CONVENTIONS FOR BETTER CODE
 
